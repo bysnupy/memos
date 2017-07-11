@@ -17,4 +17,4 @@ All hosts are required the rsync package but the lsyncd package is installed at 
 ### Configuration Summary
 The webmgr user have just symbolic links that linked the contents of the other users: imgcms, imgcgi.
 But the contents on the org.host.local will be synchronized to be real contents of webmgr on the tgt1,2.host.local, not be symbolic links.
-![lsyncd oneway sync img1]()
+![lsyncd oneway sync img1](https://github.com/bysnupy/memos/blob/draft/Services/images/lsyncd__oneway_diagram1.png)
