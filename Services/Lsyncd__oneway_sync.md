@@ -8,9 +8,11 @@ if your system doesn't strictly depend on sync speed.
 This quick reference is the memo that I had simulated the one-way sync configuration with lsyncd as non-root user.
 
 ### Environment
-* Host: tgt1.host.local(tgt1), tgt2.host.local(tgt2), org.host.local(org)
-* OS: CentOS 7 (All the hosts are same.)
-* Packages: lsyncd-2.1.5-6.el7, rsync-3.0.9-17.el7
+Item|Value
+--|--
+Host| tgt1.host.local(tgt1), tgt2.host.local(tgt2), org.host.local(org)
+OS| CentOS 7 (All the hosts are same.)
+Packages| lsyncd-2.1.5-6.el7, rsync-3.0.9-17.el7
 
 All hosts are required the rsync package but the lsyncd package is installed at org.host.local only.
 
@@ -277,3 +279,4 @@ total 0
 total 4
 -rw-------. 1 webmgr webmgr 37 Nov 29 18:24 webmgrthroughsymlnk.txt
 ```
+Done.
