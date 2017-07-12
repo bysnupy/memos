@@ -3,7 +3,7 @@
 One day a project manager had consulted me about the file share solutions which are good cost-performance between 2 web servers under the Load balancer. The project manager said that the NFS or DRBD is overkill to that system and having the budget problem, so he wanted to implement the file share with the Lsyncd + rsync. But the Lsyncd didn't support the bidirectional synchronizaion and it's difficult to implement the complete bidirectional synchronization according to the limited architecture which didn't have the mechanism for concurrency control like the DBMS.
 The file synchronization with Lsync + rsync seems to work well in common conditions but it will be the critical problems if either of the 2 web servers have the problems; such as network or OS troubles. No servers can know which data condition is right, and can't control over the synchronization as one transaction across the two servers. So we would need the rules to comply with the file synchronization principles between 2 web servers if either of the 2 web servers make problems.
 
-![trouble case](https://github.com/bysnupy/memos/blob/draft/Services/images/lsyncd__twoway_diagram1.png)
+![trouble case](https://github.com/bysnupy/memos/blob/master/Services/images/lsyncd__twoway_diagram1.png)
 
 :exclamation: In advance, I defined that this post is just written as the provision of information, I won't be not responsible for data-loss caused by this post.</span>
 
@@ -42,7 +42,7 @@ Specially you should be careful of starting the lsyncd in the inconsistent synch
 
 The below flow diagram is helpful to your understanding.
 
-![sync process](https://github.com/bysnupy/memos/blob/draft/Services/images/lsyncd__twoway_diagram2.png)
+![sync process](https://github.com/bysnupy/memos/blob/master/Services/images/lsyncd__twoway_diagram2.png)
 
 ### Configuration steps
 
