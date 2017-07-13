@@ -144,3 +144,5 @@ Certificate: C=JP,ST=Tokyo,L=Minato,O=Local Company,OU=Infrastructure Division,C
 
 Test with WinSCP as follows.
 ![lsyncd oneway sync img1](https://github.com/bysnupy/memos/blob/master/Services/images/ftps__winscp1.png)
+
+Done.
