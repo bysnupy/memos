@@ -17,6 +17,6 @@ controller0.host.local|Horizon<br/>Keystone<br/>Glance<br/>Management APIs<br/>M
 compute1.host.local|Nova|eth0: 172.16.9.151<br/>eth1: 192.168.9.151|eth0<br/>eth1<br/>eth2<br/>
 compute2.host.local|Nova|eth0: 172.16.9.152<br/>eth1: 192.168.9.152|eth0<br/>eth1<br/>eth2<br/>
 network1.host.local|Neutron|eth0: 172.16.9.153<br/>eth1: 192.168.9.153|eth0<br/>eth1<br/>eth2<br/>
-block1.host.local|Cinder|eth0: 172.16.9.153<br/>eth1: 192.168.9.154|eth0<br/>eth1
+block1.host.local|Cinder|eth0: 172.16.9.154<br/>eth1: 192.168.9.154|eth0<br/>eth1
  
 ### 2. Logical nodes diagram
