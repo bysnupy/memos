@@ -24,3 +24,18 @@ In practice any one server can have mutiple roles such as nfs and converting vm 
 I think that the servers just separated by roles are more helpful for understanding and appyling your enviroments.
 
 The process flow across all the servers as follows(Figure 1):
+
+![components process flow 1](https://github.com/bysnupy/memos/blob/master/Virtualizations/images/ovirt__esxi2ovirt_flow1.png)
+
+### Configuration steps
+In advance the virtual machine should instatall minimally as a guest OS to ESXi because it can minimize the converting process time at this demonstration. At real work you would take account of the target virtual machine size because of the processing time.
+
+#### Step1: Export the virtual machine from ESXi with vSphere management console.
+The target guest VM should be stopped to export to OVA file.
+
+The operation example is as follows on the vSphere client.
+
+![step 1](https://github.com/bysnupy/memos/blob/master/Virtualizations/images/ovirt__esxi2ovirt_step1.png)
+
+The exported OVA file is named 'guest.vmhost.local.ova' as default if the export task has completed.
+And then we should transfer the OVA file to the 'conv.host.local' server to convert the OVA file to oVirt format. 
