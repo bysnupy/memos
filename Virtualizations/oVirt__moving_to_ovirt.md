@@ -14,11 +14,13 @@ Item|Value
 ### Configuration Summary
 This configuration steps assume that 5 servers are existing as follows:
 
-* esxi.host.local: ESXi hypervisor host. (ESXi 6.0 U2)
-* ovirt.host.local: oVirt hypervisor host. (oVirt node 4.0.4)
-* nfs.host.local: NFS server for the oVirt Export/Import Storage Domain (':/nfs/shares' is exported shares path) (CentOS 7.2)
-* conv.host.local: one server for converting the VM image from ESXi format to oVirt format with virt-v2v. (CentOS 7.2)
-* guest.vmhost.local: The guest virtual machine for moving to oVirt. (CentOS 7.2)
+Hostname|Roles
+-|-
+esxi.host.local| ESXi hypervisor host. (ESXi 6.0 U2)
+ovirt.host.local| oVirt hypervisor host. (oVirt node 4.0.4)
+nfs.host.local| NFS server for the oVirt Export/Import Storage Domain (':/nfs/shares' is exported shares path) (CentOS 7.2)
+conv.host.local| one server for converting the VM image from ESXi format to oVirt format with virt-v2v. (CentOS 7.2)
+guest.vmhost.local| The guest virtual machine for moving to oVirt. (CentOS 7.2)
 
 In practice any one server can have mutiple roles such as nfs and converting vm image roles can be together on the one server.
 I think that the servers just separated by roles are more helpful for understanding and appyling your enviroments.
