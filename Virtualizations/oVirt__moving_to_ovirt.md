@@ -1,4 +1,4 @@
-## Moving VM from ESXi to oVirt
+## Moving a VM from ESXi to oVirt
 
 ### Introduction
 It's a example for moving VM from ESXi to oVirt(upstream project of RHEV) with virt-v2v.
