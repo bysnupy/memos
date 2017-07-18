@@ -96,3 +96,7 @@ OPTIONS="-l 127.0.0.1,::1,172.16.9.150"
 172.16.9.153    network1.host.local    network1
 172.16.9.154    block1.host.local      block1
 ```
+Let's start out after rebooting all nodes.
+
+
+
