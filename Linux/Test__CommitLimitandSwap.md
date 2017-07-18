@@ -2,11 +2,13 @@
 
 ### Test patterns
 
-1. CommitLimit < Total Memory, and allocated nearly total memory.
-2. CommitLimit > Total Memory, and allocated nearly total memory.
-3. After disabling overcommit feature, allocated more memories than CommitLimit.
-4. CommitLimit < Total Memory, and allocated nearly total memory as virtual memory only.
-5. The overcommit and heuristic overcommit take turns to allocate more memory than physical memory.
+No.|Pattern
+-|-
+1| CommitLimit < Total Memory, and allocated nearly total memory.
+2| CommitLimit > Total Memory, and allocated nearly total memory.
+3| After disabling overcommit feature, allocated more memories than CommitLimit.
+4| CommitLimit < Total Memory, and allocated nearly total memory as virtual memory only.
+5| The overcommit and heuristic overcommit take turns to allocate more memory than physical memory.
 
 ### Environment
 Item|Value
