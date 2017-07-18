@@ -5,10 +5,14 @@
 * OS: CentOS 7.3
 * Deployment method: RDO
 * Server Specifications (total: 5 nodes):
-  - controller x1 : 4x cores, 4 GiB, 1x NIC, 50 GB
-  - compute x2    : 4x cores, 3x NIC, 4 GiB, 50 GB
-  - network x1    : 2 cores, 3x NIC, 4 GiB, 30 GB
-  - block x1      : 2 cores, 2x NIC, 4 GiB, 30 GB (+secondary volume 30 GB)
+
+Nodes|CPU|Memory|NICs|Storages
+-|-|-|-|-
+controller x1 | Core x4| 4 GiB| NIC x1| 50 GB
+compute x2    | Core x4|4 GiB| NIC x3|50 GB
+network x1    |Core x2|4 GiB |NIC x3 | 30 GB
+block x1      |Core x2|4 GiB |NIC x2 | 30 GB (+secondary volume 30 GB)
+
 * IPs and interfaces table
 
 Hostname|Components|IPs|Interfaces
