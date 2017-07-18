@@ -4,7 +4,7 @@
 It is the tutorial about installing openstack for PoC environment.
 
 ### 1. Environment information
-:star: The nodes are virtual machines based KVM.
+:star: The nodes are virtual machines based on KVM.
 * OpenStack version: Ocata
 * OS: CentOS 7.3
 * Deployment method: RDO
