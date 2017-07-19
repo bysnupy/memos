@@ -37,7 +37,8 @@ Related references: [OpenStack Docs](https://docs.openstack.org/)
 
 * Installing the OpenStack RPM repository and tools on all nodes
 ```bash
-# yum install centos-release-openstack-ocata python-openstackclient
+# yum install centos-release-openstack-ocata
+# yum install python-openstackclient
 ```
 * Upgrading the system
 * Ensuring a time synchronization on all nodes
