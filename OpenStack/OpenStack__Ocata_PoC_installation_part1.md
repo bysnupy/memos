@@ -1,4 +1,4 @@
-## PoC environment deployment memo
+## PoC environment construction tutorial
 
 ### Introduction
 It is the tutorial about installing openstack for PoC environment.
