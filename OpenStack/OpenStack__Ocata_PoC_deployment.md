@@ -138,7 +138,7 @@ MariaDB [(none)]>
 [cors.subdomain]
 [credential]
 [database]
-connection = mysql+pymysql://keystone:poc#pass@172.16.9.150/keystone
+connection = mysql+pymysql://keystone:poc#pass@controller0/keystone
 [domain_config]
 [endpoint_filter]
 [endpoint_policy]
@@ -330,3 +330,222 @@ $ openstack --os-auth-url http://controller0:5000/v3   --os-project-domain-name 
 | user_id    | be75a0f788104233bf2bd9c6f5e37ec7                            |
 +------------+-------------------------------------------------------------+
 ```
+
+#### Step2: Creating the OpenRC for using openstack client command simply
+
+* admin user environment script
+```bash
+$ cat > ~/admin-openrc <<EOF
+# admin-openrc
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_NAME=admin
+export OS_USERNAME=admin
+export OS_PASSWORD='poc#pass'
+export OS_AUTH_URL=http://controller0:35357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+EOF
+```
+
+* pocuser user environment script
+```bash
+$ cat > ~/pocuser-openrc <<EOF
+# pocuser-openrc
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_NAME=poc
+export OS_USERNAME=pocuser
+export OS_PASSWORD='poc#pass'
+export OS_AUTH_URL=http://controller0:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+EOF
+```
+
+#### Step3: Installing and configuring the Glance (Image service)
+
+This service is also installed and configured on the controller0.host.local node.
+
+* Creating the Glance database
+
+```sql
+MariaDB [(none)]> CREATE DATABASE glance;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'poc#pass';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glacne'@'%' IDENTIFIED BY 'poc#pass';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]>
+```
+
+* Configuring the credentials for service
+
+```bash
+$ source ~/admin-openrc
+$ openstack user create --domain default --password 'poc#pass' glance
++---------------------+----------------------------------+
+| Field               | Value                            |
++---------------------+----------------------------------+
+| domain_id           | default                          |
+| enabled             | True                             |
+| id                  | 76a296fa82db438d9061e77556e2beaf |
+| name                | glance                           |
+| options             | {}                               |
+| password_expires_at | None                             |
++---------------------+----------------------------------+
+
+-- role setting
+$ openstack role add --project services --user glance admin
+
+-- creating image service
+$ openstack service create --name glance --description "OpenStack Image" image
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | OpenStack Image                  |
+| enabled     | True                             |
+| id          | 05c57a54d90f47f4bf8b650e5ab69148 |
+| name        | glance                           |
+| type        | image                            |
++-------------+----------------------------------+
+
+-- setting for public, internal and admin endpoint entities
+$ openstack endpoint create --region RegionOne image public http://controller0:9292
+...snip...
+$ openstack endpoint create --region RegionOne image internal http://controller0:9292
+...snip...
+$ openstack endpoint create --region RegionOne image admin http://controller0:9292
+...snip...
+```
+
+* Installing related packages with yum
+
+```bash
+# yum install openstack-glance
+```
+
+* Edit the /etc/glance/glance-api.conf as follows:
+
+```ini
+[DEFAULT]
+[cors]
+[cors.subdomain]
+[database]
+connection = mysql+pymysql://glance:poc#pass@controller0/glance
+[glance_store]
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images/
+[image_format]
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = glance
+password = poc#pass
+[matchmaker_redis]
+[oslo_concurrency]
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+[paste_deploy]
+flavor = keystone
+[profiler]
+[store_type_location_strategy]
+[task]
+[taskflow_executor]
+```
+* Edit the /etc/glance/glance-registry.conf as follows:
+
+```ini
+[DEFAULT]
+[database]
+connection = mysql+pymysql://glance:poc#pass@controller0/glance
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = glance
+password = poc#pass
+[matchmaker_redis]
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_policy]
+[paste_deploy]
+flavor = keystone
+[profiler]
+```
+
+* Populate the Glance database
+```bash
+# su -s /bin/sh -c "glance-manage db_sync" glance
+```
+
+* Starting and enabling the Glance services
+
+```bash
+# systemctl enable openstack-glance-api openstack-glance-registry
+...snip...
+# systemctl start openstack-glance-api openstack-glance-registry
+```
+
+* Verifying the Glance installation
+
+```bash
+$ source ~/admin-openrc
+$ curl -O http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+...snip...
+$ openstack image create "cirros" --file cirros-0.3.5-x86_64-disk.img \
+  --disk-format qcow2 --container-format bare --public
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | f8ab98ff5e73ebab884d80c9dc9c7290                     |
+| container_format | bare                                                 |
+| created_at       | 2017-07-19T09:50:28Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/3dd7948f-6c14-4aaf-802d-be2716a1ad4a/file |
+| id               | 3dd7948f-6c14-4aaf-802d-be2716a1ad4a                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | 6f173e1f310146c9883a2c50d1336bc0                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 13267968                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2017-07-19T09:50:29Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+```
+
+#### Step4: Installing and configuring the Nova (Compute service)
+
+This service is installed and configured on the controller0.host.local, compute1.host.local and compute2.host.local nodes.
+
+This section describes the tasks on the controller0.host.local node.
+
