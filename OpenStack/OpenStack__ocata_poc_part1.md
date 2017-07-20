@@ -70,7 +70,7 @@ character-set-server = utf8
 # systemctl enable rabbitmq-server; systemctl start rabbitmq-server
 
 -- Add the messaging server account 'openstack'
-:star: the hash mark which was included into the password effect the 'transport_url' parsing, so I changed the password 'poc3pass'
+-- the hash mark which was included into the password effect the 'transport_url' parsing, so I changed the password 'poc3pass'
 # rabbitmqctl add_user openstack 'poc3pass'
 
 -- Permit configuration, write, and read access for the openstack user
@@ -544,6 +544,7 @@ MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIE
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'poc#pass';
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY 'poc#pass';
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> FLUSH PRIVILEGES;
 ```
 
 * Define the essential objects for compute service
@@ -737,10 +738,35 @@ vncserver_proxyclient_address = $my_ip
 $ systemctl restart httpd
 ```
 
-* Populate the nova_api database
+* Populate the nova_api database, check the result from /var/log/nova/nova-manage.log
 
 ```bash
-
+# su -s /bin/sh -c "nova-manage api_db sync" nova
 ```
 
-* 
+* Register the cell0 database
+
+```bash
+# su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
+```
+
+* Create the cell1 cell
+```bash
+# su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
+bfd3180c-6902-4ab1-89db-9aec3d45d631
+```
+
+* Populate the nova database
+
+```bash
+# su -s /bin/sh -c "nova-manage db sync" nova
+```
+
+* Enabling and starting the related component services
+
+```bash
+# systemctl enable openstack-nova-api.service openstack-nova-consoleauth.service \
+                   openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
+# systemctl start openstack-nova-api.service openstack-nova-consoleauth.service \
+                  openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service                   
+```
