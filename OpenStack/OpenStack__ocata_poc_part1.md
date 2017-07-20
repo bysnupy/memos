@@ -1,7 +1,8 @@
-## PoC environment construction tutorial
+## PoC environment construction tutorial part1
 
 ### Introduction
 It is the tutorial about installing openstack for PoC environment.
+The part1 is describing mainly controller and compute nodes installation.
 
 ### 1. Environment information
 :star: The nodes are virtual machines based on KVM.
