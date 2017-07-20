@@ -36,4 +36,55 @@ You must be done all tasks in the [part1](https://github.com/bysnupy/memos/blob/
 
 #### Step1: Installing and configuring the Neutron (Networking service)
 
-From this section
+* Creating the database for Neutron service
+
+```sql
+CREATE DATABASE neutron;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'poc#pass';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'poc#pass';
+FLUSH PRIVILEGES;
+```
+
+* Defining the service and credentials
+
+```bash
+$ source ~/admin-openrc
+-- Create the user
+$ openstack user create --domain default --password 'poc#pass' neutron
++---------------------+----------------------------------+
+| Field               | Value                            |
++---------------------+----------------------------------+
+| domain_id           | default                          |
+| enabled             | True                             |
+| id                  | dc6bbb73167c488497dc7b9aa9e87a01 |
+| name                | neutron                          |
+| options             | {}                               |
+| password_expires_at | None                             |
++---------------------+----------------------------------+
+
+-- Adding the user to admin role
+$ openstack role add --project services --user neutron admin
+
+-- Create the service
+$ openstack service create --name neutron --description "OpenStack Networking" network
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | OpenStack Networking             |
+| enabled     | True                             |
+| id          | b7551a74442546fe848f776bd9bf6678 |
+| name        | neutron                          |
+| type        | network                          |
++-------------+----------------------------------+
+
+-- Register each API endpoints (skipped the result output)
+$ openstack endpoint create --region RegionOne network public http://controller0:9696
+$ openstack endpoint create --region RegionOne network internal http://controller0:9696
+$ openstack endpoint create --region RegionOne network admin http://controller0:9696
+```
+
+* Installing the packages through yum on the controller0.host.local node
+
+```bash
+# yum install openstack-neutron openstack-neutron-ml2
+```
