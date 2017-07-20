@@ -526,7 +526,7 @@ $ openstack image create "cirros" --file cirros-0.3.5-x86_64-disk.img \
 +------------------+------------------------------------------------------+
 ```
 
-#### Step4: Installing and configuring the Nova (Compute service)
+#### Step4: Installing and configuring the Nova (Compute service) - Controller node tasks
 
 This service is installed and configured on the controller0.host.local, compute1.host.local and compute2.host.local nodes.
 
@@ -632,7 +632,7 @@ $ openstack endpoint create --region RegionOne placement admin http://controller
 ```ini
 [DEFAULT]
 enabled_apis = osapi_compute,metadata
-transport_url = rabbit://openstack:poc#pass@controller0
+transport_url = rabbit://openstack:poc3pass@controller0
 my_ip = 172.16.9.150
 use_neutron = True
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
@@ -754,6 +754,15 @@ $ systemctl restart httpd
 ```bash
 # su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
 bfd3180c-6902-4ab1-89db-9aec3d45d631
+
+-- verifying the registered status
+# nova-manage cell_v2 list_cells
++-------+--------------------------------------+
+|  Name |                 UUID                 |
++-------+--------------------------------------+
+| cell0 | 00000000-0000-0000-0000-000000000000 |
+| cell1 | bfd3180c-6902-4ab1-89db-9aec3d45d631 |
++-------+--------------------------------------+
 ```
 
 * Populate the nova database
@@ -765,8 +774,190 @@ bfd3180c-6902-4ab1-89db-9aec3d45d631
 * Enabling and starting the related component services
 
 ```bash
-# systemctl enable openstack-nova-api.service openstack-nova-consoleauth.service \
-                   openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
-# systemctl start openstack-nova-api.service openstack-nova-consoleauth.service \
-                  openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service                   
+# systemctl enable openstack-nova-api openstack-nova-consoleauth \
+                   openstack-nova-scheduler openstack-nova-conductor openstack-nova-novncproxy
+# systemctl start openstack-nova-api openstack-nova-consoleauth \
+                  openstack-nova-scheduler openstack-nova-conductor openstack-nova-novncproxy                   
 ```
+
+#### Step5: Installing and configuring the Nova (Compute service) - Compute nodes tasks
+
+This section describes the compute nodes installation on compute1.host.local and compute2.host.local nodes.
+
+* Packages installation
+
+```bash
+# yum install openstack-nova-compute
+```
+
+* Edit the /etc/nova/nova.conf files on the both nodes
+
+```ini
+[DEFAULT]
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:poc3pass@controller0
+# compute1 
+my_ip = 172.16.9.151
+# if the node is compute2, you'll remove the comment the bellow.
+#my_ip = 172.16.9.152
+use_neutron = True
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+[api]
+auth_strategy = keystone
+[api_database]
+[barbican]
+[cache]
+[cells]
+[cinder]
+[cloudpipe]
+[conductor]
+[console]
+[consoleauth]
+[cors]
+[cors.subdomain]
+[crypto]
+[database]
+[ephemeral_storage_encryption]
+[filter_scheduler]
+[glance]
+api_servers = http://controller0:9292
+[guestfs]
+[healthcheck]
+[hyperv]
+[image_file_url]
+[ironic]
+[key_manager]
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = nova
+password = poc#pass
+[libvirt]
+# if vmx or smx flag is included into /proc/cpuinfo, you need not a following line.
+virt_type = qemu
+[matchmaker_redis]
+[metrics]
+[mks]
+[neutron]
+[notifications]
+[osapi_v21]
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+[pci]
+[placement]
+os_region_name = RegionOne
+project_domain_name = Default
+project_name = services
+auth_type = password
+user_domain_name = Default
+auth_url = http://controller0:35357/v3
+username = placement
+password = poc#pass
+[quota]
+[rdp]
+[remote_debug]
+[scheduler]
+[serial_console]
+[service_user]
+[spice]
+[ssl]
+[trusted_computing]
+[upgrade_levels]
+[vendordata_dynamic_auth]
+[vmware]
+[vnc]
+enabled = True
+vncserver_listen = 0.0.0.0
+vncserver_proxyclient_address = $my_ip
+novncproxy_base_url = http://controller0:6080/vnc_auto.html
+[workarounds]
+[wsgi]
+[xenserver]
+[xvp]
+```
+
+* Enabling and starting the related services
+
+```bash
+# systemctl enable libvirtd openstack-nova-compute
+# systemctl start libvirtd openstack-nova-compute
+```
+
+#### Step5: Installing and configuring the Nova (Compute service) - Verifying the installation on the Controllor node
+
+Some remaining configuration and verifying tasks are conducted on the controller0.host.local node.
+
+* Confirm the running compute nodes
+```bash
+$ source ~/admin-openrc
+$ openstack hypervisor list
++----+---------------------+-----------------+--------------+-------+
+| ID | Hypervisor Hostname | Hypervisor Type | Host IP      | State |
++----+---------------------+-----------------+--------------+-------+
+|  1 | compute2.host.local | QEMU            | 172.16.9.152 | up    |
+|  2 | compute1.host.local | QEMU            | 172.16.9.151 | up    |
++----+---------------------+-----------------+--------------+-------+
+```
+
+* Adding the compute nodes to cell database
+
+```bash
+# su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
+Found 2 cell mappings.
+Skipping cell0 since it does not contain hosts.
+Getting compute nodes from cell 'cell1': bfd3180c-6902-4ab1-89db-9aec3d45d631
+Found 2 computes in cell: bfd3180c-6902-4ab1-89db-9aec3d45d631
+Checking host mapping for compute host 'compute2.host.local': 3fdabcb0-dd69-4481-9cb2-5c640eec1463
+Creating host mapping for compute host 'compute2.host.local': 3fdabcb0-dd69-4481-9cb2-5c640eec1463
+Checking host mapping for compute host 'compute1.host.local': 6b274561-9206-4132-812b-1dd012004ee3
+Creating host mapping for compute host 'compute1.host.local': 6b274561-9206-4132-812b-1dd012004ee3
+```
+
+* Verifying the compute node installation
+
+```bash
+$ source ~/admin-openrc
+
+-- list the compute service components
+$ openstack compute service list
++----+------------------+------------------------+----------+---------+-------+----------------------------+
+| ID | Binary           | Host                   | Zone     | Status  | State | Updated At                 |
++----+------------------+------------------------+----------+---------+-------+----------------------------+
+|  1 | nova-conductor   | controller0.host.local | internal | enabled | up    | 2017-07-20T08:49:21.000000 |
+|  2 | nova-scheduler   | controller0.host.local | internal | enabled | up    | 2017-07-20T08:49:21.000000 |
+|  3 | nova-consoleauth | controller0.host.local | internal | enabled | up    | 2017-07-20T08:49:22.000000 |
+|  6 | nova-compute     | compute2.host.local    | nova     | enabled | up    | 2017-07-20T08:49:22.000000 |
+|  7 | nova-compute     | compute1.host.local    | nova     | enabled | up    | 2017-07-20T08:49:23.000000 |
++----+------------------+------------------------+----------+---------+-------+----------------------------+
+
+-- check the placement API and cell status (as root user)
+# nova-status upgrade check
++---------------------------+
+| Upgrade Check Results     |
++---------------------------+
+| Check: Cells v2           |
+| Result: Success           |
+| Details: None             |
++---------------------------+
+| Check: Placement API      |
+| Result: Success           |
+| Details: None             |
++---------------------------+
+| Check: Resource Providers |
+| Result: Success           |
+| Details: None             |
++---------------------------+
+```
+
