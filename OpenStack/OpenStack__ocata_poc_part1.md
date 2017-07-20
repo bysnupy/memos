@@ -70,7 +70,8 @@ character-set-server = utf8
 # systemctl enable rabbitmq-server; systemctl start rabbitmq-server
 
 -- Add the messaging server account 'openstack'
-# rabbitmqctl add_user openstack 'poc#pass'
+:star: the hash mark which was included into the password effect the 'transport_url' parsing, so I changed the password 'poc3pass'
+# rabbitmqctl add_user openstack 'poc3pass'
 
 -- Permit configuration, write, and read access for the openstack user
 # rabbitmqctl set_permissions openstack ".*" ".*" ".*"
@@ -107,17 +108,9 @@ This service is installed and configured on the controller0.host.local node.
 
 ```sql
 MariaDB [(none)]> CREATE DATABASE keystone;
-Query OK, 1 row affected (0.00 sec)
-
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'poc#pass';
-Query OK, 0 rows affected (0.00 sec)
-
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'poc#pass';
-Query OK, 0 rows affected (0.00 sec)
-
 MariaDB [(none)]> FLUSH PRIVILEGES;
-Query OK, 0 rows affected (0.00 sec)
-
 MariaDB [(none)]>
 ```
 
@@ -372,17 +365,9 @@ This service is also installed and configured on the controller0.host.local node
 
 ```sql
 MariaDB [(none)]> CREATE DATABASE glance;
-Query OK, 1 row affected (0.00 sec)
-
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'poc#pass';
-Query OK, 0 rows affected (0.00 sec)
-
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glacne'@'%' IDENTIFIED BY 'poc#pass';
-Query OK, 0 rows affected (0.00 sec)
-
 MariaDB [(none)]> FLUSH PRIVILEGES;
-Query OK, 0 rows affected (0.00 sec)
-
 MariaDB [(none)]>
 ```
 
@@ -419,11 +404,8 @@ $ openstack service create --name glance --description "OpenStack Image" image
 
 -- setting for public, internal and admin endpoint entities
 $ openstack endpoint create --region RegionOne image public http://controller0:9292
-...snip...
 $ openstack endpoint create --region RegionOne image internal http://controller0:9292
-...snip...
 $ openstack endpoint create --region RegionOne image admin http://controller0:9292
-...snip...
 ```
 
 * Installing related packages with yum
@@ -550,3 +532,215 @@ This service is installed and configured on the controller0.host.local, compute1
 
 This section describes the tasks on the controller0.host.local node.
 
+* Creating databases for compute service
+
+```sql
+MariaDB [(none)]> CREATE DATABASE nova_api;
+MariaDB [(none)]> CREATE DATABASE nova;
+MariaDB [(none)]> CREATE DATABASE nova_cell0;
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY 'poc#pass';
+```
+
+* Define the essential objects for compute service
+
+```bash
+$ source ~/admin-openrc
+-- configuration about user
+$ openstack user create --domain default --password 'poc#pass' nova
++---------------------+----------------------------------+
+| Field               | Value                            |
++---------------------+----------------------------------+
+| domain_id           | default                          |
+| enabled             | True                             |
+| id                  | b3cc846f0a26467c88a8d00f675656de |
+| name                | nova                             |
+| options             | {}                               |
+| password_expires_at | None                             |
++---------------------+----------------------------------+
+
+$ openstack role add --project services --user nova admin
+
+-- Create the compute service
+$ openstack service create --name nova --description "OpenStack Compute" compute
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | OpenStack Compute                |
+| enabled     | True                             |
+| id          | 312b8fd9b3a04dca9bfc95cca3cad65c |
+| name        | nova                             |
+| type        | compute                          |
++-------------+----------------------------------+
+-- create the each endpoint (skipped the result output)
+$ openstack endpoint create --region RegionOne compute public http://controller0:8774/v2.1
+$ openstack endpoint create --region RegionOne compute internal http://controller0:8774/v2.1
+$ openstack endpoint create --region RegionOne compute admin http://controller0:8774/v2.1
+```
+
+* Cofiguration for placement service
+
+```bash
+-- Create the credential
+$ openstack user create --domain default --password 'poc#pass' placement
++---------------------+----------------------------------+
+| Field               | Value                            |
++---------------------+----------------------------------+
+| domain_id           | default                          |
+| enabled             | True                             |
+| id                  | 06e0c5e36b7947aa9c6f4a7fc5b25ee2 |
+| name                | placement                        |
+| options             | {}                               |
+| password_expires_at | None                             |
++---------------------+----------------------------------+
+
+-- add the placement user to admin role
+$ openstack role add --project services --user placement admin
+
+-- Create the placement API service
+$ openstack service create --name placement --description "Placement API" placement
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | Placement API                    |
+| enabled     | True                             |
+| id          | bd9661a98a51483fb5e503d698ed2f88 |
+| name        | placement                        |
+| type        | placement                        |
++-------------+----------------------------------+
+
+-- create each endporint of the service (skipped the result output)
+$ openstack endpoint create --region RegionOne placement public http://controller0:8778
+$ openstack endpoint create --region RegionOne placement internal http://controller0:8778
+$ openstack endpoint create --region RegionOne placement admin http://controller0:8778
+```
+
+* Installing and configuring related components
+
+```bash
+# yum install openstack-nova-api openstack-nova-conductor openstack-nova-console \
+              openstack-nova-novncproxy openstack-nova-scheduler openstack-nova-placement-api
+```
+
+* Edit the /etc/nova/nova.conf file as follows:
+
+```ini
+[DEFAULT]
+enabled_apis = osapi_compute,metadata
+transport_url = rabbit://openstack:poc#pass@controller0
+my_ip = 172.16.9.150
+use_neutron = True
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+[api]
+auth_strategy = keystone
+[api_database]
+connection = mysql+pymysql://nova:poc#pass@controller0/nova_api
+[barbican]
+[cache]
+[cells]
+[cinder]
+[cloudpipe]
+[conductor]
+[console]
+[consoleauth]
+[cors]
+[cors.subdomain]
+[crypto]
+[database]
+connection = mysql+pymysql://nova:poc#pass@controller0/nova
+[ephemeral_storage_encryption]
+[filter_scheduler]
+[glance]
+api_servers = http://controller0:9292
+[guestfs]
+[healthcheck]
+[hyperv]
+[image_file_url]
+[ironic]
+[key_manager]
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = nova
+password = poc#pass
+[libvirt]
+[matchmaker_redis]
+[metrics]
+[mks]
+[neutron]
+[notifications]
+[osapi_v21]
+[oslo_concurrency]
+lock_path = /var/lib/nova/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+[pci]
+[placement]
+os_region_name = RegionOne
+project_domain_name = Default
+project_name = services
+auth_type = password
+user_domain_name = Default
+auth_url = http://controller0:35357/v3
+username = placement
+password = poc#pass
+[quota]
+[rdp]
+[remote_debug]
+[scheduler]
+[serial_console]
+[service_user]
+[spice]
+[ssl]
+[trusted_computing]
+[upgrade_levels]
+[vendordata_dynamic_auth]
+[vmware]
+[vnc]
+enabled = true
+vncserver_listen = $my_ip
+vncserver_proxyclient_address = $my_ip
+[workarounds]
+[wsgi]
+[xenserver]
+[xvp]
+```
+
+* Adding the configuration to /etc/httpd/conf.d/00-nova-placement-api.conf file and restart the service
+
+```httpd
+...snip...
+<Directory /usr/bin>
+   <IfVersion >= 2.4>
+      Require all granted
+   </IfVersion>
+   <IfVersion < 2.4>
+      Order allow,deny
+      Allow from all
+   </IfVersion>
+</Directory>
+
+$ systemctl restart httpd
+```
+
+* Populate the nova_api database
+
+```bash
+
+```
+
+* 
