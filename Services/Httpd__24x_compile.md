@@ -36,7 +36,7 @@ $ mv apr-1.6.2 apr && mv apr-util-1.6.0 apr-util
 $ configure --prefix=$HOME/path/to/pcre && make && make install
 ```
 
-* compiling the openssl souce
+* compiling the openssl source
 
 :star:You might add the installed openssl library path to global library path or LD_LIBRARY_PATH (or envvars).
 
