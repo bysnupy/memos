@@ -37,17 +37,21 @@ $ configure --prefix=$HOME/path/to/pcre && make && make install
 ```
 
 * compiling the openssl souce
-:star:You might add the installed openssl library path to global libary path or LD_LIBRARY_PATH (or envvars).
+
+:star:You might add the installed openssl library path to global library path or LD_LIBRARY_PATH (or envvars).
+
 ```bash
 $ config shared zlib threads --prefix=$HOME/path/to/ssl \
-                           --openssldir=$HOME/path/to/ssl -fPIC && make && make install 
+                             --openssldir=$HOME/path/to/ssl -fPIC && make && make install 
 ```
 
-* maping the openssl library path to shared library path
+* mapping the openssl library path to shared library path
+
 ```bash
 # cat > /etc/ld.so.conf.d/openssl-local-x86_64.conf <<EOF
 /path/installed/openssl/homedir/lib
 EOF
+
 # ldconfig && ldconfig -p | grep /path/installed/openssl/homedir/lib
 libssl.so.1.0.0 (libc6,x86-64) => /path/installed/openssl/homedir/lib/libssl.so.1.0.0
 libssl.so (libc6,x86-64) => /path/installed/openssl/homedir/lib/libssl.so
@@ -56,15 +60,16 @@ libcrypto.so (libc6,x86-64) => /path/installed/openssl/homedir/lib/libcrypto.s
 #
 ```
 
-
 ### Step1: Installing httpd web server
+
 ```bash
 $ configure  --prefix=$HOME/path/to/httpd \
-           --with-included-apr --with-pcre=$HOME/path/to/pcre --enable-mpms-shared=all \
-           --enable-mods-shared=most --with-ssl=$HOME/path/to/ssl && make && make install
+             --with-included-apr --with-pcre=$HOME/path/to/pcre --enable-mpms-shared=all \
+             --enable-mods-shared=most --with-ssl=$HOME/path/to/ssl && make && make install
 ```
 
 ### Step2: Verifying the installation
+
 ```bash
 $ cd $HOME/path/to/httpd/bin
 $ ./httpd -V
