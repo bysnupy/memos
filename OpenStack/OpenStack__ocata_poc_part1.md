@@ -964,3 +964,4 @@ $ openstack compute service list
 +---------------------------+
 ```
 
+To continue to <[Part2](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)>
