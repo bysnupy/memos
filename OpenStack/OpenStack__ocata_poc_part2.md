@@ -479,3 +479,18 @@ $ openstack network agent list
 +-----------------------+--------------------+---------------------+-------------------+-------+-------+--------------------------+
 
 ```
+
+#### Step5: Installing and configuring the Horizon (Dashboard service) on Controller node
+The following tasks should be done on the controller0 node.
+
+* Installing the packages
+
+```bash
+# yum install openstack-dashboard
+```
+
+* Edit the /etc/openstack-dashboard/local_settings file
+
+```python
+
+```
