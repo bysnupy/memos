@@ -885,6 +885,7 @@ enabled = True
 vncserver_listen = 0.0.0.0
 vncserver_proxyclient_address = $my_ip
 novncproxy_base_url = http://controller0:6080/vnc_auto.html
+keymap = ja
 [workarounds]
 [wsgi]
 [xenserver]
