@@ -793,7 +793,7 @@ ALLOWED_PRIVATE_SUBNET_CIDR = {'ipv4': [], 'ipv6': []}
 
 * Verifying the Hozion installation
 
-Accessing the URL http://controller0/dashboard/ through browser
+Accessing the URL http://controller0.host.local/dashboard/ through browser
 
 Login page
 ![Horizon login1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_horizon1.png)
