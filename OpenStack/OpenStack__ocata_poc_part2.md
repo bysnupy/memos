@@ -792,6 +792,12 @@ ALLOWED_PRIVATE_SUBNET_CIDR = {'ipv4': [], 'ipv6': []}
 ```
 
 * Verifying the Hozion installation
-Access the URL http://controller0/dashboard/
 
-![Horizon Login](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_horizon1.png)
+Accessing the URL http://controller0/dashboard/ through browser
+
+Login page
+![Horizon login1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_horizon1.png)
+
+After login
+
+![Horizon login2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_horizon2.png)
