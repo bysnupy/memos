@@ -332,8 +332,9 @@ metadata_proxy_shared_secret = poc#pass
 * Initilize the neutron database
 
 ```bash
-# su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
-                --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
+# su -s /bin/sh -c \
+  "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" \
+   neutron
 ```
 
 * Enabling and starting the services
@@ -346,4 +347,135 @@ metadata_proxy_shared_secret = poc#pass
 #### Step3: Installing and configuring the Neutron (Networking service) on Compute nodes
 The following tasks should be done on the compute1 and compute2 nodes.
 
-* 
+* Installing the needed packages
+
+```bash
+# yum install openstack-neutron-linuxbridge ebtables ipset
+```
+
+* Edit the /etc/neutron/neutron.conf file as follows on the both compute1 and compute2 nodes 
+
+```ini
+[DEFAULT]
+transport_url = rabbit://openstack:poc3pass@controller0
+auth_strategy = keystone
+[agent]
+[cors]
+[cors.subdomain]
+[database]
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = neutron
+password = poc#pass
+[matchmaker_redis]
+[nova]
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+[qos]
+[quotas]
+[ssl]
+```
+
+* Edit the /etc/neutron/plugins/ml2/linuxbridge_agent.ini file as follows
+
+```ini
+[DEFAULT]
+[agent]
+[linux_bridge]
+physical_interface_mappings = external_network:eth2
+[securitygroup]
+enable_security_group = True
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+[vxlan]
+enable_vxlan = true
+# in case of compute2 node, local_ip = 192.168.9.152 
+local_ip = 192.168.9.151
+l2_population = true
+```
+
+* Edit the neutron section of /etc/nova/nova.conf file and restart the nova-compute service
+
+```ini
+...snip...
+[neutron]
+url = http://controller0:9696
+auth_url = http://controller0:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = services
+username = neutron
+password = poc#pass
+...snip...
+```
+
+restarting the nova-compute service on the compute1 and compute2 nodes
+
+```bash
+# systemctl restart openstack-nova-compute
+```
+
+* Enabling and starting the linux bridge agent service on both nodes
+
+```
+# systemctl enable neutron-linuxbridge-agent
+# systemctl start neutron-linuxbridge-agent
+```
+
+#### Step4: Verifying the networking service installation
+Perform the following commands on the controller0 node.
+
+* Listing the extensions from neutron-server service
+
+```bash
+$ source ~/admin-openrc
+$ openstack extension list --network
++---------------------------+---------------------------+----------------------------+
+| Name                      | Alias                     | Description                |
++---------------------------+---------------------------+----------------------------+
+| Default Subnetpools       | default-subnetpools       | Provides ability to mark   |
+|                           |                           | and use a subnetpool as    |
+|                           |                           | the default                |
+| Network IP Availability   | network-ip-availability   | Provides IP availability   |
+|                           |                           | data for each network and  |
+|                           |                           | subnet.                    |
+| Network Availability Zone | network_availability_zone | Availability zone support  |
+|                           |                           | for network.               |
+| Auto Allocated Topology   | auto-allocated-topology   | Auto Allocated Topology    |
+| Services                  |                           | Services.                  |
+...snip...
+
+-- check the agents status
+$ openstack network agent list
++-----------------------+--------------------+---------------------+-------------------+-------+-------+--------------------------+
+| ID                    | Agent Type         | Host                | Availability Zone | Alive | State | Binary                   |
++-----------------------+--------------------+---------------------+-------------------+-------+-------+--------------------------+
+| 1160160c-4d70-401a-   | L3 agent           | network1.host.local | nova              | True  | UP    | neutron-l3-agent         |
+| 99fc-ab441ee006cc     |                    |                     |                   |       |       |                          |
+| 52a28e46-22f7-4853-87 | Linux bridge agent | compute1.host.local | None              | True  | UP    | neutron-linuxbridge-     |
+| 41-1eda0bbdb873       |                    |                     |                   |       |       | agent                    |
+| 5dbba274-096f-44f2-a0 | Metadata agent     | network1.host.local | None              | True  | UP    | neutron-metadata-agent   |
+| 69-3c8abc92ff9c       |                    |                     |                   |       |       |                          |
+| 69284630-f58c-4ffa-a6 | Linux bridge agent | compute2.host.local | None              | True  | UP    | neutron-linuxbridge-     |
+| 78-e305cedcd3db       |                    |                     |                   |       |       | agent                    |
+| 9b33c8c3-9bf5-4f49-be | Linux bridge agent | network1.host.local | None              | True  | UP    | neutron-linuxbridge-     |
+| 38-ae22c8424d99       |                    |                     |                   |       |       | agent                    |
+| e24662fd-9d3b-4be4-83 | DHCP agent         | network1.host.local | nova              | True  | UP    | neutron-dhcp-agent       |
+| b6-6ce862de52f5       |                    |                     |                   |       |       |                          |
++-----------------------+--------------------+---------------------+-------------------+-------+-------+--------------------------+
+
+```
