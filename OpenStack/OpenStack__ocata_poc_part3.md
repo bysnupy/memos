@@ -2,7 +2,7 @@
 
 ### Introduction
 It is the tutorial about installing openstack for PoC environment.<br/>
-The part3 is describing mainly network and block nodes installation.
+The part3 is describing mainly network configurations through command line.
 
 <[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)><br/>
 <[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)>
@@ -37,4 +37,6 @@ You must be done all tasks of following links
 
 * [part1](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)
 * [part2](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)
+
+#### Step1: Creating External(Provider) and Private(Tenant) networks with openstack command
 
