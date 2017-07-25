@@ -2,7 +2,7 @@
 
 ### Introduction
 It is the tutorial about installing openstack for PoC environment.<br/>
-The part2 is describing mainly network and block nodes installation.
+The part2 is describing mainly network and dashboard services installation.
 
 <[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)>
 
