@@ -38,5 +38,93 @@ You must be done all tasks of following links
 * [part1](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)
 * [part2](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)
 
-#### Step1: Creating External(Provider) and Private(Tenant) networks with openstack CLI
+#### Step1: Creating External(Provider) and Private local(Tenant) networks with openstack CLI
+
+* Create the external network which names provider_network
+
+```bash
+$ source ~/admin-openrc
+$ $ openstack network create --project poc --project-domain default --provider-network-type flat \
+                             --provider-physical-network external_network --external provider_network
++---------------------------+--------------------------------------+
+| Field                     | Value                                |
++---------------------------+--------------------------------------+
+| admin_state_up            | UP                                   |
+| availability_zone_hints   |                                      |
+| availability_zones        |                                      |
+| created_at                | 2017-07-26T07:17:02Z                 |
+| description               |                                      |
+| dns_domain                | None                                 |
+| id                        | 625e5d2c-2f03-4bd5-940c-72242ba69327 |
+| ipv4_address_scope        | None                                 |
+| ipv6_address_scope        | None                                 |
+| is_default                | False                                |
+| mtu                       | 1500                                 |
+| name                      | provider_network                     |
+| port_security_enabled     | True                                 |
+| project_id                | 6a15ffaacaad4c84b78d72d740229a7b     |
+| provider:network_type     | flat                                 |
+| provider:physical_network | external_network                     |
+| provider:segmentation_id  | None                                 |
+| qos_policy_id             | None                                 |
+| revision_number           | 4                                    |
+| router:external           | External                             |
+| segments                  | None                                 |
+| shared                    | False                                |
+| status                    | ACTIVE                               |
+| subnets                   |                                      |
+| updated_at                | 2017-07-26T07:17:02Z                 |
++---------------------------+--------------------------------------+
+```
+
+* Create the private local network which names tenant_network
+
+```bash
+$ source ~/admin-openrc
+$ openstack network create --project poc --project-domain default tenant_network
++---------------------------+--------------------------------------+
+| Field                     | Value                                |
++---------------------------+--------------------------------------+
+| admin_state_up            | UP                                   |
+| availability_zone_hints   |                                      |
+| availability_zones        |                                      |
+| created_at                | 2017-07-26T07:29:33Z                 |
+| description               |                                      |
+| dns_domain                | None                                 |
+| id                        | ddbabaaa-169f-4ff6-8be5-630f75d1bee7 |
+| ipv4_address_scope        | None                                 |
+| ipv6_address_scope        | None                                 |
+| is_default                | None                                 |
+| mtu                       | 1450                                 |
+| name                      | tenant_network                       |
+| port_security_enabled     | True                                 |
+| project_id                | 6a15ffaacaad4c84b78d72d740229a7b     |
+| provider:network_type     | vxlan                                |
+| provider:physical_network | None                                 |
+| provider:segmentation_id  | 95                                   |
+| qos_policy_id             | None                                 |
+| revision_number           | 3                                    |
+| router:external           | Internal                             |
+| segments                  | None                                 |
+| shared                    | False                                |
+| status                    | ACTIVE                               |
+| subnets                   |                                      |
+| updated_at                | 2017-07-26T07:29:33Z                 |
++---------------------------+--------------------------------------+
+```
+
+* Verifying the networks just created
+
+```bash
+$ source ~/admin-openrc
+$ openstack network list
++--------------------------------------+------------------+---------+
+| ID                                   | Name             | Subnets |
++--------------------------------------+------------------+---------+
+| 625e5d2c-2f03-4bd5-940c-72242ba69327 | provider_network |         |
+| ddbabaaa-169f-4ff6-8be5-630f75d1bee7 | tenant_network   |         |
++--------------------------------------+------------------+---------+
+```
+
+#### Step2: Creating subnets with openstack CLI
 
