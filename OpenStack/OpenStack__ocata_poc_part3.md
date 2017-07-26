@@ -38,9 +38,10 @@ You must be done all tasks of following links
 * [part1](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)
 * [part2](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)
 
-#### Step1: Creating External(Provider) and Private local(Tenant) networks with openstack CLI
 The following commands can be executed from any node which installed python-openstackclient package if you have admin credentials.
-But this time the following commands were executed from controllor0 node.
+But this time the following commands were executed from controllor0 node unless otherwise noted.
+
+#### Step1: Creating External(Provider) and Private local(Tenant) networks with openstack CLI
 
 * Create the external network which names provider_network
 
@@ -204,7 +205,181 @@ $ openstack subnet list
 +--------------------------------------+-------------------------+--------------------------------------+------------------+
 | ID                                   | Name                    | Network                              | Subnet           |
 +--------------------------------------+-------------------------+--------------------------------------+------------------+
-| 0086f62f-8aa6-4666-ac7b-a62d1f2286e7 | provider_network_subnet | 625e5d2c-2f03-4bd5-940c-72242ba69327 | 172.16.0.0/16    |
+| 0086f62f-8aa6-4666-ac7b-a62d1f2286e7 | provider_network_subnet | 625e5d2c-2f03-4bd5-940c-72242ba69327 | 172.16.9.0/24    |
 | 5453133f-b2a9-4900-9e1a-fbac90ef139f | tenant_network_subnet   | ddbabaaa-169f-4ff6-8be5-630f75d1bee7 | 192.168.154.0/24 |
 +--------------------------------------+-------------------------+--------------------------------------+------------------+
 ```
+
+#### Step3: Creating the router and adding subnets with openstack CLI
+
+* Create the router
+
+```bash
+$ source ~/admin-openrc
+$ openstack router create --project poc --project-domain default router
++-------------------------+--------------------------------------+
+| Field                   | Value                                |
++-------------------------+--------------------------------------+
+| admin_state_up          | UP                                   |
+| availability_zone_hints |                                      |
+| availability_zones      |                                      |
+| created_at              | 2017-07-26T08:28:12Z                 |
+| description             |                                      |
+| distributed             | False                                |
+| external_gateway_info   | None                                 |
+| flavor_id               | None                                 |
+| ha                      | False                                |
+| id                      | 20e99e41-c85c-4e76-a6bc-5d89ca7a2840 |
+| name                    | router                               |
+| project_id              | 6a15ffaacaad4c84b78d72d740229a7b     |
+| revision_number         | None                                 |
+| routes                  |                                      |
+| status                  | ACTIVE                               |
+| updated_at              | 2017-07-26T08:28:12Z                 |
++-------------------------+--------------------------------------+
+```
+
+* Adding the both subnets to router just created
+
+```bash
+$ source ~/admin-openrc
+$ openstack router set --external-gateway provider_network router
+$ openstack router add subnet router tenant_network_subnet
+
+-- recheck router metadata
+$ openstack router show router
++-------------------------+-----------------------------------------------------------+
+| Field                   | Value                                                     |
++-------------------------+-----------------------------------------------------------+
+| admin_state_up          | UP                                                        |
+| availability_zone_hints |                                                           |
+| availability_zones      | nova                                                      |
+| created_at              | 2017-07-26T08:28:12Z                                      |
+| description             |                                                           |
+| distributed             | False                                                     |
+| external_gateway_info   | {"network_id": "625e5d2c-2f03-4bd5-940c-72242ba69327",    |
+|                         | "enable_snat": true, "external_fixed_ips": [{"subnet_id": |
+|                         | "0086f62f-8aa6-4666-ac7b-a62d1f2286e7", "ip_address":     |
+|                         | "172.16.9.163"}]}                                         |
+| flavor_id               | None                                                      |
+| ha                      | False                                                     |
+| id                      | 20e99e41-c85c-4e76-a6bc-5d89ca7a2840                      |
+| name                    | router                                                    |
+| project_id              | 6a15ffaacaad4c84b78d72d740229a7b                          |
+| revision_number         | 15                                                        |
+| routes                  |                                                           |
+| status                  | ACTIVE                                                    |
+| updated_at              | 2017-07-26T08:59:12Z                                      |
++-------------------------+-----------------------------------------------------------+
+```
+
+* Verifying the connectivity
+:star:This check tasks are conducted from network1 node.
+
+```bash
+# ip netns
+qrouter-20e99e41-c85c-4e76-a6bc-5d89ca7a2840 (id: 2)
+qdhcp-ddbabaaa-169f-4ff6-8be5-630f75d1bee7 (id: 1)
+qdhcp-625e5d2c-2f03-4bd5-940c-72242ba69327 (id: 0)
+
+# ip netns exec qdhcp-625e5d2c-2f03-4bd5-940c-72242ba69327 ip addr show
+...snip...
+2: ns-bd98b617-9e@if7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether fa:16:3e:de:25:31 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.16.9.160/24 brd 172.16.9.255 scope global ns-bd98b617-9e
+       valid_lft forever preferred_lft forever
+    inet 169.254.169.254/16 brd 169.254.255.255 scope global ns-bd98b617-9e
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fede:2531/64 scope link
+       valid_lft forever preferred_lft forever
+       
+# ip netns exec qdhcp-625e5d2c-2f03-4bd5-940c-72242ba69327 ip route
+default via 172.16.9.1 dev ns-bd98b617-9e
+169.254.0.0/16 dev ns-bd98b617-9e  proto kernel  scope link  src 169.254.169.254
+172.16.9.0/24 dev ns-bd98b617-9e  proto kernel  scope link  src 172.16.9.160
+
+# ip netns exec qrouter-20e99e41-c85c-4e76-a6bc-5d89ca7a2840 ping -c3 172.16.9.1
+PING 172.16.9.1 (172.16.9.1) 56(84) bytes of data.
+64 bytes from 172.16.9.1: icmp_seq=1 ttl=64 time=0.049 ms
+64 bytes from 172.16.9.1: icmp_seq=2 ttl=64 time=0.037 ms
+64 bytes from 172.16.9.1: icmp_seq=3 ttl=64 time=0.058 ms
+
+--- 172.16.9.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+rtt min/avg/max/mdev = 0.037/0.048/0.058/0.008 ms
+
+```
+
+#### Step4: Creating the securitygroup with openstack CLI
+
+* Create new security group poc_securitygroup
+
+```bash
+$ source ~/admin-openrc
+$ openstack security group create --project poc --project-domain default poc_securitygroup
++-----------------+------------------------------------------------------------------------+
+| Field           | Value                                                                  |
++-----------------+------------------------------------------------------------------------+
+| created_at      | 2017-07-26T10:29:03Z                                                   |
+| description     | poc_securitygroup                                                      |
+| id              | c5229e9e-2922-4ea0-9aa3-6ee882ca5436                                   |
+| name            | poc_securitygroup                                                      |
+| project_id      | 6a15ffaacaad4c84b78d72d740229a7b                                       |
+| revision_number | 1                                                                      |
+| rules           | created_at='2017-07-26T10:29:03Z', direction='egress',                 |
+|                 | ethertype='IPv4', id='85355dee-8086-4972-b0d3-c0a900846dd4',           |
+|                 | revision_number='1', updated_at='2017-07-26T10:29:03Z'                 |
+|                 | created_at='2017-07-26T10:29:03Z', direction='egress',                 |
+|                 | ethertype='IPv6', id='2ad36168-c700-4945-a3f8-e7b2c9b707a5',           |
+|                 | revision_number='1', updated_at='2017-07-26T10:29:03Z'                 |
+| updated_at      | 2017-07-26T10:29:03Z                                                   |
++-----------------+------------------------------------------------------------------------+
+```
+
+* Adding rules to just created security group
+
+```bash
+$ source ~/admin-openrc
+$ openstack security group rule create --protocol icmp poc_securitygroup
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| created_at        | 2017-07-26T10:32:41Z                 |
+| description       |                                      |
+| direction         | ingress                              |
+| ether_type        | IPv4                                 |
+| id                | 12c8c3ae-d770-4e2c-bc1b-b5937573139a |
+| name              | None                                 |
+| port_range_max    | None                                 |
+| port_range_min    | None                                 |
+| project_id        | 6f173e1f310146c9883a2c50d1336bc0     |
+| protocol          | icmp                                 |
+| remote_group_id   | None                                 |
+| remote_ip_prefix  | 0.0.0.0/0                            |
+| revision_number   | 1                                    |
+| security_group_id | c5229e9e-2922-4ea0-9aa3-6ee882ca5436 |
+| updated_at        | 2017-07-26T10:32:41Z                 |
++-------------------+--------------------------------------+
+$ openstack security group rule create --protocol tcp --dst-port 22 poc_securitygroup
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| created_at        | 2017-07-26T10:44:30Z                 |
+| description       |                                      |
+| direction         | ingress                              |
+| ether_type        | IPv4                                 |
+| id                | 999df9ea-d592-415b-ae6f-d3fdcdb2e573 |
+| name              | None                                 |
+| port_range_max    | 22                                   |
+| port_range_min    | 22                                   |
+| project_id        | 6f173e1f310146c9883a2c50d1336bc0     |
+| protocol          | tcp                                  |
+| remote_group_id   | None                                 |
+| remote_ip_prefix  | 0.0.0.0/0                            |
+| revision_number   | 1                                    |
+| security_group_id | c5229e9e-2922-4ea0-9aa3-6ee882ca5436 |
+| updated_at        | 2017-07-26T10:44:30Z                 |
++-------------------+--------------------------------------+
+```
+
+#### Step5: Creating the flavor with openstack CLI
