@@ -39,12 +39,14 @@ You must be done all tasks of following links
 * [part2](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)
 
 #### Step1: Creating External(Provider) and Private local(Tenant) networks with openstack CLI
+The following commands can be executed from any node which installed python-openstackclient package if you have admin credentials.
+But this time the following commands were executed from controllor0 node.
 
 * Create the external network which names provider_network
 
 ```bash
 $ source ~/admin-openrc
-$ $ openstack network create --project poc --project-domain default --provider-network-type flat \
+$ openstack network create --project poc --project-domain default --provider-network-type flat \
                              --provider-physical-network external_network --external provider_network
 +---------------------------+--------------------------------------+
 | Field                     | Value                                |
@@ -128,3 +130,81 @@ $ openstack network list
 
 #### Step2: Creating subnets with openstack CLI
 
+* Create the subnet for provider_network
+
+```bash
+$ source ~/admin-openrc
+$ openstack subnet create --project poc --project-domain default --subnet-range 172.16.9.0/24 \
+                          --gateway 172.16.9.1 --network provider_network \
+                          --allocation-pool start=172.16.9.160,end=172.16.9.169 --dns-nameserver 8.8.8.8 provider_network_subnet
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| allocation_pools  | 172.16.9.160-172.16.9.169            |
+| cidr              | 172.16.9.0/24                        |
+| created_at        | 2017-07-26T07:39:43Z                 |
+| description       |                                      |
+| dns_nameservers   | 8.8.8.8                              |
+| enable_dhcp       | True                                 |
+| gateway_ip        | 172.16.9.1                           |
+| host_routes       |                                      |
+| id                | 0086f62f-8aa6-4666-ac7b-a62d1f2286e7 |
+| ip_version        | 4                                    |
+| ipv6_address_mode | None                                 |
+| ipv6_ra_mode      | None                                 |
+| name              | provider_network_subnet              |
+| network_id        | 625e5d2c-2f03-4bd5-940c-72242ba69327 |
+| project_id        | 6a15ffaacaad4c84b78d72d740229a7b     |
+| revision_number   | 2                                    |
+| segment_id        | None                                 |
+| service_types     |                                      |
+| subnetpool_id     | None                                 |
+| updated_at        | 2017-07-26T07:39:43Z                 |
++-------------------+--------------------------------------+
+```
+
+* Create the subnet for tenant_network
+
+```bash
+$ source ~/admin-openrc
+$ openstack subnet create --project poc --project-domain default --subnet-range 192.168.154.0/24 \
+                          --network tenant_network --allocation-pool start=192.168.154.2,end=192.168.154.254 \
+                          --dns-nameserver 8.8.8.8 tenant_network_subnet
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| allocation_pools  | 192.168.154.2-192.168.154.254        |
+| cidr              | 192.168.154.0/24                     |
+| created_at        | 2017-07-26T07:48:20Z                 |
+| description       |                                      |
+| dns_nameservers   | 8.8.8.8                              |
+| enable_dhcp       | True                                 |
+| gateway_ip        | 192.168.154.1                        |
+| host_routes       |                                      |
+| id                | 5453133f-b2a9-4900-9e1a-fbac90ef139f |
+| ip_version        | 4                                    |
+| ipv6_address_mode | None                                 |
+| ipv6_ra_mode      | None                                 |
+| name              | tenant_network_subnet                |
+| network_id        | ddbabaaa-169f-4ff6-8be5-630f75d1bee7 |
+| project_id        | 6a15ffaacaad4c84b78d72d740229a7b     |
+| revision_number   | 2                                    |
+| segment_id        | None                                 |
+| service_types     |                                      |
+| subnetpool_id     | None                                 |
+| updated_at        | 2017-07-26T07:48:20Z                 |
++-------------------+--------------------------------------+
+```
+
+* Verifying the subnets just created
+
+```bash
+$ source ~/admin-openrc
+$ openstack subnet list
++--------------------------------------+-------------------------+--------------------------------------+------------------+
+| ID                                   | Name                    | Network                              | Subnet           |
++--------------------------------------+-------------------------+--------------------------------------+------------------+
+| 0086f62f-8aa6-4666-ac7b-a62d1f2286e7 | provider_network_subnet | 625e5d2c-2f03-4bd5-940c-72242ba69327 | 172.16.0.0/16    |
+| 5453133f-b2a9-4900-9e1a-fbac90ef139f | tenant_network_subnet   | ddbabaaa-169f-4ff6-8be5-630f75d1bee7 | 192.168.154.0/24 |
++--------------------------------------+-------------------------+--------------------------------------+------------------+
+```
