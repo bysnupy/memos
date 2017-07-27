@@ -409,4 +409,98 @@ $ openstack security group rule list poc_secgroup
 +-----------------------+-------------+-----------+------------+-----------------------+
 ```
 
-#### Step5: Creating the flavor with openstack CLI
+#### Step5: Creating the floating IP addresses and flavors with openstack CLI
+
+* Get the floating IP
+
+In this case I was gotten the 172.16.9.162 floating IP.
+
+```bash
+$ source ~/admin-openrc
+$ openstack floating ip create provider_network1
++---------------------+--------------------------------------+
+| Field               | Value                                |
++---------------------+--------------------------------------+
+| created_at          | 2017-07-27T09:21:31Z                 |
+| description         |                                      |
+| fixed_ip_address    | None                                 |
+| floating_ip_address | 172.16.9.162                         |
+| floating_network_id | ab964185-f3f6-4915-a388-fb099273d2da |
+| id                  | 8e3d00a2-7cee-4c97-88fa-a99af1c1d166 |
+| name                | None                                 |
+| port_id             | None                                 |
+| project_id          | 6f173e1f310146c9883a2c50d1336bc0     |
+| revision_number     | 1                                    |
+| router_id           | None                                 |
+| status              | DOWN                                 |
+| updated_at          | 2017-07-27T09:21:31Z                 |
++---------------------+--------------------------------------+
+
+$ openstack floating ip list
++-------------------+---------------------+------------------+------+-------------------+-------------------+
+| ID                | Floating IP Address | Fixed IP Address | Port | Floating Network  | Project           |
++-------------------+---------------------+------------------+------+-------------------+-------------------+
+| 8e3d00a2-7cee-    | 172.16.9.162        | None             | None | ab964185-f3f6-491 | 6f173e1f310146c98 |
+| 4c97-88fa-        |                     |                  |      | 5-a388-fb099273d2 | 83a2c50d1336bc0   |
+| a99af1c1d166      |                     |                  |      | da                |                   |
++-------------------+---------------------+------------------+------+-------------------+-------------------+
+```
+
+* Create the flavor entity
+
+```bash
+$ openstack flavor create --project poc --project-domain default \
+                          --private --vcpus 2 --ram 1024 --disk 5 --swap 512 p2.small
++----------------------------+--------------------------------------+
+| Field                      | Value                                |
++----------------------------+--------------------------------------+
+| OS-FLV-DISABLED:disabled   | False                                |
+| OS-FLV-EXT-DATA:ephemeral  | 0                                    |
+| disk                       | 5                                    |
+| id                         | 34be659e-a4ba-4b35-aa2d-fc9799e2d412 |
+| name                       | p2.small                             |
+| os-flavor-access:is_public | False                                |
+| properties                 |                                      |
+| ram                        | 1024                                 |
+| rxtx_factor                | 1.0                                  |
+| swap                       | 512                                  |
+| vcpus                      | 2                                    |
++----------------------------+--------------------------------------+
+
+$ openstack flavor list --private
++-----------------------------+----------+------+------+-----------+-------+-----------+
+| ID                          | Name     |  RAM | Disk | Ephemeral | VCPUs | Is Public |
++-----------------------------+----------+------+------+-----------+-------+-----------+
+| 34be659e-a4ba-4b35-aa2d-    | p2.small | 1024 |    5 |         0 |     2 | False     |
+| fc9799e2d412                |          |      |      |           |       |           |
++-----------------------------+----------+------+------+-----------+-------+-----------+
+```
+
+#### Step6: Creating the keypairs and instance with openstack CLI
+
+* Generating the keypair
+
+```bash
+$ source ~/admin-openrc
+$ openstack keypair create poc_keypair1
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAupJPHgelKVK2px453FyicG4ZzuU7akXJcIzk2nqhCSNmAguI
+2/Zt/JUZA15LQU+sQja7D/NL13KIDIX+YPAuTEfmE1oeE3Wanfex+nT4ZRKZtwVS
+EDkbVNaYlk/QPmcXwimYMwum1TmhUhwSJyH42aw/5rN0z8vYkB5RHBvHFy9IToMa
+Re7kytgJyFdJpeJK5tI9dWgt8j+GyN+Mk1Xyv6XAiGv+EewYdzsMKMoJ1Db666Pz
+...snip..
+OGd6gWm0aOWiJ2puv8aSXpEvwCjq3lY7592uixLVQaLfOR6MFPmFBnbAtpV1auzE
+QmroZP+hst4fMkIGiGh95nnHwU4XsueB5hp/Q+xeBq6S7oCDu2WohwC/Ll2DCFl2
+ynI5AoGAe73FU7CJM5ExgHLlMwxi6PLU2ZjTi9W4wSH/zWpJH/Lbsm0G2O3qFALs
+aDxuW3H5LBPbxN0Rx5P6x5jyJgBAfoy9tB3cyQoMAI8xXulKUA1YWEMkLna916+8
+GBU4dfKUKBcommTfRWXCZG2m4rcYlqHLL/ITayDK6tqm/hVfNzQ=
+-----END RSA PRIVATE KEY-----
+
+$ openstack keypair list
++--------------+-------------------------------------------------+
+| Name         | Fingerprint                                     |
++--------------+-------------------------------------------------+
+| poc_keypair1 | 54:69:65:4c:64:d6:4a:e0:d3:59:05:32:07:a4:3e:e5 |
++--------------+-------------------------------------------------+
+```
+
