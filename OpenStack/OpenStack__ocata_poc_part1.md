@@ -369,7 +369,7 @@ This service is also installed and configured on the controller0.host.local node
 ```sql
 MariaDB [(none)]> CREATE DATABASE glance;
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'poc#pass';
-MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glacne'@'%' IDENTIFIED BY 'poc#pass';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY 'poc#pass';
 MariaDB [(none)]> FLUSH PRIVILEGES;
 MariaDB [(none)]>
 ```
