@@ -1,7 +1,8 @@
 ## ip command practice
 
 ### Introduction
-the interface configuration files into /etc/sysconfig/network-scripts/.
+the interface configuration files into /etc/sysconfig/network-scripts/
+the interface active settings were shown /sys/class/net/
 the interfaca configuration files were named ifcfg-IFNAME
 
 Network interface name has rules:
@@ -26,7 +27,8 @@ Device depended on: emX
 DEVICE=eth0
 ONBOOT=yes
 NM_CONTROLLED=yes
-MACADDR=MAS_ADDRESS
+MACADDR=MAS_ADDRESS - changeable
+HWADDR=DEVICE_ADDRESS
 
 #DHCP ip addressing
 BOOTPROTO=dhcp
@@ -37,6 +39,9 @@ IPADDR=192.168.1.11
 PREFIX=24
 GATEWAY=192.168.1.1
 DNS1=192.168.1.22
+
+# Default MTU
+MTU=1500
 ```
 
 ### NetworkManager
@@ -63,9 +68,30 @@ You can start and stop manually the interfaces with ifup and ifdown command.
 
 ip command shows the current interface states and IP addresses
 
+ip link : modify L2 settings, such as MAC addresses, promiscuous mode and interface up and down
+ip link show 
+ip link set DEVICE up | down
+ip link set DEVICE promisc on | off
+ip link set DEVICE address ADDRESS
+
+ip address : modify L3 settins, such as IP addresses
+ip address show dev DEVICE
+ip address show flush dev DEVICE
+ip address add IPADDR dev DEVICE
+ip address del IPADDR dev DEVICE
+
 ```bash
-# ip addr show eth0
+# ip -4 addr show eth0
+
 
 # ip link show eth0
-```
 
+
+```
+# ethtool command
+
+check the device type
+
+```bash
+# ethtool -i eth0
+```
