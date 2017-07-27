@@ -770,6 +770,9 @@ bfd3180c-6902-4ab1-89db-9aec3d45d631
 
 * Populate the nova database
 
+:star:If you are encountered "ERROR: could not access cell mapping database - has api db been created?" message,
+you can check the 'nova_api.cell_mapping' table and check 'database_connection' column.
+
 ```bash
 # su -s /bin/sh -c "nova-manage db sync" nova
 ```
