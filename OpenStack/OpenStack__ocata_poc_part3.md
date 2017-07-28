@@ -721,3 +721,5 @@ cpu_mode=none
 
 In my case it can be solved by editing like 'cpu_mode=none'.
 
+To continue to <[Part4](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part4.md)>
+
