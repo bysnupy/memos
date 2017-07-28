@@ -673,3 +673,8 @@ $
 
 * check the vnc console through Horizon
 
+Network Topology is here.
+
+![Network Topology2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_network2.png)
+
+* 
