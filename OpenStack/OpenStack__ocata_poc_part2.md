@@ -482,6 +482,7 @@ $ openstack network agent list
 ```
 
 #### Step5: Installing and configuring the Horizon (Dashboard service) on Controller node
+
 The following tasks should be done on the controller0 node.
 
 * Installing the packages
@@ -576,99 +577,7 @@ LOGGING = {
             'format': '%(asctime)s %(message)s'
         },
     },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-        },
-        'operation': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'operation',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['null'],
-            'propagate': False,
-        },
-        'requests': {
-            'handlers': ['null'],
-            'propagate': False,
-        },
-        'horizon': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'horizon.operation_log': {
-            'handlers': ['operation'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'openstack_dashboard': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'novaclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'cinderclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'keystoneclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'glanceclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'neutronclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'heatclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'swiftclient': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'openstack_auth': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'nose.plugins.manager': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-        'iso8601': {
-            'handlers': ['null'],
-            'propagate': False,
-        },
+...snip...
         'scss': {
             'handlers': ['null'],
             'propagate': False,
@@ -681,97 +590,7 @@ SECURITY_GROUP_RULES = {
         'ip_protocol': 'tcp',
         'from_port': '1',
         'to_port': '65535',
-    },
-    'all_udp': {
-        'name': _('All UDP'),
-        'ip_protocol': 'udp',
-        'from_port': '1',
-        'to_port': '65535',
-    },
-    'all_icmp': {
-        'name': _('All ICMP'),
-        'ip_protocol': 'icmp',
-        'from_port': '-1',
-        'to_port': '-1',
-    },
-    'ssh': {
-        'name': 'SSH',
-        'ip_protocol': 'tcp',
-        'from_port': '22',
-        'to_port': '22',
-    },
-    'smtp': {
-        'name': 'SMTP',
-        'ip_protocol': 'tcp',
-        'from_port': '25',
-        'to_port': '25',
-    },
-    'dns': {
-        'name': 'DNS',
-        'ip_protocol': 'tcp',
-        'from_port': '53',
-        'to_port': '53',
-    },
-    'http': {
-        'name': 'HTTP',
-        'ip_protocol': 'tcp',
-        'from_port': '80',
-        'to_port': '80',
-    },
-    'pop3': {
-        'name': 'POP3',
-        'ip_protocol': 'tcp',
-        'from_port': '110',
-        'to_port': '110',
-    },
-    'imap': {
-        'name': 'IMAP',
-        'ip_protocol': 'tcp',
-        'from_port': '143',
-        'to_port': '143',
-    },
-    'ldap': {
-        'name': 'LDAP',
-        'ip_protocol': 'tcp',
-        'from_port': '389',
-        'to_port': '389',
-    },
-    'https': {
-        'name': 'HTTPS',
-        'ip_protocol': 'tcp',
-        'from_port': '443',
-        'to_port': '443',
-    },
-    'smtps': {
-        'name': 'SMTPS',
-        'ip_protocol': 'tcp',
-        'from_port': '465',
-        'to_port': '465',
-    },
-    'imaps': {
-        'name': 'IMAPS',
-        'ip_protocol': 'tcp',
-        'from_port': '993',
-        'to_port': '993',
-    },
-    'pop3s': {
-        'name': 'POP3S',
-        'ip_protocol': 'tcp',
-        'from_port': '995',
-        'to_port': '995',
-    },
-    'ms_sql': {
-        'name': 'MS SQL',
-        'ip_protocol': 'tcp',
-        'from_port': '1433',
-        'to_port': '1433',
-    },
-    'mysql': {
-        'name': 'MYSQL',
-        'ip_protocol': 'tcp',
-        'from_port': '3306',
-        'to_port': '3306',
-    },
+...snip...
     'rdp': {
         'name': 'RDP',
         'ip_protocol': 'tcp',
