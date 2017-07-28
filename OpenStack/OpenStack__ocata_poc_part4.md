@@ -110,10 +110,88 @@ $ openstack endpoint create --region RegionOne volumev3 internal http://controll
 $ openstack endpoint create --region RegionOne volumev3 admin http://controller0:8776/v3/%\(project_id\)s
 ```
 
-* Installing cinder packages and edit the configuration files
+* Installing cinder packages with yum
 
 ```bash
 # yum install openstack-cinder
 ```
 
+* Edit the /etc/cinder/cinder.conf file as follows
 
+```ini
+[DEFAULT]
+transport_url = rabbit://openstack:poc3pass@controller0
+auth_strategy = keystone
+my_ip = 172.16.9.150
+[backend]
+[barbican]
+[brcd_fabric_example]
+[cisco_fabric_example]
+[coordination]
+[cors]
+[cors.subdomain]
+[database]
+connection = mysql+pymysql://cinder:poc#pass@controller0/cinder
+[fc-zone-manager]
+[healthcheck]
+[key_manager]
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = cinder
+password = poc#pass
+[matchmaker_redis]
+[oslo_concurrency]
+lock_path = /var/lib/cinder/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+[oslo_reports]
+[oslo_versionedobjects]
+[profiler]
+[ssl]
+```
+
+* Populateing the cinder database
+
+```bash
+# su -s /bin/sh -c "cinder-manage db sync" cinder
+```
+
+* Edit the /etc/nova/nova.conf file and restart the nova-api service to take effect
+
+```ini
+...snip...
+[cinder]
+os_region_name = RegionOne
+...snip...
+```
+Restart the nova-api service
+
+```bash
+# systemctl restart openstack-nova-api
+```
+
+* Enabling and starting the cinder serivces
+
+```bash
+# systemctl enable openstack-cinder-api openstack-cinder-scheduler
+# systemctl start openstack-cinder-api openstack-cinder-scheduler
+```
+
+#### Step2: Installing and configuring the Cinder (Block Storage service) on Block node
+
+This section's tasks were executed on the block1 node.
+
+```bash
+
+```
