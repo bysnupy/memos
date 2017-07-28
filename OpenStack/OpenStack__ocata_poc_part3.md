@@ -677,4 +677,47 @@ Network Topology is here.
 
 ![Network Topology2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_network2.png)
 
-* 
+* Access the vnc pages
+
+Move the 'Instances' pages as 'Poject' -> 'Compute' -> 'Instacnes' as follows
+
+![VNC1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_vnc1.png)
+
+Show the VNC console as clicking the vm name link -> 'Console' as follows
+
+![VNC2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_vnc2.png)
+
+:warning:If you encountered the instance hang up at booting up, first you check the libvirt log on the compute node running the instances.
+
+```bash
+# cat /var/log/libvirt/qemu/instance-00000001.log | grep -i ^warning
+warning: TCG doesn't support requested feature: CPUID.01H:EDX.vme [bit 1]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.fma [bit 12]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.pcid [bit 17]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.x2apic [bit 21]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.tsc-deadline [bit 24]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.osxsave [bit 27]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.avx [bit 28]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.f16c [bit 29]
+warning: TCG doesn't support requested feature: CPUID.01H:ECX.rdrand [bit 30]
+warning: TCG doesn't support requested feature: CPUID.07H:EBX.hle [bit 4]
+warning: TCG doesn't support requested feature: CPUID.07H:EBX.avx2 [bit 5]
+warning: TCG doesn't support requested feature: CPUID.07H:EBX.erms [bit 9]
+...snip...
+```
+
+And check the VNC console through Horizon.
+If you would find the messages like 'Starting up ...', you need to modify the /etc/nova/nova.conf file as follows
+
+```ini
+...snip...
+[libvirt]
+virt_type = qemu
+cpu_mode=none
+[matchmaker_redis]
+[metrics]
+..snip...
+```
+
+In my case it can be solved by editing like 'cpu_mode=none'.
+
