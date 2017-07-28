@@ -41,6 +41,13 @@ You must be done all tasks of following links
 The following commands can be executed from any node which installed python-openstackclient package if you have admin credentials.
 But this time the following commands were executed from controllor0 node unless otherwise noted.
 
+* Each network attributes table
+
+Network Name|Project|Network Type|Gateway|External|DHCP
+------------|-------|------------|-------|--------|----
+provider_network1|poc|flat|Yes|Yes|No
+tenant_network1|poc|vxlan|No|No|Yes
+
 #### Step1: Creating External(Provider) and Private local(Tenant) networks with openstack CLI
 
 * Create the external network which names provider_network
@@ -278,39 +285,57 @@ This network topology image is from dashboard.
 
 ![Network Topology1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_network1.png)
 
+:warning:You must check the hypervisor network security settings if you install to VMs on the hypervisor.<br/>
+It result in the connectivity trouble to external network, as  the host servers had dropped the packets from the VMs
+
+The vSwitch security settings need to change as follows on the ESXi
+
+![Warning ESXi](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_esxi1.png)
+
+The vNIC Profiles settings need to change as follows on the oVirt or RHEV
+
+![Warning oVirt](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_ovirt1.png)
+
 :star:This check commands were executed from network1 node.
 
 ```bash
+-- identify the network namespaces
 # ip netns
-qdhcp-1877fce3-06af-4d40-9b88-ae2b9fd2ee83 (id: 2)
-qdhcp-ab964185-f3f6-4915-a388-fb099273d2da (id: 1)
-qrouter-e6d3d85d-10a9-4477-8876-6fb11909d21d (id: 0)
+qrouter-e6d3d85d-10a9-4477-8876-6fb11909d21d (id: 1)
+qdhcp-1877fce3-06af-4d40-9b88-ae2b9fd2ee83 (id: 0)
 
-# ip netns exec qdhcp-ab964185-f3f6-4915-a388-fb099273d2da ip addr show
+-- check the tenant_network1 interface (qr-XXX) and provider_network1 interface (qg-XXX) 
+# ip netns exec qrouter-e6d3d85d-10a9-4477-8876-6fb11909d21d ip address show
 ...snip...
-2: ns-9791c213-f7@if8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP qlen 1000
-    link/ether fa:16:3e:9e:9e:eb brd ff:ff:ff:ff:ff:ff link-netnsid 0
-    inet 169.254.169.254/16 brd 169.254.255.255 scope global ns-9791c213-f7
+2: qr-877068db-6e@if10: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc noqueue state UP qlen 1000
+    link/ether fa:16:3e:8b:c8:c5 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 192.168.155.1/24 brd 192.168.155.255 scope global qr-877068db-6e
        valid_lft forever preferred_lft forever
-    inet 172.16.9.161/16 brd 172.16.9.255 scope global ns-9791c213-f7
+    inet6 fe80::f816:3eff:fe8b:c8c5/64 scope link
        valid_lft forever preferred_lft forever
-    inet6 fe80::f816:3eff:fe9e:9eeb/64 scope link
+3: qg-a7a88215-3e@if11: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP qlen 1000
+    link/ether fa:16:3e:41:6b:6a brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.16.9.160/24 brd 172.16.255.255 scope global qg-a7a88215-3e
        valid_lft forever preferred_lft forever
-       
-# ip netns exec qdhcp-ab964185-f3f6-4915-a388-fb099273d2da ip route
-default via 172.16.9.1 dev ns-9791c213-f7
-169.254.0.0/16 dev ns-9791c213-f7  proto kernel  scope link  src 169.254.169.254
-172.16.9.0/24 dev ns-9791c213-f7  proto kernel  scope link  src 172.16.9.161
+    inet6 fe80::f816:3eff:fe41:6b6a/64 scope link
+       valid_lft forever preferred_lft forever
 
-# ip netns exec qrouter-20e99e41-c85c-4e76-a6bc-5d89ca7a2840 ping -c3 172.16.9.1
+-- show the routing table
+# ip netns exec qrouter-e6d3d85d-10a9-4477-8876-6fb11909d21d ip route list
+default via 172.16.9.1 dev qg-a7a88215-3e
+172.16.9.0/24 dev qg-a7a88215-3e  proto kernel  scope link  src 172.16.9.160
+192.168.155.0/24 dev qr-877068db-6e  proto kernel  scope link  src 192.168.155.1
+
+-- ping the external gateway
+# ip netns exec qrouter-e6d3d85d-10a9-4477-8876-6fb11909d21d ping -c3 172.16.9.1
 PING 172.16.9.1 (172.16.9.1) 56(84) bytes of data.
-64 bytes from 172.16.9.1: icmp_seq=1 ttl=64 time=0.049 ms
-64 bytes from 172.16.9.1: icmp_seq=2 ttl=64 time=0.037 ms
-64 bytes from 172.16.9.1: icmp_seq=3 ttl=64 time=0.058 ms
+64 bytes from 172.16.9.1: icmp_seq=1 ttl=255 time=2.30 ms
+64 bytes from 172.16.9.1: icmp_seq=2 ttl=255 time=2.42 ms
+64 bytes from 172.16.9.1: icmp_seq=3 ttl=255 time=2.50 ms
 
 --- 172.16.9.1 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2000ms
-rtt min/avg/max/mdev = 0.037/0.048/0.058/0.008 ms
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 2.307/2.411/2.506/0.081 ms
 
 ```
 
