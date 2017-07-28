@@ -136,8 +136,8 @@ $ openstack network list
 ```bash
 $ source ~/admin-openrc
 $ openstack subnet create --project poc --project-domain default --subnet-range 172.16.9.0/24 \
-                          --gateway 172.16.9.1 --network provider_network1 \
-                          --allocation-pool start=172.16.9.160,end=172.16.9.169 --dns-nameserver 8.8.8.8 provider_network_subnet
+                          --gateway 172.16.9.1 --network provider_network1 --no-dhcp \
+                          --allocation-pool start=172.16.9.160,end=172.16.9.169 --dns-nameserver 8.8.8.8 provider_network1_subnet
 +-------------------+--------------------------------------+
 | Field             | Value                                |
 +-------------------+--------------------------------------+
@@ -146,7 +146,7 @@ $ openstack subnet create --project poc --project-domain default --subnet-range 
 | created_at        | 2017-07-27T08:34:53Z                 |
 | description       |                                      |
 | dns_nameservers   | 8.8.8.8                              |
-| enable_dhcp       | True                                 |
+| enable_dhcp       | False                                |
 | gateway_ip        | 172.16.9.1                           |
 | host_routes       |                                      |
 | id                | 207a819f-ddc3-461a-91c6-6d46445b11c1 |
@@ -171,7 +171,7 @@ $ openstack subnet create --project poc --project-domain default --subnet-range 
 $ source ~/admin-openrc
 $ openstack subnet create --project poc --project-domain default --subnet-range 192.168.155.0/24 \
                           --network tenant_network1 --allocation-pool start=192.168.154.2,end=192.168.155.254 \
-                          --dns-nameserver 8.8.8.8 tenant_network_subnet
+                          --dns-nameserver 8.8.8.8 tenant_network1_subnet
 +-------------------+--------------------------------------+
 | Field             | Value                                |
 +-------------------+--------------------------------------+
