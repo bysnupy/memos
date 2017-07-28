@@ -40,14 +40,80 @@ You must be done all tasks of following links
 * [part2](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)
 * [part3](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)
 
-The following commands can be executed from any node which installed python-openstackclient package if you have admin credentials.
-But this time the following commands were executed from controllor0 node unless otherwise noted.
+#### Step1: Installing and configuring the Cinder (Block Storage service) on Controller node
 
-* Each network attributes table
+These tasks were executed on the controller0 node.
 
-Network Name|Project|Network Type|Gateway|External|DHCP
-------------|-------|------------|-------|--------|----
-provider_network1|poc|flat|Yes|Yes|No
-tenant_network1|poc|vxlan|No|No|Yes
+* Creating the database with mariadb
 
-#### Step1: Creating External(Provider) and Private local(Tenant) networks with openstack CLI
+```sql
+CREATE DATABASE cinder;
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'poc#pass';
+GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY 'poc#pass';
+FLUSH PRIVILEGES;
+```
+
+* Adding the credentials and defining required entities
+
+```bash
+$ source ~/admin-openrc
+
+-- creating the cinder user
+$ openstack user create --domain default --password 'poc#pass' cinder
++---------------------+----------------------------------+
+| Field               | Value                            |
++---------------------+----------------------------------+
+| domain_id           | default                          |
+| enabled             | True                             |
+| id                  | 2936558a7e6c47e7b512be6dbc9bce45 |
+| name                | cinder                           |
+| options             | {}                               |
+| password_expires_at | None                             |
++---------------------+----------------------------------+
+
+-- cinder user add to admin role
+$ openstack role add --project services --user cinder admin
+
+-- create the two cinder services
+$ openstack service create --name cinderv2 --description "OpenStack Block Storage v2" volumev2
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | OpenStack Block Storage v2       |
+| enabled     | True                             |
+| id          | 269437aa5c524fa6bd12dd9cd7578675 |
+| name        | cinderv2                         |
+| type        | volumev2                         |
++-------------+----------------------------------+
+
+$ openstack service create --name cinderv3 --description "OpenStack Block Storage v3" volumev3
++-------------+----------------------------------+
+| Field       | Value                            |
++-------------+----------------------------------+
+| description | OpenStack Block Storage v3       |
+| enabled     | True                             |
+| id          | 870290b8cc4e4f41b4ebdb2c33f1baf6 |
+| name        | cinderv3                         |
+| type        | volumev3                         |
++-------------+----------------------------------+
+
+-- adding the API endpoints
+
+--- volumev2
+$ openstack endpoint create --region RegionOne volumev2 public http://controller0:8776/v2/%\(project_id\)s
+$ openstack endpoint create --region RegionOne volumev2 internal http://controller0:8776/v2/%\(project_id\)s
+$ openstack endpoint create --region RegionOne volumev2 admin http://controller0:8776/v2/%\(project_id\)s
+
+--- volumev3
+$ openstack endpoint create --region RegionOne volumev3 public http://controller0:8776/v3/%\(project_id\)s
+$ openstack endpoint create --region RegionOne volumev3 internal http://controller0:8776/v3/%\(project_id\)s
+$ openstack endpoint create --region RegionOne volumev3 admin http://controller0:8776/v3/%\(project_id\)s
+```
+
+* Installing cinder packages and edit the configuration files
+
+```bash
+# yum install openstack-cinder
+```
+
+
