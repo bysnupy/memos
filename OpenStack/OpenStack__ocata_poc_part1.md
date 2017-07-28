@@ -4,7 +4,7 @@
 It is the tutorial about installing openstack for PoC environment.<br/>
 The part1 is describing mainly controller and compute nodes installation.
 
-<[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)>
+<[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)><br/>
 <[The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)>
 
 ### 1. Environment information
