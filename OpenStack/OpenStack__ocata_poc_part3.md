@@ -506,7 +506,9 @@ $ openstack flavor list --private
 
 ```bash
 $ source ~/admin-openrc
-$ openstack keypair create poc_keypair1
+
+-- create the new keypair and save the private key as poc_keypair1.key
+$ openstack keypair create poc_keypair1 | tee poc_keypair1.key
 -----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEAupJPHgelKVK2px453FyicG4ZzuU7akXJcIzk2nqhCSNmAguI
 2/Zt/JUZA15LQU+sQja7D/NL13KIDIX+YPAuTEfmE1oeE3Wanfex+nT4ZRKZtwVS
@@ -520,6 +522,9 @@ aDxuW3H5LBPbxN0Rx5P6x5jyJgBAfoy9tB3cyQoMAI8xXulKUA1YWEMkLna916+8
 GBU4dfKUKBcommTfRWXCZG2m4rcYlqHLL/ITayDK6tqm/hVfNzQ=
 -----END RSA PRIVATE KEY-----
 
+-- change access mode 0600 or 0400 to protect from the warning when you use this key to access remote VMs.
+$ chmod 0400 poc_keypair1.key
+
 $ openstack keypair list
 +--------------+-------------------------------------------------+
 | Name         | Fingerprint                                     |
@@ -527,4 +532,144 @@ $ openstack keypair list
 | poc_keypair1 | 30:4c:d9:26:a3:8f:df:f9:84:ad:22:c3:77:cc:10:24 |
 +--------------+-------------------------------------------------+
 ```
+
+* Launch the instance
+
+:star:The following commands were executed by pocuser
+
+```bash
+$ source ~/pocuser-openrc
+$ openstack server create  --flavor 34be659e-a4ba-4b35-aa2d-fc9799e2d412 --image cirros   --nic net-id=1877fce3-06af-4d40-9b88-ae2b9fd2ee83 --security-group poc_secgroup --key-name poc_keypair1 pocvm1
++-----------------------------+-------------------------------------------------+
+| Field                       | Value                                           |
++-----------------------------+-------------------------------------------------+
+| OS-DCF:diskConfig           | MANUAL                                          |
+| OS-EXT-AZ:availability_zone |                                                 |
+| OS-EXT-STS:power_state      | NOSTATE                                         |
+| OS-EXT-STS:task_state       | scheduling                                      |
+| OS-EXT-STS:vm_state         | building                                        |
+| OS-SRV-USG:launched_at      | None                                            |
+| OS-SRV-USG:terminated_at    | None                                            |
+| accessIPv4                  |                                                 |
+| accessIPv6                  |                                                 |
+| addresses                   |                                                 |
+| adminPass                   | DPebJU3AU4if                                    |
+| config_drive                |                                                 |
+| created                     | 2017-07-28T06:33:32Z                            |
+| flavor                      | p2.small (34be659e-a4ba-4b35-aa2d-fc9799e2d412) |
+| hostId                      |                                                 |
+| id                          | a55569d8-4175-4b5b-9310-aa4978e29ce5            |
+| image                       | cirros (3dd7948f-6c14-4aaf-802d-be2716a1ad4a)   |
+| key_name                    | poc_keypair1                                    |
+| name                        | pocvm1                                          |
+| progress                    | 0                                               |
+| project_id                  | 6a15ffaacaad4c84b78d72d740229a7b                |
+| properties                  |                                                 |
+| security_groups             | name='poc_secgroup'                             |
+| status                      | BUILD                                           |
+| updated                     | 2017-07-28T06:33:32Z                            |
+| user_id                     | be75a0f788104233bf2bd9c6f5e37ec7                |
+| volumes_attached            |                                                 |
++-----------------------------+-------------------------------------------------+
+
+-- check the instance state is running
+$ openstack server show pocvm1
++-----------------------------+----------------------------------------------------------+
+| Field                       | Value                                                    |
++-----------------------------+----------------------------------------------------------+
+| OS-DCF:diskConfig           | MANUAL                                                   |
+| OS-EXT-AZ:availability_zone | nova                                                     |
+| OS-EXT-STS:power_state      | Running                                                  |
+...snip...
+| properties                  |                                                          |
+| security_groups             | name='poc_secgroup'                                      |
+| status                      | ACTIVE                                                   |
+| updated                     | 2017-07-28T06:33:52Z                                     |
+| user_id                     | be75a0f788104233bf2bd9c6f5e37ec7                         |
+| volumes_attached            |                                                          |
++-----------------------------+----------------------------------------------------------+
+```
+
+* Allocating the floating IP to the instance
+
+```bash
+$ source ~/pocuser-openrc
+$ openstack server add floating ip pocvm1 172.16.9.165
+$ openstack server show pocvm1
++-----------------------------+----------------------------------------------------------+
+| Field                       | Value                                                    |
++-----------------------------+----------------------------------------------------------+
+| OS-DCF:diskConfig           | MANUAL                                                   |
+| OS-EXT-AZ:availability_zone | nova                                                     |
+| OS-EXT-STS:power_state      | Running                                                  |
+| OS-EXT-STS:task_state       | None                                                     |
+| OS-EXT-STS:vm_state         | active                                                   |
+| OS-SRV-USG:launched_at      | 2017-07-28T06:33:51.000000                               |
+| OS-SRV-USG:terminated_at    | None                                                     |
+| accessIPv4                  |                                                          |
+| accessIPv6                  |                                                          |
+| addresses                   | tenant_network1=192.168.155.11, 172.16.9.165             |
+...snip...
+| security_groups             | name='poc_secgroup'                                      |
+| status                      | ACTIVE                                                   |
+| updated                     | 2017-07-28T06:33:52Z                                     |
+| user_id                     | be75a0f788104233bf2bd9c6f5e37ec7                         |
+| volumes_attached            |                                                          |
++-----------------------------+----------------------------------------------------------+
+```
+
+#### Step7: Verifying accessibility to new instance just created through SSH.
+
+:star:Where you execute the tasks on does not matter while on the same segment with external network.
+But I had executed  the following ones on the controller0 node.
+
+* check the accessibility through CLI
+
+```bash
+-- ping
+$ ping -c3 172.16.9.165
+PING 172.16.9.165 (172.16.9.165) 56(84) bytes of data.
+64 bytes from 172.16.9.165: icmp_seq=1 ttl=63 time=3.50 ms
+64 bytes from 172.16.9.165: icmp_seq=2 ttl=63 time=1.07 ms
+64 bytes from 172.16.9.165: icmp_seq=3 ttl=63 time=1.24 ms
+
+--- 172.16.9.165 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 1.077/1.943/3.509/1.109 ms
+
+-- ssh with private key
+$ ssh -i poc_keypair1.key cirros@172.16.9.165
+The authenticity of host '172.16.9.165 (172.16.9.165)' can't be established.
+RSA key fingerprint is 00:4c:96:1c:a3:a0:aa:8d:6b:e5:db:92:45:ec:b2:03.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '172.16.9.165' (RSA) to the list of known hosts.
+
+$ hostname
+pocvm1
+
+$ ip address show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1450 qdisc pfifo_fast qlen 1000
+    link/ether fa:16:3e:61:36:77 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.155.11/24 brd 192.168.155.255 scope global eth0
+    inet6 fe80::f816:3eff:fe61:3677/64 scope link
+       valid_lft forever preferred_lft forever
+       
+$ ping -c3 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=56 time=3.902 ms
+64 bytes from 8.8.8.8: seq=1 ttl=56 time=3.109 ms
+64 bytes from 8.8.8.8: seq=2 ttl=56 time=3.063 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 3.063/3.358/3.902 ms
+$
+```
+
+* check the vnc console through Horizon
 
