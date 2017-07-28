@@ -4,7 +4,8 @@
 It is the tutorial about installing openstack for PoC environment.<br/>
 The part2 is describing mainly network and dashboard services installation.
 
-<[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)>
+<[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)><br/>
+<[The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)>
 
 ### 1. Environment information
 :star: The nodes are virtual machines based on KVM.
