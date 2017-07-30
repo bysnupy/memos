@@ -34,11 +34,11 @@ br01            8000.000000000000       no
 # brctl addif br01 eth0
 
 -- The bridges that attach internal interfaces can have IP addresses.
-# ip address add 192.168.123.108/24 dev br01
+# ip address add 192.168.124.108/24 dev br01
 
 # ip link set dev br01 up
 
-# ip route add default via 192.168.123.254
+# ip route add default via 192.168.124.254
 
 ```
 
@@ -57,8 +57,8 @@ bridge config file: /etc/sysconfig/network-scripts/ifcfg-br01
 ```ini
 DEVICE=br01
 TYPE=Bridge
-IPADDR=192.168.123.108
+IPADDR=192.168.124.108
 PREFIX=24
-GATEWAY=192.168.123.254
+GATEWAY=192.168.124.254
 ONBOOT=yes
 ```
