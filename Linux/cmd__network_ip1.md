@@ -1,6 +1,9 @@
 ## ip command practice
 
 ### Introduction
+
+Package name: iproute
+
 the interface configuration files into /etc/sysconfig/network-scripts/
 the interface active settings were shown /sys/class/net/
 the interfaca configuration files were named ifcfg-IFNAME
@@ -80,13 +83,20 @@ ip address show flush dev DEVICE
 ip address add IPADDR dev DEVICE
 ip address del IPADDR dev DEVICE
 
+ip route add default via IPADDR
+
 ```bash
 # ip -4 addr show eth0
 
-
 # ip link show eth0
 
+# ip address flush eth0
 
+# ip address add 192.168.123/24 dev eth0
+
+# ip link set dev eth0 up
+
+# ip route add default via 192.168.123.254
 ```
 # ethtool command
 
