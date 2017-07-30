@@ -56,4 +56,10 @@ a4deced9-ec05-414e-a15d-acf1bb87fa45
 -- setting up the default gateway
 # ip route add default via 192.168.124.254
 
+-- check the flow mode
+]# ovs-ofctl dump-flows ovs-br1
+NXST_FLOW reply (xid=0x4):
+ cookie=0x0, duration=606.934s, table=0, n_packets=8, n_bytes=648, idle_age=492, priority=0 actions=NORMAL
+
+
 ```
