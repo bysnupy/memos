@@ -3,7 +3,38 @@
 ### Network namespaces
 This name spaces can contain the virtual network interfaces, 
 applications started within a namespace will only see the interfaces in that space.
-The namespaces have each routing table.
+The namespaces have each routing table and own /proc/net.
+
+* Practices
+
+```bash
+# ip netns add nsnet1
+# ip netns list
+nsnet1
+
+# ip netns exec nsnet1 ip addr show
+...snip...
+
+# ip netns exec nsnet1 ls -l /proc/net
+
+# ip link add veth-a type veth peer name veth-b
+# ip link set veth-b netns nsnet1
+# ip netns exec nsnet1 ip addr add 192.168.200.1/24 dev veth-b
+# ip netns exec nsnet1 ip link set up dev veth-b
+# ip addr add 192.168.200.2/24 dev veth-a
+# ip link set up dev veth-a
+# ping -c3 192.168.200.1
+...snip...
+# ip netns exec nsnet1 ping -c3 192.168.200.2
+...snip...
+# tunctl -t tap1 or ip tuntap tap1 mode tap
+# ip link set tap1 netns nsnet1
+# ip netns exec nsnet1 ip addr add 192.168.100.1/24 dev tap1
+# ip netns exec nsnet1 ip link set up dev tap1
+# ip route add 192.168.100.0/24 dev veth-a
+# sysctl -w net.ipv4.ip_forward=1
+# ping -c3 192.168.100.1
+```
 
 ### tapXXX
 Ethernet frames can be read and written by user spaces process or program to tap devices.
