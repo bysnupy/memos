@@ -85,6 +85,9 @@ ip address del IPADDR dev DEVICE
 
 ip route add default via IPADDR
 
+ip link add ( link DEVICE ) ( name ) NAME type TYPE ( ARGS )
+TYPE := ( bridge | can | dummy | ifb | ipoib | macvlan | vcan | veth | vlan | vxlan | ip6tnl | ipip | sit )
+
 ```bash
 # ip -4 addr show eth0
 
