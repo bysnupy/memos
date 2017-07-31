@@ -73,31 +73,40 @@ ip command shows the current interface states and IP addresses
 
 * ip link
 
+```bash
 ip link : modify L2 settings, such as MAC addresses, promiscuous mode and interface up and down
 ip link show 
 ip link set DEVICE up | down
 ip link set DEVICE promisc on | off
 ip link set DEVICE address ADDRESS
+```
 
 * ip address
 
+```bash
 ip address : modify L3 settins, such as IP addresses
 ip address show dev DEVICE
 ip address show flush dev DEVICE
 ip address add IPADDR dev DEVICE
 ip address del IPADDR dev DEVICE
+```
 
 * ip route
 
+```bash
 ip route add default via IPADDR
+```
 
 * ip about virtual devices
 
+```bash
 ip link add ( link DEVICE ) ( name ) NAME type TYPE ( ARGS )
 TYPE := ( bridge | can | dummy | ifb | ipoib | macvlan | vcan | veth | vlan | vxlan | ip6tnl | ipip | sit )
+```
 
 * ip netns
 
+```bash
 ip ( OPTIONS ) netns  ( COMMAND | help )
 
 ip netns ( list )
@@ -108,6 +117,7 @@ ip netns exec NETNSNAME command ...
 ip netns monitor
  
 ip link set netns PID|NETSNAME
+```
 
 * Practices
 
