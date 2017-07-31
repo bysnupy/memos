@@ -3,6 +3,7 @@
 ### Introduction
 It is the tutorial about installing openstack for PoC environment.<br/>
 The part4 is describing mainly Cinder installing and configuration.
+Additionally, show how new instance create to you on the Horizon through browser.
 
 <[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)><br/>
 <[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)><br/>
@@ -192,6 +193,111 @@ Restart the nova-api service
 
 This section's tasks were executed on the block1 node.
 
+* Preparing the storage devices based on LVM
+
 ```bash
+-- install the package through yum
+# yum install lvm2
+
+-- enable and start up the related service 
+# systemctl enable lvm2-lvmetad
+# systemctl start lvm2-lvmetad
+
+-- create the physical volume and volume group with /dev/vdb (additional 30GB disk)
+# vgcreate vg_cinder /dev/vdb
+  Physical volume "/dev/vdb" successfully created.
+  Volume group "vg_cinder" successfully created
+  
+-- Edit the /etc/lvm/lvm.conf file to limit used disk devices
+# cat /etc/lvm/lvm.conf
+devices {
+...snip...
+       filter = [ "a/vda/", "a/vdb/", "r/.*/"]
+...snip...
 
 ```
+
+* Installing the cinder services on the block1 node with yum
+
+```bash
+# yum install openstack-cinder targetcli python-keystone
+```
+
+* Edit the /etc/cinder/cinder.conf file as follows
+
+```ini
+[DEFAULT]
+transport_url = rabbit://openstack:poc3pass@controller0
+auth_strategy = keystone
+my_ip = 172.16.9.154
+enabled_backends = lvm
+glance_api_servers = http://controller0:9292
+[backend]
+[barbican]
+[brcd_fabric_example]
+[cisco_fabric_example]
+[coordination]
+[cors]
+[cors.subdomain]
+[database]
+connection = mysql+pymysql://cinder:poc#pass@controller0/cinder
+[fc-zone-manager]
+[healthcheck]
+[key_manager]
+[keystone_authtoken]
+auth_uri = http://controller0:5000
+auth_url = http://controller0:35357
+memcached_servers = controller0:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = services
+username = cinder
+password = poc#pass
+[matchmaker_redis]
+[oslo_concurrency]
+lock_path = /var/lib/cinder/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+[oslo_reports]
+[oslo_versionedobjects]
+[profiler]
+[ssl]
+[lvm]
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = vg_cinder
+iscsi_protocol = iscsi
+iscsi_helper = lioadm
+```
+
+* Enable and start up the cinder services and dependencies
+
+```bash
+# systemctl enable openstack-cinder-volume target
+# systemctl start openstack-cinder-volume target
+```
+
+#### Step3: Verifying the Cinder installation (Block Storage service) on Controller0 node
+
+Where you execute the following verifying tasks on does not matter so long as using admin credentials. 
+But I had executed the commands on the controller0 node.
+
+```bash
+$ source ~/admin-openrc
+$ $ openstack volume service list
++------------------+------------------------+------+---------+-------+----------------------------+
+| Binary           | Host                   | Zone | Status  | State | Updated At                 |
++------------------+------------------------+------+---------+-------+----------------------------+
+| cinder-scheduler | controller0.host.local | nova | enabled | up    | 2017-07-31T10:01:00.000000 |
+| cinder-volume    | block1.host.local@lvm  | nova | enabled | up    | 2017-07-31T10:00:58.000000 |
++------------------+------------------------+------+---------+-------+----------------------------+
+```
+
+#### Step4: Create a new instance using installed all services through Holizon
+
+* 
