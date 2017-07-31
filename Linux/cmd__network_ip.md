@@ -67,9 +67,11 @@ You can start and stop manually the interfaces with ifup and ifdown command.
 
 ```
 
-## ip command
+### ip command
 
 ip command shows the current interface states and IP addresses
+
+* ip link
 
 ip link : modify L2 settings, such as MAC addresses, promiscuous mode and interface up and down
 ip link show 
@@ -77,16 +79,37 @@ ip link set DEVICE up | down
 ip link set DEVICE promisc on | off
 ip link set DEVICE address ADDRESS
 
+* ip address
+
 ip address : modify L3 settins, such as IP addresses
 ip address show dev DEVICE
 ip address show flush dev DEVICE
 ip address add IPADDR dev DEVICE
 ip address del IPADDR dev DEVICE
 
+* ip route
+
 ip route add default via IPADDR
+
+* ip about virtual devices
 
 ip link add ( link DEVICE ) ( name ) NAME type TYPE ( ARGS )
 TYPE := ( bridge | can | dummy | ifb | ipoib | macvlan | vcan | veth | vlan | vxlan | ip6tnl | ipip | sit )
+
+* ip netns
+
+ip ( OPTIONS ) netns  ( COMMAND | help )
+
+ip netns ( list )
+ip netns ( add | delete ) NETNSNAME
+ip netns identify PID
+ip netns pids NETNSNAME
+ip netns exec NETNSNAME command ...
+ip netns monitor
+ 
+ip link set netns PID|NETSNAME
+
+* Practices
 
 ```bash
 # ip -4 addr show eth0
@@ -101,7 +124,7 @@ TYPE := ( bridge | can | dummy | ifb | ipoib | macvlan | vcan | veth | vlan | vx
 
 # ip route add default via 192.168.123.254
 ```
-# ethtool command
+### ethtool command
 
 check the device type
 
