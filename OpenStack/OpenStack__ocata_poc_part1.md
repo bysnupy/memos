@@ -5,7 +5,8 @@ It is the tutorial about installing openstack for PoC environment.<br/>
 The part1 is describing mainly controller and compute nodes installation.
 
 <[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)><br/>
-<[The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)>
+<[The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)><br/>
+<[The Part4 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part4.md)><br/>
 
 ### 1. Environment information
 :star: The nodes are virtual machines based on KVM.
@@ -32,6 +33,8 @@ network1.host.local|Neutron|eth0: 172.16.9.153<br/>eth1: 192.168.9.153|eth0<br/>
 block1.host.local|Cinder|eth0: 172.16.9.154<br/>eth1: 192.168.200.154|eth0<br/>eth1
  
 ### 2. Logical nodes diagram
+
+![Diagram](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_diagram1.png)
 
 ### 3. Installation steps
 
