@@ -5,9 +5,10 @@ It is the tutorial about installing openstack for PoC environment.<br/>
 The part4 is describing mainly Cinder installing and configuration.
 Additionally, show how new instance create to you on the Horizon through browser.
 
-<[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)><br/>
-<[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)><br/>
-<[The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)><br/>
+<[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)>: Installation for controller and compute nodes<br/>
+<[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)>: Installation for network node and dashboard service<br/>
+<[The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md)>: Network configurations for cloud services<br/>
+<[The Part4 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part4.md)>: Installation for volume node and dashboard tutorials<br/>
 
 ### 1. Environment information
 :star: The nodes are virtual machines based on KVM.
@@ -367,8 +368,6 @@ Key Pair | poc_keypair1
 
 ![Topology1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_topology1.png)
 
-![Assign4](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance19.png)
-
 #### Step5: Access to the new instance through SSH and mount the attached volume
 
 ```bash
@@ -460,3 +459,5 @@ I should examine this PoC environment more to build the staging environment.
 This PoC deployment design is helpful to understand about OpenStack internal architecture.
 But not to test with several nodes using guest machines, if you can afford to use with physical servers. 
 You would stressed too much...
+
+Done.
