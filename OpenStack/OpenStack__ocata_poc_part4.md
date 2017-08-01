@@ -33,6 +33,10 @@ compute2.host.local|Nova|eth0: 172.16.9.152<br/>eth1: 192.168.9.152<br/>eth2: 19
 network1.host.local|Neutron|eth0: 172.16.9.153<br/>eth1: 192.168.9.153|eth0<br/>eth1<br/>eth2<br/>
 block1.host.local|Cinder|eth0: 172.16.9.154<br/>eth1: 192.168.200.154|eth0<br/>eth1
 
+### 2. Logical nodes diagram
+
+![Diagram](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_diagram1.png)
+
 #### Step0: Prerequisites the following installation
 
 You must be done all tasks of following links
@@ -300,4 +304,16 @@ $ $ openstack volume service list
 
 #### Step4: Create a new instance using installed all services through Holizon
 
-* 
+* Login to the Horizon as pocuser
+
+![Overview](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance1.png)
+
+* Access the instances page and click the Launch Instance button
+
+![Instances](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance2.png)
+
+* Complete the launch instance format
+
+![Instances](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance3.png)
+
+
