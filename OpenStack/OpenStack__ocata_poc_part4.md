@@ -5,7 +5,7 @@ It is the tutorial about installing openstack for PoC environment.<br/>
 The part4 is describing mainly Cinder installing and configuration.
 Additionally, show how new instance create to you on the Horizon through browser.
 
-* [The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md): Installation for controller and compute nodes<br/?
+* [The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md): Installation for controller and compute nodes<br/>
 * [The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md): Installation for network node and dashboard service<br/>
 * [The Part3 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part3.md): Network configurations for cloud services<br/>
 * [The Part4 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part4.md): Installation for volume node and dashboard tutorials
