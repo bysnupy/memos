@@ -11,7 +11,8 @@ Neutron network objects as follows,
 Verifying credentials, requesting the plug-in the tasks, check the quota. 
 Neutron server and agents have communication through same message queue service. 
 
-#### Neutron metadata agent: query to 169.254.169.254 IP, metadata server providing initial configurations through cloud-init at boot time. 
+#### Neutron metadata agent
+Querying to 169.254.169.254 IP, metadata server providing initial configurations through cloud-init at boot time. 
 
 #### Package: openstack-neutron (from RDO)
 
