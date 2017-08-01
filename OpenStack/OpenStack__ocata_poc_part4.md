@@ -314,6 +314,6 @@ $ $ openstack volume service list
 
 * Complete the launch instance format
 
-![Instances](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance3.png)
+![Launch instance](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance3.png)
 
 
