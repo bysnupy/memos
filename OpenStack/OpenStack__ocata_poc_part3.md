@@ -5,7 +5,8 @@ It is the tutorial about installing openstack for PoC environment.<br/>
 The part3 is describing mainly network configurations through CLI.
 
 <[The Part1 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part1.md)><br/>
-<[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)>
+<[The Part2 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part2.md)><br/>
+<[The Part4 link](https://github.com/bysnupy/memos/blob/master/OpenStack/OpenStack__ocata_poc_part4.md)>
 
 ### 1. Environment information
 :star: The nodes are virtual machines based on KVM.
@@ -30,6 +31,10 @@ compute1.host.local|Nova|eth0: 172.16.9.151<br/>eth1: 192.168.9.151<br/>eth2: 19
 compute2.host.local|Nova|eth0: 172.16.9.152<br/>eth1: 192.168.9.152<br/>eth2: 192.168.200.152|eth0<br/>eth1<br/>eth2<br/>
 network1.host.local|Neutron|eth0: 172.16.9.153<br/>eth1: 192.168.9.153|eth0<br/>eth1<br/>eth2<br/>
 block1.host.local|Cinder|eth0: 172.16.9.154<br/>eth1: 192.168.200.154|eth0<br/>eth1
+
+### 2. Logical nodes diagram
+
+![Diagram](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_diagram1.png)
 
 #### Step0: Prerequisites the following installation
 
