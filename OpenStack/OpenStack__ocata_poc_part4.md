@@ -365,3 +365,85 @@ Key Pair | poc_keypair1
 
 #### Step5: Access to the new instance through SSH and mount the attached volume
 
+```bash
+-- check event logs what new hardware attached to
+# dmesg
+[ 3986.004464] virtio-pci 0000:00:07.0: PCI INT A -> Link[LNKC] -> GSI 10 (level, high) -> IRQ 10
+[ 3986.007445] virtio-pci 0000:00:07.0: setting latency timer to 64
+[ 3986.015449] virtio-pci 0000:00:07.0: irq 47 for MSI/MSI-X
+[ 3986.015570] virtio-pci 0000:00:07.0: irq 48 for MSI/MSI-X
+[ 3986.035837]  vdc: unknown partition table
+
+-- partitioning and formating
+# fdisk -u=cylinders -c=dos /dev/vdc
+
+WARNING: DOS-compatible mode is deprecated. It's strongly recommended to
+         switch off the mode (with command 'c').
+WARNING: cylinders as display units are deprecated. Use command 'u' to
+         change units to sectors.
+
+Command (m for help): n
+Partition type:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p): p
+Partition number (1-4, default 1):
+Using default value 1
+First cylinder (2-262144, default 2):
+Using default value 2
+Last cylinder, +cylinders or +size{K,M,G} (2-262144, default 262144):
+Using default value 262144
+
+Command (m for help):
+Command (m for help): p
+
+Disk /dev/vdc: 2147 MB, 2147483648 bytes
+1 heads, 16 sectors/track, 262144 cylinders
+Units = cylinders of 16 * 512 = 8192 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0xfcbaf634
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/vdc1               2      262144     2097144   83  Linux
+
+Command (m for help): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+# mkfs -t ext4 /dev/vdc1
+mke2fs 1.42.2 (27-Mar-2012)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+131072 inodes, 524286 blocks
+26214 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=536870912
+16 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376, 294912
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+-- mounting the attached volume to current filesystem
+# mount /dev/vdc1 /mnt
+# df -h
+Filesystem                Size      Used Available Use% Mounted on
+/dev                    494.2M         0    494.2M   0% /dev
+/dev/vda1                23.2M     18.0M      4.0M  82% /
+tmpfs                   497.7M         0    497.7M   0% /dev/shm
+tmpfs                   200.0K     60.0K    140.0K  30% /run
+/dev/vdc1                 2.0G     35.0M      1.8G   2% /mnt
+
+#
+```
