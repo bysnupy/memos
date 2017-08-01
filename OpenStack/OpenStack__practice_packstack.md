@@ -17,7 +17,18 @@ CONFIG_KEYSTONE_ADMIN_PW=adminpw
 ```
 
 * Installing the OpenStack with packstack
-```
+
+```bash
 # packstack --answer-file /path/to/answer.file
 ...snip...
+```
+* Reexecuting with modified answer files
+
+```bash
+-- If you want to install nova after installation with CONFIG_NOVA_INSTALL=n, you just modified the answerfile and reexecute packstack
+# vim /path/to/answer.file
+CONFIG_NOVA_INSTALL=y
+...snip...
+
+# packstack --answer-file /path/to/answer.file
 ```
