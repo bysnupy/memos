@@ -451,6 +451,6 @@ tmpfs                   200.0K     60.0K    140.0K  30% /run
 #### Next step ...
 
 I should examine this PoC environment more to build the staging environment.
-This PoC deployment design is helpful to understan about OpenStack internal architecture.
-But not to test with several nodes using guest machine, if you can afford to use with physical servers. 
+This PoC deployment design is helpful to understand about OpenStack internal architecture.
+But not to test with several nodes using guest machines, if you can afford to use with physical servers. 
 You would stressed too much...
