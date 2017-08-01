@@ -314,6 +314,21 @@ $ $ openstack volume service list
 
 * Complete the launch instance format
 
-![Launch instance](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance3.png)
+Item|Value
+-|-
+Instance name | pocvm2
+Flavor
 
+![Launch instance1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance3.png)
 
+![Launch instance2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance4.png)
+
+![Launch instance3](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance5.png)
+
+![Launch instance4](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance6.png)
+
+![Launch instance5](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance7.png)
+
+![Launch instance6](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance8.png)
+
+![Launch instance7](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance9.png)
