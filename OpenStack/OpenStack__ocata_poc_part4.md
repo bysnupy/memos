@@ -317,7 +317,11 @@ $ $ openstack volume service list
 Item|Value
 -|-
 Instance name | pocvm2
-Flavor
+Image | cirros
+Flavor | p2.small
+Network | tenant_network1
+Security Group | poc_secgroup
+Key Pair | poc_keypair1
 
 ![Launch instance1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance3.png)
 
@@ -332,3 +336,11 @@ Flavor
 ![Launch instance6](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance8.png)
 
 ![Launch instance7](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance9.png)
+
+* Allocate the other floating IP
+
+![FloatingIP1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance10.png)
+
+![FloatingIP2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance11.png)
+
+![FloatingIP3](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance12.png)
