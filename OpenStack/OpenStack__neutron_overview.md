@@ -23,6 +23,13 @@ DHCP agent | providing DHCP service to tenant networks
 L3 agent | NAT, routing to externel network services
 
 #### L2 services
+Neutron provides the Layer 2 networks with a variety of plug-ins.
+Tenant networks can be implemented by VLAN, VxLAN, GRE and these ones can be mixed.
+Primary Open vSwitch and Open vSwitch with Linux bridge is using for providing L2 networks.
+L2 plug-ins should install to compute-node, l3-agent, lbass-agent and any neutron agent services.
+-> These L2 plugins were ported to ML2 plugins with driver mechanism.
+
+
 
 Package | Description
 -|-
