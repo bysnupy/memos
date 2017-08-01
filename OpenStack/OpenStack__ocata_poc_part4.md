@@ -363,6 +363,12 @@ Key Pair | poc_keypair1
 
 ![Assign4](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance19.png)
 
+* Network topology at this moment
+
+![Topology1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_topology1.png)
+
+![Assign4](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance19.png)
+
 #### Step5: Access to the new instance through SSH and mount the attached volume
 
 ```bash
