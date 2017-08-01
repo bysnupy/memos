@@ -344,3 +344,24 @@ Key Pair | poc_keypair1
 ![FloatingIP2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance11.png)
 
 ![FloatingIP3](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance12.png)
+
+* Create the other volume
+
+![Volume1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance13.png)
+
+![Volume2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance14.png)
+
+![Volume3](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance15.png)
+
+* Floating IP and volume allocate to new instance
+
+![Assign1](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance16.png)
+
+![Assign2](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance17.png)
+
+![Assign3](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance18.png)
+
+![Assign4](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__ocata_poc_newinstance19.png)
+
+#### Step5: Access to the new instance through SSH and mount the attached volume
+
