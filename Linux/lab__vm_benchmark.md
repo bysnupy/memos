@@ -42,6 +42,8 @@ HDD | 50 GB
 
 * ESXi
 
+CPU
+
 
 
 
