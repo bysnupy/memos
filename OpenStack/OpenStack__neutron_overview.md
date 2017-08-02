@@ -9,7 +9,10 @@ Neutron network objects as follows,
 
 #### Neutron server
 Verifying credentials, requesting the plug-in the tasks, check the quota. 
-Neutron server and agents have communication through same message queue service. 
+Neutron server and agents have communication through same message queue service.
+L2, L3 and DHCP agents are communicate with neutron service through API and message queue like Qpid or AMQP.
+These agents are operating independently from neutron service, so can be deployed in multiple nodes.
+The agents management can be operate via API and message queue, such as adding, removing and so on.
 
 #### Neutron metadata agent
 Querying to 169.254.169.254 IP, metadata server providing initial configurations through cloud-init at boot time. 
@@ -37,3 +40,11 @@ openstack-neutron-linuxbridge | Linux Bridge plugin
 
 L2 agents can be added or removed dynamically, and agents communicate with neutron server in stateless manner.
 So agents can be restarted independently.
+
+#### VLAN and GRE
+Neutron provides VLAN for tenant networks and the interfaces should have 802.1q VLAN trunking support.
+Ethernet header is supported by 4096 VLAN IDs.
+
+GRE is the other solution for providing isolated networks, The GRE tunnel is point to point virtual link over IP.
+GRE has a slight overhead to IP packet.
+
