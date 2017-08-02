@@ -33,6 +33,7 @@ After | KVM (OpenStack Ocata)
 Guest OS 
 
 Item | Value
+-|-
 OS | CentOS 7.3.1611 (3.10.0-514.26.1.el7.x86_64)
 CPU | 8 Cores
 Memory | 8 GiB
