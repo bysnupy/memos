@@ -48,3 +48,8 @@ Ethernet header is supported by 4096 VLAN IDs.
 GRE is the other solution for providing isolated networks, The GRE tunnel is point to point virtual link over IP.
 GRE has a slight overhead to IP packet.
 
+#### DHCP agent
+The DHCP agent must be installed along with L2 agent because L2 connectivity is needed.
+Neutron service is communicated with DHCP agent via message queue.
+
+
