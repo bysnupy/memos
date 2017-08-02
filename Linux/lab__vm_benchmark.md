@@ -38,12 +38,40 @@ CPU | 8 Cores
 Memory | 8 GiB
 HDD | 50 GB
 
-#### Test data
+#### Test data preparation
 
-* ESXi
+* CPU
 
-CPU
+CPU|VMware ESXi|KVM (OpenStack Nova Compute)
+-|-|-
+Min|57727| |
+Avg|58178| |
+Max|58564| |
+Dev|280  | |
 
+* Memory
 
+Memory|VMware ESXi|KVM (OpenStack Nova Compute)
+-|-|-
+Min|31878949| |
+Avg|33041855| |
+Max|33648671| |
+Dev|489027  | |
 
+* FileIO
 
+Random write|VMware ESXi|KVM (OpenStack Nova Compute)
+-|-|-
+Min|51651| |
+Avg|59156| |
+Max|64938| |
+Dev|4179 | |
+
+Random read|VMware ESXi|KVM (OpenStack Nova Compute)
+-|-|-
+Min|2383637| |
+Avg|2459549| |
+Max|2496902| |
+Dev|41415  | |
+
+### Conclusion
