@@ -29,10 +29,11 @@ Primary Open vSwitch and Open vSwitch with Linux bridge is using for providing L
 L2 plug-ins should install to compute-node, l3-agent, lbass-agent and any neutron agent services.
 -> These L2 plugins were ported to ML2 plugins with driver mechanism.
 
-
-
 Package | Description
 -|-
 openstack-neutron-ml2 | ML2 plugin
 openstack-neutron-openvswitch | Open vSwitch plugin
 openstack-neutron-linuxbridge | Linux Bridge plugin
+
+L2 agents can be added or removed dynamically, and agents communicate with neutron server in stateless manner.
+So agents can be restarted independently.
