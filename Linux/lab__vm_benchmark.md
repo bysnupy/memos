@@ -19,7 +19,7 @@ Item | Tool | Criteria
 -|-|-
 CPU | sysbench | number of events/10s (default)
 Memory | sysbench | number of events/10s (default)
-DISK IO | bonnie++ | Sequential/Random access/file create/read/write
+DISK IO | bonnie++ | Sequential/Random block access/file manipulations (create/read/write)
 
 #### Environment
 
