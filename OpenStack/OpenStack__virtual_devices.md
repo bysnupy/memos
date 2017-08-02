@@ -60,6 +60,11 @@ veth is network device pair, this pair can connect other virtual network,
 such as two bridge devices could be connected by adding each the veth devices.
 veth is virtual patch cable.
 
+Interface name | Description
+-|-
+qvo | veth pair open vswitch side
+qvb | veth pair bridge side
+
 * Practices
 
 ```bash
