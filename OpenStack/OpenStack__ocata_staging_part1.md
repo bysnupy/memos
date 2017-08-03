@@ -18,6 +18,7 @@ com1.host.local | 12 Cores (HT: 24), Xeon | 64 GiB |6 NICs (but 3 use here) | 1 
 * Node interfaces and components information
 
 Node|Components|Interfaces
+----|----------|----------
 ctrl1.host.local|Horizon<br/>Keystone<br/>Glance<br/>Management APIs<br/>MariaDB<br/>RabbitMQ<br/>Memcached | team0: 172.16.9.170
-com1.host.local|Nova<br/>Neutron | eth0: 172.16.9.171<br/>eth1:
+com1.host.local|Nova<br/>Neutron | eth0: 172.16.9.171<br/>eth1:192.168.33.171<br/>eth2: no IP
 
