@@ -1,4 +1,4 @@
-## The virtual device names
+## The virtual network device overview
 
 ### Logical diagram
 
