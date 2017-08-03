@@ -1,5 +1,9 @@
 ## The virtual device names
 
+### Logical diagram
+
+![architecture](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__virtual_network_devices1.png)
+
 ### Network namespaces
 This name spaces can contain the virtual network interfaces, 
 applications started within a namespace will only see the interfaces in that space.
