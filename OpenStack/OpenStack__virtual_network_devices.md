@@ -43,6 +43,7 @@ nsnet1
 ### tapXXX
 Ethernet frames can be read and written by user spaces process or program to tap devices.
 Tap device is L2 device and Ethernet frames are sent by tap devices.
+The tap device is called in the Linux bridge.
 
 * Tap devices can create with tunctl command into tunctl package. (RHEL6) - ( openvpn –mktun –dev TAPNAME )
 * Tap devices can create with ip command, ip tuntap add TAPNAME mode tap. (RHEL7)
