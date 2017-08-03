@@ -52,4 +52,6 @@ GRE has a slight overhead to IP packet.
 The DHCP agent must be installed along with L2 agent because L2 connectivity is needed.
 Neutron service is communicated with DHCP agent via message queue.
 
+#### L3 agents
+Providing the router and floating IP services.
 
