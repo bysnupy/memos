@@ -11,7 +11,7 @@ OS | CentOS 7.3
 NetworkManager | stopped/disabled
 NICs | 2 NICs (eth0, eth1)
 
-Reference: team document samples; /usr/share/doc/teamd-VERSION/example_ifcfgs/
+Reference: teamd document samples; /usr/share/doc/teamd-VERSION/example_ifcfgs/
 
 ### Configuration steps
 
