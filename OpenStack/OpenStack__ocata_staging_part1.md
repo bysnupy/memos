@@ -13,7 +13,7 @@ This tutorial is simple documents of staging environment deployment for providin
 Node | CPU | Memory | NICs | Storages
 -----|-----|--------|------|---------
 ctrl1.host.local| 4 Cores, Xeon | 8 GiB | 2 NICs | 200 GB, SATA, no RAID
-com1.host.local | 12 Cores (HT: 24), Xeon | 64 GiB |6 NICs (but 3 use here) | 1 TB, SAS, 10 RAID 
+com1.host.local | 12 Cores (HT: 24), Xeon | 64 GiB |6 NICs (but just 3 NICs use here) | 1 TB, SAS, 10 RAID 
 
 * Node interfaces and components information
 
