@@ -14,3 +14,4 @@ Using virtual machine image templates, so not just one instance but also more in
 
 * The instance start up with copying an existing image(installed OS in advance)
 * base image are not affected from changes
+* fisrt time take time to launch instance for copying image but second time does not.
