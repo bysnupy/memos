@@ -10,6 +10,13 @@ The openstack CLI usage and describe the enviroments for using into OpenStack RC
 openstack OPTIONS COMMAND ACTION ARGUMENTS
 ```
 
+* Help
+```
+openstack help
+openstack help COMMAND
+oepnstack help COMMAND ACTION
+```
+
 * Command
 
 Command | Description
@@ -78,4 +85,43 @@ openstack flavor show FLAVORNAME
 
 ```
 openstack project show PROJECTNAME
+```
+
+#### User
+
+* Show the details
+```
+openstack user show USERNAME
+```
+
+#### Image
+* list the images
+
+```
+openstack image list
+```
+
+#### Server (Instance)
+
+* list the instances
+```
+openstack server list
+```
+
+* Show the instance details
+```
+openstack server show INSTANCENAME
+```
+
+
+#### Service specific CLI
+
+* nova
+```
+nova list
+```
+
+* neutron
+```
+neutron net-list
 ```
