@@ -63,6 +63,7 @@ OS_PROJECT_NAME | --os-project-name | project name
 OS_AUTH_URL | --os-auth-url | Keystone API endpoint
 
 :start:Keystone API versions, v2.0 and v3.0 are available. v3.0 is based on Project Domain.
+
 Version|OS_AUTH_URL|OS_IDENTITY_API_VERSION|Description
 -|-|-|-
 v2.0|http://keystone-endpoint:5000/v2.0 | 2 | OS_IDENTITY_API_VERSION is optional
