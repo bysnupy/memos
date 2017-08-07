@@ -100,6 +100,24 @@ openstack flavor show FLAVORNAME
 openstack project show PROJECTNAME
 ```
 
+* Create the project
+
+```
+openstack project create (--disable/--enable) --description "DESCRIPTION" --domain DOMAINNAME PROJECTNAME
+```
+
+* Remove the project
+
+```
+openstack project delete PROJECTNAME/ID (OTHERPROJECTNAME/ID ...) USERNAME
+```
+
+* Listing the projects
+
+```
+openstack project list
+```
+
 #### User
 
 * Show the details
@@ -107,6 +125,94 @@ openstack project show PROJECTNAME
 ```
 openstack user show USERNAME
 ```
+
+* Create a user
+
+```
+-- defatul role is '_member_'
+openstack user create --project PROJECTNAME (--password PASSWORD/--password-prompt) USERNAME
+```
+
+* Delete a user
+
+```
+openstack user delete USERNAME/ID
+```
+
+* Listing users
+
+```
+openstack user list
+```
+
+* Specific user details
+
+```
+openstack user show USERNAME
+```
+
+* Enable/Disable a user
+
+```
+openstack user set (--disable/--enable) USERNAME
+```
+
+#### Groups
+
+:star:This feature is available as of Keystone API version 3.0 with Domain.
+
+* Create the group
+
+```
+openstack group create --domain DOMAINNAME GROUPNAME
+```
+
+* Add a user to a group
+
+```
+openstack group add user USERNAME
+```
+
+* Check the group member
+
+```
+openstack group contain user USERNAME
+```
+
+* Assign the project
+
+```
+openstack user set --project PROJECTNAME USERNAME
+```
+
+* User add to the role
+
+```
+openstack role add --project PROJECTNAME --user USERNAME ROLENAME
+```
+
+#### Token
+
+* Issue a token
+
+```
+-- expires: expiry date
+-- ID: an issued token id
+openstack token issue
+```
+
+* Revoke a token
+
+```
+openstack token revoke TOKENKEY
+```
+
+* Token testing with curl command
+
+```
+curl -s -H "X-Auth-Token: TOKENKEY" http://keystone-endpoint:5000/v2.0/tenants | python -m json.tool
+```
+
 
 #### Image
 
