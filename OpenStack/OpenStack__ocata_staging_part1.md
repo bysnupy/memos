@@ -3,12 +3,31 @@
 ### Introduction
 This tutorial is simple documents of staging environment deployment for providing some services.
 
+### Test conditions
+
+To test as follows, 
+
+No. | Test Conditions | Environments
+-|-|-
+1 | Installation test for 1 controller and 1 compute nodes using packstack | virtual servers
+2 | Adding 1 compute node to existing nodes with packstack | virtual servers
+3 | DVR configuration on the existing 2 compute nodes | virtual servers
+4 | Installation test for 1 controller and 1 compute nodes using packstack | physical servers
+
 ### Environment Information
 
 * OpenStack version: Ocata
 * Host OS: CentOS 7.3
 * Deployment method: RDO and packstack
-* Server specifications (physical servers)
+* Test Server specifications (virtual servers)
+
+Node | CPU | Memory | NICs | Storages
+-----|-----|--------|------|---------
+ctrl1.host.local| 8 Cores | 8 GiB | 2 NICs | 50 GB
+com1.host.local | 8 Cores | 8 GiB | 3 NICs | 50 GB
+com2.host.local | 8 Cores | 8 GiB | 3 NICs | 50 GB
+
+* Test Server specifications (physical servers)
 
 Node | CPU | Memory | NICs | Storages
 -----|-----|--------|------|---------
