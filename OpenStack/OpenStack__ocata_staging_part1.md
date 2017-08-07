@@ -39,6 +39,6 @@ com1.host.local | 12 Cores (HT: 24), Xeon | 64 GiB |6 NICs (but just 3 NICs use 
 Node|Components|Interfaces|Interface roles
 ----|----------|----------|---------------
 ctrl1.host.local|Horizon<br/>Keystone<br/>Glance<br/>Management APIs<br/>MariaDB<br/>RabbitMQ<br/>Memcached | team0: 172.16.9.170 | team0: Management
-com1.host.local|Nova<br/>Neutron | eth0: 172.16.9.171<br/>eth1:192.168.33.171<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (overlay network, tenant network) | eth2: External network (Provider network)
-com2.host.local|Nova<br/>Neutron | eth0: 172.16.9.172<br/>eth1:192.168.33.172<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (overlay network, tenant network) | eth2: External network (Provider network)
+com1.host.local|Nova<br/>Neutron | eth0: 172.16.9.171<br/>eth1:192.168.33.171<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (overlay network, tenant network)<br/>eth2: External network (Provider network)
+com2.host.local|Nova<br/>Neutron | eth0: 172.16.9.172<br/>eth1:192.168.33.172<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (overlay network, tenant network)<br/>eth2: External network (Provider network)
 
