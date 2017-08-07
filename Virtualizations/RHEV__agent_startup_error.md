@@ -31,7 +31,7 @@ Root cause is udev bug
 
 #### Solutions
 
-* upgrade udev package more than 147-2.73.el6_8.2
+* upgrade udev package more than 147-2.73.el6_8.2, and then reinstall rhevm-guest-agent
 
 * temporal workaround as following commands
 
