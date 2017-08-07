@@ -6,6 +6,8 @@ The openstack CLI usage and description for the enviroment variables for using i
 
 #### openstack CLI
 
+Package name: python-openstackclient
+
 ```
 openstack OPTIONS COMMAND ACTION ARGUMENTS
 ```
@@ -45,6 +47,7 @@ set | update the target resource values
 Environment Variables | CLI options | Descrtipion
 -|-|-
 OS_PROJECT_NAME | --os-project-name | OS_TENANT_NAME, project(tenant) name)
+OS_REGION_NAME | --os-region-name | region name
 
 #### Keystone
 
@@ -120,6 +123,42 @@ openstack server list
 openstack server show INSTANCENAME
 ```
 
+* Set server properties
+
+```
+-- root password changing inside an instance 
+openstack server set --root-password INSTANCENAME
+```
+
+* Launching new instance
+
+```
+openstack server create --flavor FLAVORNAME --image IMAGENAME --nic net-id=NETWORKNAME/ID INSTANCENAME 
+```
+
+* Stop the instance
+
+```
+openstack server stop INSTANCENAME/ID
+```
+
+* Remove the instance
+
+```
+openstack server delete INSTANCENAME/ID
+```
+
+* Show the console log
+
+```
+openstack console log show INSTANCENAME/ID
+```
+
+* Display VNC console URL
+
+```
+openstack console url show INSTANCENAME/ID
+```
 
 #### Service specific CLI
 
