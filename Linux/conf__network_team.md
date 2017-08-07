@@ -1,4 +1,4 @@
-## How to set up a teaming interface with nmcli CLI
+## How to set up a teaming interface without NetworkManager
 
 ### Introduction
 For steps to use a teaming interface without NetworkManager service.
