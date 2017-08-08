@@ -64,6 +64,7 @@ CONFIG_PROVISION_DEMO=n
 ```
 
 * Packstack answer file at the second addtional compute node installation
+
 :alert: You shoud add the iptables rule (/etc/sysconfig/iptables) manually about added the com2 node on the ctrl1 node.
 
 ```ini
