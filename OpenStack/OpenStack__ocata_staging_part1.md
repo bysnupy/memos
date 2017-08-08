@@ -43,6 +43,7 @@ com1.host.local|Nova<br/>Neutron | eth0: 172.16.9.171<br/>eth1:192.168.33.171<br
 com2.host.local|Nova<br/>Neutron | eth0: 172.16.9.172<br/>eth1:192.168.33.172<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (tenant network)<br/>eth2: External network (provider network)
 
 * Packstack answer file at the first installation
+
 :warning: check NTP port opening on the iptables rules
 
 ```ini
