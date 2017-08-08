@@ -4,7 +4,7 @@
 
 The openstack CLI usage and description for the enviroment variables for using into OpenStack RC files.
 
-#### openstack CLI
+### openstack CLI
 
 Package name: python-openstackclient
 
@@ -42,14 +42,14 @@ list | list the resources
 show | show the target resource details
 set | update the target resource values
 
-#### Tenant information
+### Tenant information
 
 Environment Variables | CLI options | Descrtipion
 -|-|-
 OS_PROJECT_NAME | --os-project-name | OS_TENANT_NAME, project(tenant) name)
 OS_REGION_NAME | --os-region-name | region name
 
-#### Keystone
+### Keystone
 
 Keystone public (port 5000)/admin (port 35357) end point URL should match the OS_AUTH_URL on the various enviroments.
 
@@ -78,7 +78,7 @@ The access code is valid for a limited period time, it has the role (authorizati
 openstack token issue
 ```
 
-#### Flavor
+### Flavor
 
 * List the flavors
 
@@ -92,7 +92,7 @@ openstack falvor list
 openstack flavor show FLAVORNAME
 ```
 
-#### Project
+### Project
 
 * Show the details
 
@@ -118,7 +118,7 @@ openstack project delete PROJECTNAME/ID (OTHERPROJECTNAME/ID ...) USERNAME
 openstack project list
 ```
 
-#### User
+### User
 
 * Show the details
 
@@ -157,7 +157,7 @@ openstack user show USERNAME
 openstack user set (--disable/--enable) USERNAME
 ```
 
-#### Groups
+### Groups
 
 :star:This feature is available as of Keystone API version 3.0 with Domain.
 
@@ -191,7 +191,53 @@ openstack user set --project PROJECTNAME USERNAME
 openstack role add --project PROJECTNAME --user USERNAME ROLENAME
 ```
 
-#### Token
+### Role
+
+* List the roles
+
+```
+openstack role list
+```
+
+* Listing the roles assigned to specific users 
+
+```
+openstack role assignment list --names --project PROJECTNAME --user USERNAME
+```
+
+* Create a role
+
+```
+openstack role create ROLENAME
+```
+
+* Assigning user roles to specific users
+
+```
+openstack role add --project PROJECTNAME --user USERNAME ROLENAME
+```
+
+### Quotas
+
+* Show the default quotas
+
+```
+openstack quota show --default
+```
+
+* Update the default quotas
+
+```
+nova quota-class-update default --instances 50
+```
+
+* Update the project quotas
+
+```
+openstack quota set --instances 50 PROJECTNAME
+```
+
+### Token
 
 * Issue a token
 
@@ -214,7 +260,7 @@ curl -s -H "X-Auth-Token: TOKENKEY" http://keystone-endpoint:5000/v2.0/tenants |
 ```
 
 
-#### Image
+### Image
 
 * list the images
 
@@ -222,7 +268,7 @@ curl -s -H "X-Auth-Token: TOKENKEY" http://keystone-endpoint:5000/v2.0/tenants |
 openstack image list
 ```
 
-#### Server (Instance)
+### Server (Instance)
 
 * list the instances
 
@@ -273,7 +319,7 @@ openstack console log show INSTANCENAME/ID
 openstack console url show INSTANCENAME/ID
 ```
 
-#### Service specific CLI
+### Service specific CLI
 
 * nova
 
