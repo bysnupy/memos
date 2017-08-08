@@ -11,7 +11,7 @@ No. | Test Conditions | Environments
 -|-|-
 1 | Installation test for 1 controller and 1 compute nodes using packstack | virtual servers
 2 | Adding 1 compute node to existing nodes with packstack | virtual servers
-3 | DVR configuration on the existing 2 compute nodes | virtual servers
+3 | VRRP/DVR configuration on the existing 2 compute nodes | virtual servers
 4 | Installation test for 1 controller and 1 compute nodes using packstack | physical servers
 
 ### Environment Information
