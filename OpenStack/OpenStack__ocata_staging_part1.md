@@ -42,3 +42,46 @@ ctrl1.host.local|Horizon<br/>Keystone<br/>Glance<br/>Management APIs<br/>MariaDB
 com1.host.local|Nova<br/>Neutron | eth0: 172.16.9.171<br/>eth1:192.168.33.171<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (tenant network)<br/>eth2: External network (provider network)
 com2.host.local|Nova<br/>Neutron | eth0: 172.16.9.172<br/>eth1:192.168.33.172<br/>eth2: no IP | eth0: Management<br/>eth1: VM ineternal network (tenant network)<br/>eth2: External network (provider network)
 
+* Packstack answer file at the first installation
+
+```ini
+CONFIG_CINDER_INSTALL=n
+CONFIG_SWIFT_INSTALL=n
+CONFIG_CEILOMETER_INSTALL=n
+CONFIG_AODH_INSTALL=n
+CONFIG_GNOCCHI_INSTALL=n
+CONFIG_COMPUTE_HOSTS=172.16.9.171
+CONFIG_NETWORK_HOSTS=172.16.9.171
+CONFIG_MARIADB_PW=stage
+CONFIG_KEYSTONE_ADMIN_PW=stage
+CONFIG_NEUTRON_METERING_AGENT_INSTALL=n
+CONFIG_NEUTRON_ML2_TYPE_DRIVERS=flat,vxlan
+CONFIG_NEUTRON_ML2_VNI_RANGES=10:2000
+CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:eth2
+CONFIG_NEUTRON_OVS_TUNNEL_IF=eth1
+CONFIG_NEUTRON_OVS_TUNNEL_SUBNETS=192.168.33.0/24
+CONFIG_PROVISION_DEMO=n
+```
+
+* Packstack answer file at the second addtional compute node installation
+:alert: You shoud add the iptables rule (/etc/sysconfig/iptables) manually about added the com2 node on the ctrl1 node.
+
+```ini
+CONFIG_CINDER_INSTALL=n
+CONFIG_SWIFT_INSTALL=n
+CONFIG_CEILOMETER_INSTALL=n
+CONFIG_AODH_INSTALL=n
+CONFIG_GNOCCHI_INSTALL=n
+EXCLUDE_SERVERS=172.16.9.170,172.16.9.171
+CONFIG_COMPUTE_HOSTS=172.16.9.171,172.16.9.172
+CONFIG_NETWORK_HOSTS=172.16.9.171,172.16.9.172
+CONFIG_MARIADB_PW=stage
+CONFIG_KEYSTONE_ADMIN_PW=stage
+CONFIG_NEUTRON_METERING_AGENT_INSTALL=n
+CONFIG_NEUTRON_ML2_TYPE_DRIVERS=flat,vxlan
+CONFIG_NEUTRON_ML2_VNI_RANGES=10:2000
+CONFIG_NEUTRON_OVS_BRIDGE_IFACES=br-ex:eth2
+CONFIG_NEUTRON_OVS_TUNNEL_IF=eth1
+CONFIG_NEUTRON_OVS_TUNNEL_SUBNETS=192.168.33.0/24
+CONFIG_PROVISION_DEMO=n
+```
