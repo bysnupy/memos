@@ -9,3 +9,10 @@ Multi-tenancy: Allows multiple cloud consumers to share the underlying hardware.
 Elasticity: Dynamically increases or decreases the resources used according to demand.
 
 Telemetry: Resources can be monitored and metered by the service provider as well as the cloud consumer.
+
+
+* Cloud Types: Public, Private, Hybrid clouds
+
+* Cloud Models: IaaS, PaaS, SaaS
+
+* Workloads: Traditional Datacentor - Scale up, Cloud - Scale out
