@@ -110,6 +110,11 @@ VM running node | subnet | using router at DVR | using router at non-DVR
 same | different | DVR on each VM running node | Network node (running L3 agent node)
 different | different | DVR on each VM running node | Network node (running L3 agent node)
 
+* Diffence when using Floating IPs
 
-```
+DVR | non-DVR
+-|-
+each DVR on VM running node | Network node
+
+
 
