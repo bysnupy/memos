@@ -332,3 +332,17 @@ nova list
 ```
 neutron net-list
 ```
+
+### Etc
+
+* openstack-status and openstack-service
+
+These commands are provided by openstack-utils package.
+
+```
+-- show installed main and component services on OpenStack
+openstack-status
+
+-- to control installed services
+openstack-service ACTION(status|start|stop|restart|list|...) SERVICENAME(no service name means all services)
+```
