@@ -11,7 +11,7 @@ No. | Test Conditions | Environments
 -|-|-
 1 | Installation test for 1 controller and 1 compute nodes using packstack | virtual servers
 2 | Adding 1 compute node to existing nodes with packstack | virtual servers
-3 | VRRP/DVR configuration on the existing 2 compute nodes | virtual servers
+3 | DVR configuration on the existing 2 compute nodes | virtual servers
 4 | Installation test for 1 controller and 1 compute nodes using packstack | physical servers
 
 ### Environment Information
@@ -31,8 +31,8 @@ com2.host.local | 8 Cores | 8 GiB | 3 NICs | 50 GB
 
 Node | CPU | Memory | NICs | Storages
 -----|-----|--------|------|---------
-ctrl1.host.local| 4 Cores, Xeon | 8 GiB | 2 NICs | 200 GB, SATA, no RAID
-com1.host.local | 12 Cores (HT: 24), Xeon | 64 GiB |6 NICs (but just 3 NICs use here) | 1 TB, SAS, 10 RAID 
+ctrl1.host.local| 4 Cores, Xeon | 8 GiB | 1 NICs | 200 GB, SATA, no RAID
+com1.host.local | 12 Cores (HT: 24), Xeon | 64 GiB |3 NICs | 1 TB, SAS, 10 RAID 
 
 * Node interfaces and components information (virtual servers)
 
