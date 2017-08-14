@@ -60,14 +60,14 @@ Dev|489027  |1083923 |
 
 * FileIO
 
-Random write|VMware ESXi|KVM (no preallocation=full, no cache=writeback)
+Random write|VMware ESXi|KVM (not tuned)
 -|-|-
 Min|51651|39428|
 Avg|59156|41598|
 Max|64938|43885|
 Dev|4179 |1275 |
 
-Random read|VMware ESXi|KVM (no preallocation=full, no cache=writeback)
+Random read|VMware ESXi|KVM (not tuned)
 -|-|-
 Min|2383637|2295254|
 Avg|2459549|2691738|
