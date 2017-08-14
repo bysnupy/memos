@@ -44,34 +44,34 @@ HDD | 50 GB
 
 CPU|VMware ESXi|KVM (OpenStack Nova Compute)
 -|-|-
-Min|57727| |
-Avg|58178| |
-Max|58564| |
-Dev|280  | |
+Min|57727|55735|
+Avg|58178|57677|
+Max|58564|58664|
+Dev|280  |1003 |
 
 * Memory
 
 Memory|VMware ESXi|KVM (OpenStack Nova Compute)
 -|-|-
-Min|31878949| |
-Avg|33041855| |
-Max|33648671| |
-Dev|489027  | |
+Min|31878949|22531790|
+Avg|33041855|24340954|
+Max|33648671|26051382|
+Dev|489027  |1083923 |
 
 * FileIO
 
 Random write|VMware ESXi|KVM (OpenStack Nova Compute)
 -|-|-
-Min|51651| |
-Avg|59156| |
-Max|64938| |
-Dev|4179 | |
+Min|51651|39428|
+Avg|59156|41598|
+Max|64938|43885|
+Dev|4179 |1275 |
 
 Random read|VMware ESXi|KVM (OpenStack Nova Compute)
 -|-|-
-Min|2383637| |
-Avg|2459549| |
-Max|2496902| |
-Dev|41415  | |
+Min|2383637|2295254|
+Avg|2459549|2691738|
+Max|2496902|2835669|
+Dev|41415  |187250 |
 
 ### Conclusion
