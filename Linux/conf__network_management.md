@@ -28,14 +28,14 @@ NM_CONTROLLED=yes/no | yes means to be controlled by NetworkManager service
 
 Since implemented biosdevname as of RHEL6, depending on the bios device name.
 
-* < RHEL6
+* Before RHEL6
 
 Device name | Description
 -|-
 eth0, eth1 | Ethernet device
 wlan0, wlan1 | Wireless device
 
-* >= RHEL6
+* As of RHEL6
 
 Device name | Description
 -|-
