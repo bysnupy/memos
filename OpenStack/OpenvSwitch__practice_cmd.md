@@ -8,7 +8,7 @@ Open vSwitch can operate in flow mode based on rules.
 
 Extra knowledge, OpenFlow implements remotely access to the flow tables on the routers.
 
-* ovs-vsctl usage
+### ovs-vsctl usage
 
 Command|Description
 -|-
@@ -22,7 +22,7 @@ ovs-vsctl del-br (bridge name) | delete bridge and related all ports
 ovs-vsctl add-port (bridge name) (port name) | add the port device to the bridge
 ovs-vsctl del-port (bridge name) (port name) | delete the port from bridge
 
-* Practices
+### Practices
 
 ```bash
 -- enabling and starting the Open vSwitch service
@@ -65,9 +65,14 @@ a4deced9-ec05-414e-a15d-acf1bb87fa45
 NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=606.934s, table=0, n_packets=8, n_bytes=648, idle_age=492, priority=0 actions=NORMAL
 
+-- show a specific bridge details
+# ovs-vsctl show bridge BRIDGENAME
+
+-- set attributes
+# ovs-vsctl set bridge BRIDGENAME ATTRIBUTENAME:KEY=VALUE
 ```
 
-* ovs-ofctl usage
+### ovs-ofctl usage
 
 ovs-ofctl command is used by managing and monitoring Open vSwitch and OpenFlow switches.
 
@@ -81,4 +86,26 @@ ovs-ofctl command is used by managing and monitoring Open vSwitch and OpenFlow s
 -- display a flow table
 # ovs-ofctl dump-flows
 ```
+### Interface configuration for persistent
 
+```ini
+# /etc/sysconfig/network-scripts/ifcfg-br-ovs0
+DEVICE=br-ovs0
+DEVICETYPE=ovs
+TYPE=OVSBridge
+BOOTPROTO=static
+IPADDR=yyy.yyy.yyy.yyy
+NETMASK=255.255.255.0
+MACADDR=00:00:00:00:00:00
+OVS_EXTRA="set bridge br-ovs0 other-config:hwaddr=$MACADDR"
+ONBOOT=yes
+
+# /etc/sysconfig/network-scripts/ifcfg-eth2
+DEVICE=eth2
+TYPE=OVSPort
+DEVICETYPE=ovs
+OVS_BRIDGE=br-ovs0
+ONBOOT=yes
+
+
+```
