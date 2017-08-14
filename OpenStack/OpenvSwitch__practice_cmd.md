@@ -16,7 +16,7 @@ ovs-vsctl show | show the database overview
 ovs-vsctl list-br | listing the bridges
 ovs-vsctl list-ports (bridge name) | listing all port names on the specific bridge devices
 ovs-vsctl list-ifaces (bridge name) | listing the interfaces on the specific bridge devices
-ovs-vsctl iface-to-br | listing the bridges which included specific interfaces
+ovs-vsctl iface-to-br (interface name) | listing the bridges which included specific interfaces
 ovs-vsctl add-br (bridge name) | create the new virtual bridge
 ovs-vsctl del-br (bridge name) | delete bridge and related all ports
 ovs-vsctl add-port (bridge name) (port name) | add the port device to the bridge
