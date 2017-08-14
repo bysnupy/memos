@@ -60,22 +60,23 @@ Dev|489027  |1083923 |
 
 * FileIO
 
-Random write|VMware ESXi|KVM (not tuned)
--|-|-
-Min|51651|39428|
-Avg|59156|41598|
-Max|64938|43885|
-Dev|4179 |1275 |
+Random write|VMware ESXi|KVM (not tuned)|KVM (nobarrier)
+-|-|-|-
+Min|51651|39428|46485|
+Avg|59156|41598|48322|
+Max|64938|43885|50349|
+Dev|4179 |1275 |1150 |
 
-Random read|VMware ESXi|KVM (not tuned)
+Random read|VMware ESXi|KVM (not tuned)|KVM (nobarrier)
 -|-|-
-Min|2383637|2295254|
-Avg|2459549|2691738|
-Max|2496902|2835669|
-Dev|41415  |187250 |
+Min|2383637|2295254|2407097|
+Avg|2459549|2691738|2482918|
+Max|2496902|2835669|2528419|
+Dev|41415  |187250 |36227  |
 
 ### Conclusion
 
 The memory and random write throughput of VMware ESXi is much better than KVM in VMware ESXi in this testing.
-
+Probably this difference is affected by image format (qcow2 is featured but performance is not good and not preallocated as sizes) and 
+sysbench memory test methods
 
