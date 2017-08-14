@@ -71,4 +71,14 @@ NXST_FLOW reply (xid=0x4):
 
 ovs-ofctl command is used by managing and monitoring Open vSwitch and OpenFlow switches.
 
+```
+-- display database overview
+# ovs-ofctl show  
+
+-- check network ports
+# ovs-ofctl dump-ports-desc
+
+-- display a flow table
+# ovs-ofctl dump-flows
+```
 
