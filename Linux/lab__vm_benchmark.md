@@ -60,14 +60,14 @@ Dev|489027  |1083923 |
 
 * FileIO
 
-Random write|VMware ESXi|KVM (OpenStack Nova Compute)
+Random write|VMware ESXi|KVM (no preallocation=full, no cache=writeback)
 -|-|-
 Min|51651|39428|
 Avg|59156|41598|
 Max|64938|43885|
 Dev|4179 |1275 |
 
-Random read|VMware ESXi|KVM (OpenStack Nova Compute)
+Random read|VMware ESXi|KVM (no preallocation=full, no cache=writeback)
 -|-|-
 Min|2383637|2295254|
 Avg|2459549|2691738|
@@ -75,3 +75,7 @@ Max|2496902|2835669|
 Dev|41415  |187250 |
 
 ### Conclusion
+
+The memory and random write throughput of VMware ESXi is much better than KVM in VMware ESXi in this testing.
+
+
