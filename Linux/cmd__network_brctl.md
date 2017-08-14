@@ -3,9 +3,7 @@
 Package name: bridge-utils
 
 brctl command manage the Linux Bridges that emulte the switch connecting.
-
 When first virutal birdge is created, load the bridge kernel module.
-
 And the traffic is managed into the kernel memory area.
 
 Command|Description
@@ -40,6 +38,10 @@ br01            8000.000000000000       no
 
 # ip route add default via 192.168.124.254
 
+-- ifup and ip link set down
+--- up and down
+# ifup BRIDGEDEVICENAME
+# ip link set down dev BRIDGEDEVICENAME
 ```
 
 * Configuring persistently
