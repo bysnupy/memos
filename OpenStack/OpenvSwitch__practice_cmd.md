@@ -65,5 +65,10 @@ a4deced9-ec05-414e-a15d-acf1bb87fa45
 NXST_FLOW reply (xid=0x4):
  cookie=0x0, duration=606.934s, table=0, n_packets=8, n_bytes=648, idle_age=492, priority=0 actions=NORMAL
 
-
 ```
+
+* ovs-ofctl usage
+
+ovs-ofctl command is used by managing and monitoring Open vSwitch and OpenFlow switches.
+
+
