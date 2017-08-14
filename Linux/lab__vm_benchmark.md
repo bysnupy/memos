@@ -79,5 +79,4 @@ Dev|41415  |187250 |36227  |
 The memory and random write throughput of VMware ESXi is much better than KVM  in this testing.
 
 Probably this difference is affected by image format (qcow2 is featured but performance is not good and not preallocated as sizes) and 
-sysbench memory test internal implementattion - how to implement allocating memory buffers with virtio drivers. (if using host swap or disk spaces ...)
-
+sysbench memory test internal implementattion - how to implement allocating memory buffers with virtio drivers.
