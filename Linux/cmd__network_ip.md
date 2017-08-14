@@ -86,9 +86,9 @@ ip link set DEVICE address ADDRESS
 ```bash
 ip address : modify L3 settins, such as IP addresses
 ip address show dev DEVICE
-ip address show flush dev DEVICE
-ip address add IPADDR dev DEVICE
-ip address del IPADDR dev DEVICE
+ip address flush dev DEVICE
+ip address add IPADDR/NETMASK dev DEVICE
+ip address del IPADDR/NETMASK dev DEVICE
 ```
 
 * ip route
