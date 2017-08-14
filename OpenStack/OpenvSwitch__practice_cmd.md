@@ -2,7 +2,7 @@
 
 Package name: openvswitch (from RDO repository)
 
-Open vSwitch is providing additional functionality, such as VLAN, VxLAN, GRE, NetFlow, OpenFlow, SPAN, RSPAN, LACP, CLI and IEEE 802.1ag protocols.
+Open vSwitch is providing additional functionality, such as VLAN, VxLAN, GRE, NetFlow, OpenFlow, SPAN, RSPAN, LACP, CLI and IEEE 802.1Q protocols.
 
 Open vSwitch can operate in flow mode based on rules.
 
