@@ -26,6 +26,26 @@ Timers| Trigger actions based on a timer.
 
 * resource management: it manages own cgroups or slice unit.
 
+Benefit than System V init.
+
+* never losing the initial log messages
+* respawn daemons as needed
+* capture the stdout/stderr messages
+* kill service cleanly
+* stable services management
+
+The Traditional Runlevels mapping to Targets
+
+Traditional runlevel |    Target name
+-|-
+Runlevel 0           |    runlevel0.target -> poweroff.target
+Runlevel 1           |    runlevel1.target -> rescue.target
+Runlevel 2           |    runlevel2.target -> multi-user.target
+Runlevel 3           |    runlevel3.target -> multi-user.target
+Runlevel 4           |    runlevel4.target -> multi-user.target
+Runlevel 5           |    runlevel5.target -> graphical.target
+Runlevel 6           |    runlevel6.target -> reboot.target
+
 #### Boot processes
 
 BIOS -> Boot loader (GRUB2) -> initial RAM disk and kernel -> systemd -> initialize all system services
@@ -70,11 +90,20 @@ Wants=local-fs.target swap.target
 After=local-fs.target swap.target emergency.service emergency.target
 ```
 
-#### systemctl command usage
+#### systemctl and related commands usage
 
 Command | Description
 -|-
 systemctl status SERVICE ... | check the services status
 systemctl stop   SERVICE ... | stop the services
 systemctl start  SERVICE ... | start the services
+systemctl enable SERVICE ... | enable the services at the boot time
+systemctl disable SERVICE ... | disable the services at the boot time
+systemctl list-dependencies SERVICE/TARGET | show the service dependencies
+systemctl list-units --type service/mount/... | list the specific unit types
+systemctl list-unit-files | list all units
+systemd-cgtop | CPU(c), Memory(m), Task(t), Path(p), I/O(i) can be sorted by key pressing
+systemd-cgls  | list cgroups recursively
+journalctl | view journal logs, -k: kernel messages, -f: follow the journal messages, -u UNITNAME: specific unit messages
 
+#### 
