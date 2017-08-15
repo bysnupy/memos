@@ -141,6 +141,18 @@ $# openstack hypervisor show com2.host.local
 
 ```
 
+#### Related configurations
+
+* Flavor extra_specs element:
+
+extra_specs | Description
+-|-
+hw:action | The action that configures support limits.
+hw:NUMA_def | The definition of the NUMA topology for the instance.
+hw:watchdog_action | Triggers an action if the instance somehow fails (or hangs).
+hw_rng:action | The action that adds a random number generator device to an instance.
+quota:option | A limit that is forced on the instance.
+
 Done.
 
 
