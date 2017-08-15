@@ -4,6 +4,18 @@
 
 ![architecture](https://github.com/bysnupy/memos/blob/master/OpenStack/images/OpenStack__virtual_network_devices1.png)
 
+### Open vSwitch interfaces
+
+Interface | Description
+-|-
+br-int |	Provides both ingress and egress VLAN tagging for instance traffic.
+br-ex |	Provides an external bridge and connects to qg of the qrouter via a tap interface.
+qg |	Connects the router to the gateway.
+qr |	Connects the router to the integration bridge br-int.
+qvo |	Connects to the integration bridge.
+qvb |	Connects the firewall bridge to br-int via qvo.
+qbr |	Linux bridge to provide OpenStack security groups.
+
 ### Network namespaces
 This name spaces can contain the virtual network interfaces, 
 applications started within a namespace will only see the interfaces in that space.
