@@ -153,6 +153,17 @@ hw:watchdog_action | Triggers an action if the instance somehow fails (or hangs)
 hw_rng:action | The action that adds a random number generator device to an instance.
 quota:option | A limit that is forced on the instance.
 
+* Disk tuning and quota parameters
+
+Parameter | Description
+-|-
+disk_read_bytes_sec |	Maximum disk reads in bytes per second.
+disk_read_iops_sec |	Maximum disk read I/O operations per second.
+disk_write_bytes_sec |	Maximum disk writes in bytes per second.
+disk_write_iops_sec |	Maximum disk write I/O operations per second.
+disk_total_bytes_sec |	Maximum disk total throughput limit in bytes per second.
+disk_total_iops_sec |	Maximum disk total I/O operations per second.
+
 Done.
 
 
