@@ -34,11 +34,11 @@ BIOS -> Boot loader (GRUB2) -> initial RAM disk and kernel -> systemd -> initial
 
 1. default.target (e.g. linking to multi-user.target)
 
+```
 default.target == multi-user target services (/etc/systemd/system/multi-user.target.wants)
-
---call--> Requires: basic.target (/usr/lib/systemd/system/basic.target)
-
-          --call--> Requires: sysinit.target (/usr/lib/systemd/system/sysinit.target)
+       --call--> Requires: basic.target (/usr/lib/systemd/system/basic.target)
+               --call--> Requires: sysinit.target (/usr/lib/systemd/system/sysinit.target)
+```
           
 
 ```ini
