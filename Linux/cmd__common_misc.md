@@ -1,4 +1,4 @@
-## Etc commands memo
+## Miscellaneous commands memo
 
 * Verifying the file's signature
 
