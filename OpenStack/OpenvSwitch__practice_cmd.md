@@ -109,3 +109,10 @@ ONBOOT=yes
 
 
 ```
+
+### ovs-dpctl usage
+
+```bash
+-- display the data paths on the switch
+# ovs-dpctl show
+```
