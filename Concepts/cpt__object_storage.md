@@ -21,3 +21,13 @@ A pseudo folder is a hierarchical structure for organizing objects in the contai
 ### Object Storage
 
 Store and retrieve datas without a file system interface.
+
+#### For example, comparison between Swift and Ceph
+
+Field | Swift | Ceph
+-|-|-
+Consistency model	| Eventual consistency |Strong consistency
+Access method |	RESTful API |	RESTful API
+Object Storage support | 	O	 | O
+Block Storage support |	X | O
+File Based Storage support | X | O
