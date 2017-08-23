@@ -345,6 +345,13 @@ openstack volume create --snapshot SNAPSHOTNAME --size 1 VOLUMENAME
 openstack server add volume INSTANCENAME VOLUMENAME
 ```
 
+* Create a new instance with a bootable volume
+
+```
+openstack server create --flavor FLAVORNAME --volume VOLUMENAME \
+    --block-device source=volume,id=VOLUMENAME,dest=volume,size=10,shutdown=preserve,bootindex=0 INSTANCENAME 
+```
+
 ### Service specific CLI
 
 * nova
