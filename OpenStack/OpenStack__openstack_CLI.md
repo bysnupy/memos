@@ -319,6 +319,32 @@ openstack console log show INSTANCENAME/ID
 openstack console url show INSTANCENAME/ID
 ```
 
+### Snapshot (Volume)
+
+* Create snapshot
+
+```
+openstack snapshot create --name SNAPSHOTNAME VOLUMENAME
+```
+
+* Delete snapshot
+
+```
+openstack snapshot delete SNAPSHOTNAME
+```
+
+* Create a new volume from a specific snapshot
+
+```
+openstack volume create --snapshot SNAPSHOTNAME --size 1 VOLUMENAME
+```
+
+* Attach the volume to instance
+
+```
+openstack server add volume INSTANCENAME VOLUMENAME
+```
+
 ### Service specific CLI
 
 * nova
