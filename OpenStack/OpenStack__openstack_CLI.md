@@ -349,7 +349,7 @@ openstack server add volume INSTANCENAME VOLUMENAME
 
 ```
 openstack server create --flavor FLAVORNAME --volume VOLUMENAME \
-    --block-device source=volume,id=VOLUMENAME,dest=volume,size=10,shutdown=preserve,bootindex=0 INSTANCENAME 
+    --block-device source=volume,id=VOLUMENAME,dest=volume,size=50,shutdown=preserve,bootindex=0 INSTANCENAME 
 ```
 
 ### Service specific CLI
