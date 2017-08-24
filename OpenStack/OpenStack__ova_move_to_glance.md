@@ -32,7 +32,7 @@ Bug place:
 
 * Solutions:
 
-Update following packages
+Update following packages (>=6.8)
 
 ```
 selinux-policy-targeted
