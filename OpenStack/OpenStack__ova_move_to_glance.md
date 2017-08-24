@@ -30,5 +30,15 @@ Bug place:
 -> /var/run/spice-vdagentd\.pid    --      system_u:object_r:vdagent_var_run_t:s0
 ```
 
+* Solutions:
+
+Update following packages
+
+```
+selinux-policy-targeted
+selinux-policy
+```
+
+
 
 
