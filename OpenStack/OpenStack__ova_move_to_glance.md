@@ -186,6 +186,19 @@ virt-v2v: This guest has virtio drivers installed.
 | vm_mode          | hvm                                  |
 +------------------+--------------------------------------+
 [2648.9] Finishing off
+
+-- check image list
+# openstack image list
++--------------------------------------+--------------+--------+
+| ID                                   | Name         | Status |
++--------------------------------------+--------------+--------+
+...snip...
+| 7a8114db-f5ac-483d-8b5b-2d0ad5df27f0 | db-c21       | active |
+| 0823deaa-8459-4176-a929-522d7d6a262d | db-c21-disk2 | active |
+| 2c731d08-343c-442c-9980-e4aa328ec823 | db-c21-disk3 | active |
+| c466df7e-c16f-41a6-a91e-f1ef4e4ec98a | db-c21-disk4 | active |
+...snip...
++--------------------------------------+--------------+--------+
 ```
 
 
