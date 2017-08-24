@@ -203,5 +203,5 @@ virt-v2v: This guest has virtio drivers installed.
 
 ### Conclusion
 
-Multiple disks need to convert volumes for launching instance with it.
+Multiple disks need to convert volumes for launching instance with all disk.
 So I should add the cinder or swift services to the OpenStack.
