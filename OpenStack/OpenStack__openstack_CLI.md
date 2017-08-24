@@ -390,6 +390,12 @@ openstack object list CONTAINERNAME
 openstack object delete CONTAINERNAME FOLDER/FILE
 ```
 
+* Save the objects to the files
+
+```
+openstack object save CONTAINERNAME/FOLDER OBJETNAME --file /SAVE/FILE/PATH/OBJECTNAME
+```
+
 
 ### Service specific CLI
 
