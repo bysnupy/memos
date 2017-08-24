@@ -352,6 +352,45 @@ openstack server create --flavor FLAVORNAME --volume VOLUMENAME \
     --block-device source=volume,id=VOLUMENAME,dest=volume,size=50,shutdown=preserve,bootindex=0 INSTANCENAME 
 ```
 
+### Swift Object Storage
+
+* Create the container
+
+```
+openstack container create CONTAINERNAME
+```
+
+* List the containers
+
+```
+openstack container list
+```
+
+* Delete the container
+
+```
+openstack container delete CONTAINERNAME
+```
+
+* Upload the Objects such as pseudo folders and files
+
+```
+openstack object create CONTAINERNAME FOLDER/FILE
+```
+
+* List the objects in the specific container
+
+```
+openstack object list CONTAINERNAME
+```
+
+* Delete the objects in the specific container
+
+```
+openstack object delete CONTAINERNAME FOLDER/FILE
+```
+
+
 ### Service specific CLI
 
 * nova
