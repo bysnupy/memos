@@ -15,7 +15,7 @@ No. | Test Conditions | Environments
 
 ### Environment Information
 
-* OpenStack version: Ocata
+* OpenStack version: Ocata --> Pike (released at 2017.8.30)
 * Host OS: CentOS 7.3
 * Deployment method: RDO and packstack
 * Test Server specifications (virtual servers)
