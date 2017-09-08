@@ -8,7 +8,9 @@
 
 ### Storage access methods
 
-* Block-level access: random access workloads, e.g. database
-* File-level access: files and directories
-* Content-level access: objects that have metadata associated with them. easily accessible by API.
+* Block-level access: random access workloads, e.g. database, Ceph
+* File-level access: files and directories, Glusterfs
+* Content-level access: objects that have metadata associated with them. easily accessible by API, Ceph
+
+
 
