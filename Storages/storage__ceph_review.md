@@ -42,3 +42,14 @@ Metadata server | metadata management which supports directory hierarchy and fil
 .Under control of the primary
 .Capable of becoming primary
 
+### Ceph access methods
+
+* Ceph native API(librados)
+* Ceph Gateway(RADOSGW), RESTful API
+* Ceph Block Device(RBD, librbd)
+* Ceph File system(CephFS, libcephfs)
+
+
+
+
+
