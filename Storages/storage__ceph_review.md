@@ -28,15 +28,17 @@ Ceph is a unified storage platform that supports object, file and block storage.
 Component | Description
 -|-
 Ceph monitors | monitoring cluster states
-Ceph Object Storage Devices | storage building blocks, support only XFS(with xattrs, extended attributes)<br/>
-                              Primary OSD functions:<br/>
-                              .Serves all I/O requests<br/>
-                              .Responsible for replication<br/>
-                              .Responsible for coherency<br/>
-                              .Responsible for rebalancing<br/>
-                              .Responsible for recovery<br/>
-                              Secondary OSD functions:<br/>
-                              .Under control of the primary<br/>
-                              .Capable of becoming primary<br/>
+Ceph Object Storage Devices | storage building blocks, support only XFS(with xattrs, extended attributes)                             
 Metadata server | metadata management which supports directory hierarchy and file metadata
+
+* Primary OSD functions:
+.Serves all I/O requests
+.Responsible for replication
+.Responsible for coherency
+.Responsible for rebalancing
+.Responsible for recovery
+
+* Secondary OSD functions:
+.Under control of the primary
+.Capable of becoming primary
 
