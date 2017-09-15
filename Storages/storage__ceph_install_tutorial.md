@@ -19,10 +19,10 @@ Deploy OS username | cephnode
 
 Node | IP | Components 
 -|-|-
-ceph-admin | 172.16.3.160 | deploy, monitor, metadata server, rados gateway
-ceph-osd0 | 172.16.3.161 | osd (object storage device)
-ceph-osd1 | 172.16.3.162 | osd (object storage device)
-ceph-osd2 | 172.16.3.163 | osd (object storage device)
+ceph-admin | 172.16.9.160 | deploy, monitor, metadata server, rados gateway
+ceph-osd0 | 172.16.9.161 | osd (object storage device)
+ceph-osd1 | 172.16.9.162 | osd (object storage device)
+ceph-osd2 | 172.16.9.163 | osd (object storage device)
 
 ### Prerequisite settings
 
@@ -69,10 +69,59 @@ EOF
 yum clean all && yum update -y
 
 -- install ceph-deploy
-yum install ceph-deploy
+yum install ceph-deploy -y
 ```
 
+## Step2: Installing the Ceph components
 
+* Create the directory for maintaining ceph configuration files on admin node
+
+```
+-- executing as cephnode account
+mkdir $HOME/cluster_dir
+```
+
+* Create the cluster on admin node
+
+```
+ceph-deploy new ceph-admin
+
+[ceph_deploy.conf][DEBUG ] found configuration file at: /root/.cephdeploy.conf
+[ceph_deploy.cli][INFO  ] Invoked (1.5.38): /usr/bin/ceph-deploy new ceph-admin
+[ceph_deploy.cli][INFO  ] ceph-deploy options:
+[ceph_deploy.cli][INFO  ]  username                      : None
+...snip...
+[ceph_deploy.new][DEBUG ] Monitor initial members are ['ceph-admin']
+[ceph_deploy.new][DEBUG ] Monitor addrs are ['172.16.9.160']
+[ceph_deploy.new][DEBUG ] Creating a random mon key...
+[ceph_deploy.new][DEBUG ] Writing monitor keyring to ceph.mon.keyring...
+[ceph_deploy.new][DEBUG ] Writing initial config to ceph.conf...
+```
+
+* Modify the ceph.conf file into the cluster_dir directory on admin node
+
+```ini
+[global]
+..snip...
+mon_initial_members = ceph-admin
+mon_host = 172.16.9.160
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+# the number of replicas for objects in the pool, default value is 3
+osd pool default size = 3
+public network = 172.16.9.0/24
+```
+
+* Installing the Ceph to all nodes from admin node with ceph-deploy
+
+:warning:Delete the ceph.repo which created for installing ceph-deploy on admin node.
+Baceuase this file was conflicted with ceph-deploy tasks.
+
+```
+cd $HOME/cluster_dir
+ceph-deploy install --release jewel ceph-admin ceph-osd0 ceph-osd1 ceph-osd2
+```
 
 
 
