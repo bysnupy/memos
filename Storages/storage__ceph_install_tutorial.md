@@ -12,7 +12,7 @@ Reference: [official ceph documentation](http://docs.ceph.com/docs/master/)
 Field | Value
 -|-
 OS | CentOS 7.4.1708
-Ceph | Jewel
+Ceph | Jewel, 10.2.9
 Deploy OS username | cephnode
 
 * The nodes list
@@ -120,8 +120,49 @@ Because this file was conflicted with ceph-deploy tasks.
 ```
 cd $HOME/cluster_dir
 ceph-deploy install --release jewel ceph-admin ceph-osd0 ceph-osd1 ceph-osd2
+
+[ceph_deploy.conf][DEBUG ] found configuration file at: /home/cephnode/.cephdeploy.conf
+[ceph_deploy.cli][INFO  ] Invoked (1.5.38): /bin/ceph-deploy install --release jewel ceph-admin ceph-osd0 ceph-osd1 ceph-osd2
+[ceph_deploy.cli][INFO  ] ceph-deploy options:
+[ceph_deploy.cli][INFO  ]  verbose                       : False
+[ceph_deploy.cli][INFO  ]  testing                       : None
+...snip...
+[ceph-osd2][DEBUG ] Complete!
+[ceph-osd2][INFO  ] Running command: sudo ceph --version
+[ceph-osd2][DEBUG ] ceph version 10.2.9 (2ee413f77150c0f375ff6f10edd6c8f9c7d060d0)
 ```
 
+* Initiate the MON(monitor)
 
+```
+cd $HOME/cluster_dir
+ceph-deploy mon create-initial
+```
+
+* Check the disks for using Object Storage Devices
+
+```
+ceph-deploy disk list ceph-osd{0..2}
+
+[ceph_deploy.conf][DEBUG ] found configuration file at: /home/cephnode/.cephdeploy.conf
+[ceph_deploy.cli][INFO  ] Invoked (1.5.38): /bin/ceph-deploy disk list ceph-osd0 ceph-osd1 ceph-osd2
+[ceph_deploy.cli][INFO  ] ceph-deploy options:
+[ceph_deploy.cli][INFO  ]  username                      : None
+[ceph_deploy.cli][INFO  ]  verbose                       : False
+[ceph_deploy.cli][INFO  ]  overwrite_conf                : False
+[ceph_deploy.cli][INFO  ]  subcommand                    : list
+[ceph_deploy.cli][INFO  ]  quiet                         : False
+[ceph_deploy.cli][INFO  ]  cd_conf                       : <ceph_deploy.conf.cephdeploy.Conf instance at 0x1297ea8>
+[ceph_deploy.cli][INFO  ]  cluster                       : ceph
+[ceph_deploy.cli][INFO  ]  func                          : <function disk at 0x128cf50>
+[ceph_deploy.cli][INFO  ]  ceph_conf                     : None
+[ceph_deploy.cli][INFO  ]  default_release               : False
+[ceph_deploy.cli][INFO  ]  disk                          : [('ceph-osd0', None, None), ('ceph-osd1', None, None), ('ceph-osd2', None, None)]
+...snip...
+[ceph-osd2][DEBUG ] /dev/vda :
+[ceph-osd2][DEBUG ]  /dev/vda2 other, LVM2_member
+[ceph-osd2][DEBUG ]  /dev/vda1 other, xfs, mounted on /boot
+[ceph-osd2][DEBUG ] /dev/vdb other, unknown
+```
 
 
