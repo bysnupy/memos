@@ -30,7 +30,7 @@ ceph-osd2 | 172.16.3.163 | osd (object storage device)
 
 * Deploy OS user with setting escalation privileges - All nodes
 
-'''bash
+```bash
 cat <<EOF >/etc/sudoers.d/cephnode ; chmod 0440 /etc/sudoers.d/cephnode; visudo -c
 Defaults:cephnode !requiretty
 cephnode ALL=(root) NOPASSWD: ALL
@@ -39,7 +39,7 @@ EOF
 /etc/sudoers: parsed OK
 /etc/sudoers.d/cephnode: parsed OK
 
-'''
+```
 
 * SSH public key configuration (Admin node -> OSD nodes as cephnode user)
 
