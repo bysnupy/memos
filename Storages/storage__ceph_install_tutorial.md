@@ -3,7 +3,7 @@
 ### Introduction
 This is the Ceph installation tutorials for memo.
 
-Reference: official ceph documentation [ceph docs](http://docs.ceph.com/docs/master/)
+Reference: [official ceph documentation](http://docs.ceph.com/docs/master/)
 
 ### Environment
 
