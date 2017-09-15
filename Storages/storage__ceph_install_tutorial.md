@@ -239,3 +239,52 @@ osd.0 up   in  weight 1 up_from 4 up_thru 13 down_at 0 last_clean_interval [0,0)
 osd.1 up   in  weight 1 up_from 8 up_thru 13 down_at 0 last_clean_interval [0,0) 172.16.9.162:6800/2031 172.16.9.162:6801/2031 172.16.9.162:6802/2031 172.16.9.162:6803/2031 exists,up 9babdb6a-54d2-47c0-9a50-f69225ed986c
 osd.2 up   in  weight 1 up_from 12 up_thru 13 down_at 0 last_clean_interval [0,0) 172.16.9.163:6800/1919 172.16.9.163:6801/1919 172.16.9.163:6802/1919 172.16.9.163:6803/1919 exists,up 8077ac00-195a-474b-8eab-cef51be1b6b3
 ```
+
+#### Step4: Add metadata server
+
+* MDS add to admin node
+
+```
+cd $HOME/cluster_dir
+ceph-deploy mds create ceph-admin
+```
+
+* Check the MDS status
+```
+ceph mds stat
+```
+
+* Create the pools for CephFS
+
+```
+ceph osd pool create cephfs_data_pool 64
+pool 'cephfs_data_pool' created
+
+ceph osd pool create cephfs_meta_pool 64
+pool 'cephfs_meta_pool' created
+```
+
+* Create the CephFS
+
+```
+ceph fs new cephfs cephfs_meta_pool cephfs_data_pool
+new fs with metadata pool 2 and data pool 1
+```
+
+#### Step4: Add the RADOSGW
+
+```
+cd $HOME/cluster_dir
+ceph-deploy rgw create ceph-admin
+
+[ceph_deploy.conf][DEBUG ] found configuration file at: /home/cephnode/.cephdeploy.conf
+[ceph_deploy.cli][INFO  ] Invoked (1.5.38): /bin/ceph-deploy rgw create ceph-admin
+[ceph_deploy.cli][INFO  ] ceph-deploy options:
+[ceph_deploy.cli][INFO  ]  username                      : None
+[ceph_deploy.cli][INFO  ]  verbose                       : False
+[ceph_deploy.cli][INFO  ]  rgw                           : [('ceph-admin', 'rgw.ceph-admin')]
+...snip...
+[ceph-admin][INFO  ] Running command: sudo systemctl enable ceph.target
+[ceph_deploy.rgw][INFO  ] The Ceph Object Gateway (RGW) is now running on host ceph-admin and default port 7480
+```
+
