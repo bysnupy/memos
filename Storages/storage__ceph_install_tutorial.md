@@ -7,13 +7,18 @@ Reference: [official ceph documentation](http://docs.ceph.com/docs/master/)
 
 ### Environment
 
+* Version and account informations
+
 Field | Value
+-|-
 OS | CentOS 7.4.1708
 Ceph | Jewel
 Deploy OS username | cephnode
 
+* The nodes list
+
 Node | IP | Components 
--|-
+-|-|-
 ceph-admin | 172.16.3.160 | deploy, monitor, metadata server, rados gateway
 ceph-osd0 | 172.16.3.161 | osd (object storage device)
 ceph-osd1 | 172.16.3.162 | osd (object storage device)
