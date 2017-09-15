@@ -165,4 +165,77 @@ ceph-deploy disk list ceph-osd{0..2}
 [ceph-osd2][DEBUG ] /dev/vdb other, unknown
 ```
 
+* Create the OSD devices on the OSD nodes (with vdb disk)
 
+```
+cd $HOME/cluster_dir
+ceph-deploy osd create ceph-osd0:vdb ceph-osd1:vdb ceph-osd2:vdb
+
+[ceph_deploy.conf][DEBUG ] found configuration file at: /home/cephnode/.cephdeploy.conf
+[ceph_deploy.cli][INFO  ] Invoked (1.5.38): /bin/ceph-deploy osd create ceph-osd0:vdb ceph-osd1:vdb ceph-osd2:vdb
+[ceph_deploy.cli][INFO  ] ceph-deploy options:
+[ceph_deploy.cli][INFO  ]  username                      : None
+[ceph_deploy.cli][INFO  ]  block_db                      : None
+[ceph_deploy.cli][INFO  ]  disk                          : [('ceph-osd0', '/dev/vdb', None), ('ceph-osd1', '/dev/vdb', None), ('ceph-osd2', '/dev/vdb', None)]
+...snip...
+[ceph-osd2][INFO  ] checking OSD status...
+[ceph-osd2][DEBUG ] find the location of an executable
+[ceph-osd2][INFO  ] Running command: sudo /bin/ceph --cluster=ceph osd stat --format=json
+[ceph_deploy.osd][DEBUG ] Host ceph-osd2 is now ready for osd use.
+```
+
+* Copy the admin keyring and configuration file to all nodes
+
+```
+cd $HOME/cluster_dir
+ceph-deploy admin ceph-admin ceph-osd0 ceph-osd1 ceph-osd2
+sudo chmod +r /etc/ceph/ceph.client.admin.keyring
+```
+
+#### Step3: Check the installation
+
+* Check the cluster status
+
+```
+ceph -s
+   cluster 8a30216f-cb95-4f13-bd81-5f638cc0e71c
+    health HEALTH_OK
+    monmap e1: 1 mons at {ceph-admin=172.16.9.160:6789/0}
+           election epoch 3, quorum 0 ceph-admin
+    osdmap e14: 3 osds: 3 up, 3 in
+           flags sortbitwise,require_jewel_osds
+     pgmap v28: 64 pgs, 1 pools, 0 bytes data, 0 objects
+           100 MB used, 15226 MB / 15326 MB avail
+                 64 active+clean
+```
+
+* Check the cluster hierarchy
+
+```
+ceph osd tree
+
+ID WEIGHT  TYPE NAME          UP/DOWN REWEIGHT PRIMARY-AFFINITY
+-1 0.01469 root default
+-2 0.00490     host ceph-osd0
+ 0 0.00490         osd.0           up  1.00000          1.00000
+-3 0.00490     host ceph-osd1
+ 1 0.00490         osd.1           up  1.00000          1.00000
+-4 0.00490     host ceph-osd2
+ 2 0.00490         osd.2           up  1.00000          1.00000
+```
+
+* Get the OSDs informations
+
+```
+ceph osd dump
+epoch 14
+fsid 8a30216f-cb95-4f13-bd81-5f638cc0e71c
+created 2017-09-15 13:13:23.738720
+modified 2017-09-15 13:30:32.573786
+flags sortbitwise,require_jewel_osds
+pool 0 'rbd' replicated size 3 min_size 2 crush_ruleset 0 object_hash rjenkins pg_num 64 pgp_num 64 last_change 1 flags hashpspool stripe_width 0
+max_osd 3
+osd.0 up   in  weight 1 up_from 4 up_thru 13 down_at 0 last_clean_interval [0,0) 172.16.9.161:6800/2140 172.16.9.161:6801/2140 172.16.9.161:6802/2140 172.16.9.161:6803/2140 exists,up 294f4279-0afb-4e23-8c8c-f93cc5e3db37
+osd.1 up   in  weight 1 up_from 8 up_thru 13 down_at 0 last_clean_interval [0,0) 172.16.9.162:6800/2031 172.16.9.162:6801/2031 172.16.9.162:6802/2031 172.16.9.162:6803/2031 exists,up 9babdb6a-54d2-47c0-9a50-f69225ed986c
+osd.2 up   in  weight 1 up_from 12 up_thru 13 down_at 0 last_clean_interval [0,0) 172.16.9.163:6800/1919 172.16.9.163:6801/1919 172.16.9.163:6802/1919 172.16.9.163:6803/1919 exists,up 8077ac00-195a-474b-8eab-cef51be1b6b3
+```
