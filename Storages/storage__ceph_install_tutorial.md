@@ -115,9 +115,8 @@ public network = 172.16.9.0/24
 
 * Installing the Ceph to all nodes from admin node with ceph-deploy
 
-:warning:Delete the ceph.repo which created for installing ceph-deploy on admin node.
-Baceuase this file was conflicted with ceph-deploy tasks.
-
+:warning:Delete the ceph.repo which created for installing ceph-deploy on admin node. <br/>
+Because this file was conflicted with ceph-deploy tasks.
 ```
 cd $HOME/cluster_dir
 ceph-deploy install --release jewel ceph-admin ceph-osd0 ceph-osd1 ceph-osd2
