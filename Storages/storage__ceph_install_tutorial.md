@@ -288,3 +288,33 @@ ceph-deploy rgw create ceph-admin
 [ceph_deploy.rgw][INFO  ] The Ceph Object Gateway (RGW) is now running on host ceph-admin and default port 7480
 ```
 
+#### CLI usage
+
+* PUT and list the files
+
+```
+rados put (objectname) (filepath) --pool=poolname
+
+rados ls --pool=poolname
+```
+
+* create, list and get informations of the image file
+
+```
+rbd create --size=SIZE imagename --pool=poolname
+
+rbd ls --pool=poolname
+
+rbd info imagename --pool=poolname
+```
+
+* mount as the cephFS
+
+:star: Required ceph-fuse package was installed
+
+```
+ceph mon stat
+
+ceph-fuse -m monitorserverIP:port (mountpoint)
+
+```
