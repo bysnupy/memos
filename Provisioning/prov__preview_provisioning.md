@@ -16,3 +16,4 @@ Provisioning Services | Complicated application installation over multiple serve
 Provisioning Checks | Checking the provisioning results | testinfra, serverspec, custom scripts, Ansible (AWX)
 Provisioning Management | Provisioning management console | Foreman + Katello, Cobbler + WEB-UI, Spacewalk, Satellite 5,6
 
+![Common steps](https://github.com/bysnupy/memos/blob/master/Provisioning/images/prov__common_process.png)
