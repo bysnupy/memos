@@ -14,5 +14,5 @@ Provisioning OSs | Physical server or Virtual server | Cobbler, Foreman; (Kickst
 Provisioning Configurations | When it boots up a OS, some meta data is configured or provisioned | Foreman + Katello, cloud-init, puppet, custom scripts
 Provisioning Services | Complicated application installation over multiple servers | Terraform, Ansible (AWX), puppet, custom scripts
 Provisioning Checks | Checking the provisioning results | testinfra, serverspec, custom scripts, Ansible (AWX)
-Provisioning Management | Provisioning management console | Foreman + Katello, Cobbler + WEB-UI
+Provisioning Management | Provisioning management console | Foreman + Katello, Cobbler + WEB-UI, Spacewalk, Satellite 5,6
 
