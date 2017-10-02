@@ -1,4 +1,4 @@
-## Building the provisioning and system life cycle management system with Foreman and Katello component
+## Building the provisioning and system life cycle management system with Foreman and Katello components
 
 ### Introduction
 
@@ -8,10 +8,16 @@ These components can do more than provisioning tasks.
 
 ### Environment
 
+* Components
+
 Component | Description
 -|-
 Foreman | System life cycle management tool, configuring and monitoring of physical and virtual servers.
 Katello | Content management tool
 
+* Functions
+
 Component | Features
 -|-
+Foreman | 
+Katello | 
