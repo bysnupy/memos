@@ -15,7 +15,7 @@ Component | Description
 Foreman | System life cycle management tool, configuring and monitoring of physical and virtual servers.
 Katello | Content management tool
 
-* Functions
+* Components features
 
 Component | Features
 -|-
