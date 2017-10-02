@@ -26,6 +26,7 @@ Katello | Local repository management (yum, puppet), Snapshot (content, configur
 
 Field | Value
 -|-
+Hostname | prov.host.local
 CPU | 4 Cores
 MEM | 4 GB
 OS  | CentOS 7.4
@@ -37,3 +38,12 @@ Katello | 3.4
 Reference: [ Foreman and Katello official documentation ](https://theforeman.org/documentation.html)
 
 #### Step1: Installation Foreman and Katello with yum and puppet
+
+* Configuration of yum repositories
+
+```bash
+--- deploy puppet labs repository for latest puppet installation
+yum -y install https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+
+--- 
+```
