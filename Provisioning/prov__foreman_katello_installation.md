@@ -19,5 +19,7 @@ Katello | Content management tool
 
 Component | Features
 -|-
-Foreman | 
-Katello | 
+Foreman | Provisioning (bare-metal, virtualization, cloud) 
+Katello | Local repository management (yum, puppet), Snapshot (content, configuration)
+
+
