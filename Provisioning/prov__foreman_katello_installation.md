@@ -45,5 +45,33 @@ Reference: [ Foreman and Katello official documentation ](https://theforeman.org
 --- deploy puppet labs repository for latest puppet installation
 yum -y install https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 
---- 
+--- enable EPEL repository
+yum -y install http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+--- enable Foreman repository
+yum -y install https://yum.theforeman.org/releases/1.15/el7/x86_64/foreman-release.rpm
+
+--- enable Katello repository
+yum -y localinstall http://fedorapeople.org/groups/katello/releases/yum/3.4/katello/el7/x86_64/katello-repos-latest.rpm
+
+--- deploy Foreman software collection repository
+yum -y install foreman-release-scl
+
+--- installation of foreman installer
+yum -y install foreman-installer
+
+--- update repositories
+yum -y update
+
+```
+* Installation of Katello through yum
+
+```
+yum -y install katello
+```
+
+* Installing with foreman-installer tool
+
+```
+
 ```
