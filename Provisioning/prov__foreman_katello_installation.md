@@ -22,4 +22,18 @@ Component | Features
 Foreman | Provisioning (bare-metal, virtualization, cloud) 
 Katello | Local repository management (yum, puppet), Snapshot (content, configuration)
 
+* Node and version infomation
 
+Field | Value
+-|-
+CPU | 4 Cores
+MEM | 4 GB
+OS  | CentOS 7.4
+Foreman | 1.15
+Katello | 3.4
+
+### Installation steps
+
+Reference: [ Foreman and Katello official documentation ](https://theforeman.org/documentation.html)
+
+#### Step1: Installation Foreman and Katello with yum and puppet
