@@ -27,6 +27,7 @@ Katello | Local repository management (yum, puppet), Snapshot (content, configur
 Field | Value
 -|-
 Hostname | prov.host.local
+IP | 172.16.9.199
 CPU | 4 Cores
 MEM | 4 GB
 OS  | CentOS 7.4
