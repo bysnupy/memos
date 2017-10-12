@@ -14,3 +14,7 @@ https://conferences.oreilly.com/velocity
 ## tcp
 
 http://meetup.toast.com/posts/55
+
+## Cloud native software
+
+https://www.cncf.io
