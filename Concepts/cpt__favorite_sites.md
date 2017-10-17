@@ -11,10 +11,14 @@ https://github.com/sindresorhus/awesome
 https://conferences.oreilly.com/velocity
 
 
-## tcp
+## TCP
 
 http://meetup.toast.com/posts/55
 
 ## Cloud native software
 
 https://www.cncf.io
+
+## Python and etc
+
+http://hamait.tistory.com/195
