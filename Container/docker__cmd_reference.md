@@ -12,4 +12,5 @@ docker inspect | Show the metadata about specific container
 docker exec | Start an additional process into the running container
 docker kill | Stop a container forcily
 docker rm | Delete a container
-docker save | Save docker cache (image) to the tar file
+docker save | Save a docker image to the tar file
+docker load | Restore a docker image
