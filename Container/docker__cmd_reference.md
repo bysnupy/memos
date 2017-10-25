@@ -15,3 +15,5 @@ docker rm | Delete a container
 docker rmi | Delete a image
 docker save | Save a docker image to the tar file
 docker load | Restore a docker image
+docker commit | Create a image from running container
+docker diff | Identify the changes made to a container (A: added, C: changed)
