@@ -22,3 +22,6 @@ https://www.cncf.io
 ## Python and etc
 
 http://hamait.tistory.com/195
+
+## Web developer career path
+https://github.com/kamranahmedse/developer-roadmap
