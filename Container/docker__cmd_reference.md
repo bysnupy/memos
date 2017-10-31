@@ -20,3 +20,4 @@ docker import | Load a docker container from the tar file
 docker commit | Create a image from running container
 docker diff | Identify the changes made to a container (A: added, C: changed)
 docker tag | Tag to a image
+docker build | Create a image from Dockerfile
