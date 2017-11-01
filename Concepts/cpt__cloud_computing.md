@@ -1,18 +1,14 @@
 ## What is Cloud computing?
 
-Cloud computing is a model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources, such as servers, storage, networks, applications, and services. These resources can be rapidly provisioned and released with minimal management effort or service provider interaction. A self-service user is able to launch as many instances, in the form of virtual machines, as needed, without requiring assistance from the service provider. The cloud consumer decides which computing resources to use for their instances. Cloud computing has several essential characteristics:
+Cloud computing is a model for enabling on-demand network access to a shared resource pool of configurable computing resources, such as servers, storage, networks, applications, services and so on. These resources can be rapidly provisioned and released with minimal effort . A self-service user is able to launch as many servers, in the form of virtual machines or instances, as needed, without requiring assistance from the service provider. The cloud consumer decides which computing resources to use for their instances. Cloud computing services have several common characteristics:
 
-Self-service: Allows cloud consumers to provision instances with computing resources.
-
-Multi-tenancy: Allows multiple cloud consumers to share the underlying hardware.
-
-Elasticity: Dynamically increases or decreases the resources used according to demand.
-
-Telemetry: Resources can be monitored and metered by the service provider as well as the cloud consumer.
-
+Self-service
+Multi-tenancy
+Elasticity
+Telemetry
 
 * Cloud Types: Public, Private, Hybrid clouds
 
-* Cloud Models: IaaS, PaaS, SaaS
+* Cloud Models: IaaS, PaaS, SaaS, CaaS, FaaS
 
-* Workloads: Traditional Datacentor - Scale up, Cloud - Scale out
+* Workloads distribution: Traditional Datacentor and on-premise - scale up, Cloud - scale out
