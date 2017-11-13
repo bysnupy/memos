@@ -10,6 +10,7 @@ https://github.com/sindresorhus/awesome
 
 https://conferences.oreilly.com/velocity
 
+https://medium.com/@jwyeom63/
 
 ## TCP
 
