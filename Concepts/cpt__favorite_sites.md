@@ -28,3 +28,11 @@ https://github.com/kamranahmedse/developer-roadmap
 
 ## Liunx Q&A
 https://docs.google.com/document/d/1WE1V4uczxavqLY-nyr3qNqCxqzoOf8Vg6Z-Lf0c3DwU/edit
+
+## Fight rules for git
+
+https://github.com/k88hudson/git-flight-rules/blob/master/README.md
+
+## Expert Beginner
+
+https://www.daedtech.com/how-software-groups-rot-legacy-of-the-expert-beginner/
