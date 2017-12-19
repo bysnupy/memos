@@ -37,3 +37,6 @@ https://github.com/k88hudson/git-flight-rules/blob/master/README.md
 ## Expert Beginner
 
 https://www.daedtech.com/how-software-groups-rot-legacy-of-the-expert-beginner/
+
+## Bash summary
+http://blog.gaerae.com/2015/01/bash-hello-world.html
