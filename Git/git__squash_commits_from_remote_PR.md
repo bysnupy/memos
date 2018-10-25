@@ -10,7 +10,7 @@
 
 ### Push forcely - Ensure nobody pulled the codes before this work.
 ~~~
-# git push <branch name> --force
+# git push origin <branch name> --force
 ~~~
 
 Done. 
