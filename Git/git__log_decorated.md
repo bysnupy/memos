@@ -4,7 +4,7 @@
 
 Pretty Git log view
 
-## Command
+## Command References
 
 ~~~
 git log --graph --decorate --pretty=oneline --abbrev-commit
