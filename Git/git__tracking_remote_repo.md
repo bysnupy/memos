@@ -15,3 +15,5 @@ $ git checkout --track origin/branchname
 ~~~
 git clone -b branchname example.com/origin/reponame
 ~~~
+
+Done.
