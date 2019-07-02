@@ -2,7 +2,7 @@
 
 ![memos background](https://github.com/bysnupy/memos/blob/master/Concepts/images/readme__background_yokohama.jpg)
 
-Personal technical tutorial or architecture concept memos for my interest.
+Personal technical tutorial or architecture concept notes for my interest.
 <br/>
 <br/>
 ## Extra URLs
