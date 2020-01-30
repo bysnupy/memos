@@ -1,12 +1,17 @@
-https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=RHEL&target_version=7&target_type=rpmnetwork
+# GPU install steps on RHEL7
 
+## Install Related links:
+https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#introduction
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=RHEL&target_version=7&target_type=rpmnetwork
+```cmd
 sudo yum-config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
 sudo yum clean all
 sudo yum -y install nvidia-driver-latest-dkms cuda
 sudo yum -y install cuda-drivers
+```
 
-// GPU install steps
-
+## Installation steps
+```cmd
 # subscription-manager repos --enable rhel-7-server-e4s-optional-rpms
 
 # yum -y install kernel-devel-`uname -r`
@@ -90,5 +95,5 @@ CUDA kernel launch with 196 blocks of 256 threads
 Copy output data from the CUDA device to the host memory
 Test PASSED
 Done
-
+```
 
