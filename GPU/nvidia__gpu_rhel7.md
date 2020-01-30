@@ -51,11 +51,12 @@ https://nvidia.github.io/nvidia-container-runtime/centos7/nvidia-container-runti
 
 # yum -y install nvidia-container-runtime-hook
 
-# cat <<EOF >> /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
+# cat <<EOF > /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
 {
-"hasbindmounts": true,
-"hook": "/usr/bin/nvidia-container-runtime-hook",
-"stage": [ "prestart" ]
+   "hook": "/usr/bin/nvidia-container-runtime-hook",
+   "arguments": ["prestart"],
+   "annotations": ["sandbox"],
+   "stage": [ "prestart" ]
 }
 EOF
 
