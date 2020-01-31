@@ -96,5 +96,59 @@ CUDA kernel launch with 196 blocks of 256 threads
 Copy output data from the CUDA device to the host memory
 Test PASSED
 Done
+
+# oc label node ip-10-0-21-68.ap-northeast-1.compute.internal openshift.com/gpu-accelerator=true
+
+# git clone https://github.com/redhat-performance/openshift-psap.git
+# cd openshift-psap/blog/gpu/device-plugin
+# oc create -f nvidia-device-plugin.yml
+
+# oc get pods -n kube-system
+NAME                                                                READY     STATUS    RESTARTS   AGE
+master-api-ip-10-0-21-68.ap-northeast-1.compute.internal           1/1       Running   0          10h
+master-controllers-ip-10-0-21-68.ap-northeast-1.compute.internal   1/1       Running   0          10h
+master-etcd-ip-10-0-21-68.ap-northeast-1.compute.internal          1/1       Running   0          10h
+nvidia-device-plugin-daemonset-hscq6                                1/1       Running   0          1m
+
+# oc logs -n kube-system nvidia-device-plugin-daemonset-hscq6
+2020/01/31 02:43:31 Loading NVML
+2020/01/31 02:43:31 Failed to initialize NVML: could not load NVML library.
+2020/01/31 02:43:31 If this is a GPU node, did you set the docker default runtime to `nvidia`?
+2020/01/31 02:43:31 You can check the prerequisites at: https://github.com/NVIDIA/k8s-device-plugin#prerequisites
+2020/01/31 02:43:31 You can learn how to set the runtime at: https://github.com/NVIDIA/k8s-device-plugin#quick-start
+
+# oc describe node | grep -E 'Capacity|Allocatable|gpu'
+                    openshift.com/gpu-accelerator=true
+Capacity:
+ nvidia.com/gpu:  1
+Allocatable:
+ nvidia.com/gpu:  1
+  nvidia.com/gpu  0            0
+
+# oc logs nvidia-device-plugin-daemonset-hjll6
+2020/01/31 02:50:43 Loading NVML
+2020/01/31 02:50:43 Fetching devices.
+2020/01/31 02:50:43 Starting FS watcher.
+2020/01/31 02:50:43 Starting OS watcher.
+2020/01/31 02:50:43 Could not start device plugin: listen unix /var/lib/kubelet/device-plugins/nvidia.sock: bind: permission denied
+2020/01/31 02:50:43 Could not contact Kubelet, retrying. Did you enable the device plugin feature gate?
+2020/01/31 02:50:43 You can check the prerequisites at: https://github.com/NVIDIA/k8s-device-plugin#prerequisites
+2020/01/31 02:50:43 You can learn how to set the runtime at: https://github.com/NVIDIA/k8s-device-plugin#quick-start
+
+# restorecon -Rv /var/lib/kubelet
+restorecon reset /var/lib/kubelet context system_u:object_r:var_lib_t:s0->system_u:object_r:container_file_t:s0
+restorecon reset /var/lib/kubelet/device-plugins context system_u:object_r:var_lib_t:s0->system_u:object_r:container_file_t:s0
+restorecon reset /var/lib/kubelet/device-plugins/kubelet_internal_checkpoint context system_u:object_r:var_lib_t:s0->system_u:object_r:container_file_t:s0
+restorecon reset /var/lib/kubelet/device-plugins/kubelet.sock context system_u:object_r:var_lib_t:s0->system_u:object_r:container_file_t:s0
+
+
+# cat /usr/share/containers/oci/hooks.d/oci-nvidia-hook.json
+{
+   "cmd": [".*"],
+   "hook": "/usr/bin/nvidia-container-runtime-hook",
+   "arguments": ["prestart"],
+   "stage": [ "prestart" ]
+}
+
 ```
 
